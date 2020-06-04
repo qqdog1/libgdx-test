@@ -17,7 +17,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "name.qd.game"
+        applicationId "name.qd.game.test"
         minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
@@ -86,7 +86,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'name.qd.game/name.qd.game.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'name.qd.game.test/name.qd.game.test.AndroidLauncher'
 }
 
 eclipse.project.name = appName + "-android"

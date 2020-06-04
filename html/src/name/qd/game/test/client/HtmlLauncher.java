@@ -1,9 +1,9 @@
-package name.qd.game.client;
+package name.qd.game.test.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import name.qd.game.test.libTest;
+import name.qd.game.test.LibTest;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -46,6 +46,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new libTest();
+                return new LibTest();
         }
 }
