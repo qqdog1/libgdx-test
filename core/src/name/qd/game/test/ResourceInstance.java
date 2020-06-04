@@ -18,20 +18,20 @@ public class ResourceInstance {
     private ResourceInstance() {
     }
 
-    public void setGame(Game game) {
+    void setGame(Game game) {
         this.game = game;
     }
 
-    public void setSpriteBatch(SpriteBatch spriteBatch) {
+    void setSpriteBatch(SpriteBatch spriteBatch) {
         this.spriteBatch = spriteBatch;
+    }
+
+    void setAssetManager(AssetManager assetManager) {
+        this.assetManager = assetManager;
     }
 
     public SpriteBatch getSpriteBatch() {
         return spriteBatch;
-    }
-
-    public void setAssetManager(AssetManager assetManager) {
-        this.assetManager = assetManager;
     }
 
     public AssetManager getAssetManager() {

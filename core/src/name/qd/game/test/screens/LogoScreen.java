@@ -2,7 +2,6 @@ package name.qd.game.test.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,7 +11,6 @@ import name.qd.game.test.LibTest;
 
 public class LogoScreen implements Screen {
     private final SpriteBatch spriteBatch;
-    private final AssetManager assetManager;
     private final Texture logo;
 //    private final Sound sound;
 
@@ -20,7 +18,6 @@ public class LogoScreen implements Screen {
 
     public LogoScreen() {
         this.spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
-        this.assetManager = ResourceInstance.getInstance().getAssetManager();
 
         logo = new Texture("pic/logo.png");
     }
