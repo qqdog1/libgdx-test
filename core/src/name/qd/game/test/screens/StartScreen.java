@@ -1,31 +1,39 @@
 package name.qd.game.test.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 
-import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.LibTest;
 
-public class StartScreen implements Screen {
-    private final SpriteBatch spriteBatch;
-    private final AssetManager assetManager;
+public class StartScreen extends GameScreen {
+    private Texture background;
+    private int y = 0;
 
     public StartScreen() {
-        this.spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
-        this.assetManager = ResourceInstance.getInstance().getAssetManager();
+        background = assetManager.get("pic/background.png", Texture.class);
+
     }
 
     @Override
     public void show() {
+    }
 
+    private void handleInput() {
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        handleInput();
+
+        if(y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
+            y = 0;
+        }
+
+        spriteBatch.begin();
+        spriteBatch.draw(background, 0, y--, (int)(background.getWidth() * LibTest.SCALE_RATE), (int)(background.getHeight() * LibTest.SCALE_RATE));
+        spriteBatch.end();
     }
 
     @Override

@@ -1,24 +1,19 @@
 package name.qd.game.test.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.LibTest;
 
-public class LogoScreen implements Screen {
-    private final SpriteBatch spriteBatch;
+public class LogoScreen extends GameScreen {
     private final Texture logo;
 //    private final Sound sound;
 
     private double stateTime;
 
     public LogoScreen() {
-        this.spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
-
         logo = new Texture("pic/logo.png");
     }
 

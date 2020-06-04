@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import name.qd.game.test.screens.LogoScreen;
 
 public class LibTest extends Game {
-	private static final double ZOOM_RATE = 0.5;
-	public static final int WIDTH = (int)(720 * ZOOM_RATE);
-	public static final int HEIGHT = (int)(1280 * ZOOM_RATE);
+	public static final double SCALE_RATE = 0.5;
+	public static final int WIDTH = (int)(720 * SCALE_RATE);
+	public static final int HEIGHT = (int)(1280 * SCALE_RATE);
 
 	private SpriteBatch batch;
 	private AssetManager assetManager;
