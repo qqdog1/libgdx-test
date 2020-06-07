@@ -6,14 +6,20 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
 import name.qd.game.test.LibTest;
+import name.qd.game.test.ResourceInstance;
 
 public class StartScreen extends GameScreen {
     private Texture background;
     private int y = 0;
+    private double stateTime;
 
     public StartScreen() {
         background = assetManager.get("pic/background.png", Texture.class);
-
+        // TODO: Title掉下來 大家飛過來 start跑出來
+        //  自動 login google 讀紀錄 或 local紀錄
+        //  先做local的就好了
+        //  沒紀錄的 進IntroAnimationScreen
+        //  有紀錄 進MenuScreen
     }
 
     @Override
@@ -21,10 +27,15 @@ public class StartScreen extends GameScreen {
     }
 
     private void handleInput() {
+        if(Gdx.input.justTouched() && stateTime >= 2) {
+            ResourceInstance.getInstance().setScreen(new IntroAnimationScreen());
+            dispose();
+        }
     }
 
     @Override
     public void render(float delta) {
+        stateTime += delta;
         handleInput();
 
         if(y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
