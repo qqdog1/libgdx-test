@@ -9,9 +9,12 @@ import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 
 public class StartScreen extends GameScreen {
+    private enum Status {NONE,C1,C2,C3};
+    private Status status;
     private Texture background;
     private int y = 0;
-    private double stateTime;
+
+
 
     public StartScreen() {
         background = assetManager.get("pic/background.png", Texture.class);
@@ -20,6 +23,8 @@ public class StartScreen extends GameScreen {
         //  先做local的就好了
         //  沒紀錄的 進IntroAnimationScreen
         //  有紀錄 進MenuScreen
+
+        status = Status.NONE;
     }
 
     @Override
@@ -27,7 +32,7 @@ public class StartScreen extends GameScreen {
     }
 
     private void handleInput() {
-        if(Gdx.input.justTouched() && stateTime >= 2) {
+        if(Gdx.input.justTouched() && status == Status.C3) {
             ResourceInstance.getInstance().setScreen(new IntroAnimationScreen());
             dispose();
         }
@@ -35,7 +40,6 @@ public class StartScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-        stateTime += delta;
         handleInput();
 
         if(y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
@@ -43,6 +47,14 @@ public class StartScreen extends GameScreen {
         }
 
         spriteBatch.begin();
+
+        switch(status) {
+            case C3:
+            case C2:
+            case C1:
+            case NONE:
+        }
+
         spriteBatch.draw(background, 0, y--, (int)(background.getWidth() * LibTest.SCALE_RATE), (int)(background.getHeight() * LibTest.SCALE_RATE));
         spriteBatch.end();
     }
