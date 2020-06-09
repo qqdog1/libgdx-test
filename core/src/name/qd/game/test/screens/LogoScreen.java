@@ -13,14 +13,18 @@ public class LogoScreen extends GameScreen {
 
     private double stateTime;
 
-    private int scaleWidth;
-    private int scaleHeight;
+    private float scaleWidth;
+    private float scaleHeight;
+    private float x;
+    private float y;
 
     public LogoScreen() {
         logo = new Texture("pic/logo.png");
 
-        scaleWidth = (int)(logo.getWidth() * LibTest.SCALE_RATE);
-        scaleHeight = (int)(logo.getHeight() * LibTest.SCALE_RATE);
+        scaleWidth = logo.getWidth() * LibTest.SCALE_RATE;
+        scaleHeight = logo.getHeight() * LibTest.SCALE_RATE;
+        x = (LibTest.WIDTH - scaleWidth) / 2;
+        y = LibTest.HEIGHT / 2;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class LogoScreen extends GameScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-        spriteBatch.draw(logo, (LibTest.WIDTH - scaleWidth) / 2,  LibTest.HEIGHT / 2, scaleWidth, scaleHeight);
+        spriteBatch.draw(logo, x, y, scaleWidth, scaleHeight);
         spriteBatch.end();
     }
 

@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import name.qd.game.test.screens.LogoScreen;
+import name.qd.game.test.screens.StartScreen;
 
 public class LibTest extends Game {
-	public static final double SCALE_RATE = 0.5;
+	public static final float SCALE_RATE = 0.5f;
 	public static final int WIDTH = (int)(720 * SCALE_RATE);
 	public static final int HEIGHT = (int)(1280 * SCALE_RATE);
 
@@ -23,7 +24,8 @@ public class LibTest extends Game {
 
 		initGame();
 
-		resourceInstance.setScreen(new LogoScreen());
+//		resourceInstance.setScreen(new LogoScreen());
+		resourceInstance.setScreen(new StartScreen());
 	}
 
 	@Override
