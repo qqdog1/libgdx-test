@@ -78,7 +78,7 @@ public class StartScreen extends GameScreen {
 
         glyphLayout = new GlyphLayout();
         bitmapFont = new BitmapFont();
-        bitmapFont.getData().setScale(1.5f);
+        bitmapFont.getData().setScale(3 * LibTest.SCALE_RATE);
         bitmapFont.setColor(Color.RED);
         glyphLayout.setText(bitmapFont, "TOUCH TO START");
 
@@ -118,7 +118,7 @@ public class StartScreen extends GameScreen {
         spriteBatch.draw(title, (LibTest.WIDTH - titleScaleWidth) / 2, 1000 * LibTest.SCALE_RATE, titleScaleWidth, titleScaleHeight);
 
         if((int)(stateTime / startFlashRate) % 2 > 0) {
-            bitmapFont.draw(spriteBatch, glyphLayout, (LibTest.WIDTH - glyphLayout.width) / 2, 100);
+            bitmapFont.draw(spriteBatch, glyphLayout, (LibTest.WIDTH - glyphLayout.width) / 2, 200 * LibTest.SCALE_RATE);
         }
 
         switch(status) {
