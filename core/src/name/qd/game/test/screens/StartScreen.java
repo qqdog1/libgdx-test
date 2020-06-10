@@ -2,16 +2,17 @@ package name.qd.game.test.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 
 public class StartScreen extends GameScreen {
-    private enum Status {NONE,C1,C2,C3};
+    private enum Status {NONE,C1,C2,C3}
     private Status status;
     private Texture background;
 
@@ -39,8 +40,14 @@ public class StartScreen extends GameScreen {
     private Vector2 c3From;
     private Vector2 c3To;
 
+    private float finishMoveInSecond;
+    private float startFlashRate;
+
+    private GlyphLayout glyphLayout;
+    private BitmapFont bitmapFont;
+
     private Music music;
-    private int y = 0;
+    private int background_y = 0;
 
     public StartScreen() {
         background = assetManager.get("pic/background.png", Texture.class);
@@ -51,20 +58,29 @@ public class StartScreen extends GameScreen {
         c1 = new Texture("pic/c1.png");
         c1ScaleWidth = c1.getWidth() * LibTest.SCALE_RATE;
         c1ScaleHeight = c1.getHeight() * LibTest.SCALE_RATE;
-        c1From = new Vector2(720, 800);
-        c1To = new Vector2(72, 400);
+        c1From = new Vector2(720 * LibTest.SCALE_RATE, 800 * LibTest.SCALE_RATE);
+        c1To = new Vector2(0, 400 * LibTest.SCALE_RATE);
 
         c2 = new Texture("pic/c2.png");
         c2ScaleWidth = c2.getWidth() * LibTest.SCALE_RATE;
         c2ScaleHeight = c2.getHeight() * LibTest.SCALE_RATE;
-        c2From = new Vector2(-c2.getWidth(), 800);
-        c2To = new Vector2(400, 400);
+        c2From = new Vector2(-c2.getWidth(), 800 * LibTest.SCALE_RATE);
+        c2To = new Vector2(LibTest.WIDTH - c2ScaleWidth, 400 * LibTest.SCALE_RATE);
 
         c3 = new Texture("pic/c3.png");
         c3ScaleWidth = c3.getWidth() * LibTest.SCALE_RATE;
         c3ScaleHeight = c3.getHeight() * LibTest.SCALE_RATE;
-        c3From = new Vector2(720, 800);
-        c3To = new Vector2(300, 300);
+        c3From = new Vector2(720 * LibTest.SCALE_RATE, 800 * LibTest.SCALE_RATE);
+        c3To = new Vector2((LibTest.WIDTH - c3ScaleWidth) / 2, 300 * LibTest.SCALE_RATE);
+
+        finishMoveInSecond = 0.2f;
+        startFlashRate = 0.3f;
+
+        glyphLayout = new GlyphLayout();
+        bitmapFont = new BitmapFont();
+        bitmapFont.getData().setScale(1.5f);
+        bitmapFont.setColor(Color.RED);
+        glyphLayout.setText(bitmapFont, "TOUCH TO START");
 
         // TODO: Title掉下來 大家飛過來 start跑出來
         //  自動 login google 讀紀錄 或 local紀錄
@@ -92,14 +108,18 @@ public class StartScreen extends GameScreen {
 
         stateTime += delta;
 
-        if(y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
-            y = 0;
+        if(background_y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
+            background_y = 0;
         }
 
         spriteBatch.begin();
 
-        spriteBatch.draw(background, 0, y--, background.getWidth() * LibTest.SCALE_RATE, background.getHeight() * LibTest.SCALE_RATE);
+        spriteBatch.draw(background, 0, background_y--, background.getWidth() * LibTest.SCALE_RATE, background.getHeight() * LibTest.SCALE_RATE);
         spriteBatch.draw(title, (LibTest.WIDTH - titleScaleWidth) / 2, 1000 * LibTest.SCALE_RATE, titleScaleWidth, titleScaleHeight);
+
+        if((int)(stateTime / startFlashRate) % 2 > 0) {
+            bitmapFont.draw(spriteBatch, glyphLayout, (LibTest.WIDTH - glyphLayout.width) / 2, 100);
+        }
 
         switch(status) {
             case C3:
@@ -108,27 +128,27 @@ public class StartScreen extends GameScreen {
                 drawOnLastPoint(c3, c3To, c3ScaleWidth, c3ScaleHeight);
                 break;
             case C2:
-                if(stateTime > 3) {
+                if(stateTime > finishMoveInSecond * 3) {
                     status = Status.C3;
                 }
 
                 drawOnLastPoint(c1, c1To, c1ScaleWidth, c1ScaleHeight);
                 drawOnLastPoint(c2, c2To, c2ScaleWidth, c2ScaleHeight);
-                drawMovingTexture(c3, c3From, c3To, c3ScaleWidth, c3ScaleHeight, stateTime-2);
+                drawMovingTexture(c3, c3From, c3To, c3ScaleWidth, c3ScaleHeight, (stateTime - (finishMoveInSecond * 2)) / finishMoveInSecond);
                 break;
             case C1:
-                if(stateTime > 2) {
+                if(stateTime > finishMoveInSecond * 2) {
                     status = Status.C2;
                 }
 
                 drawOnLastPoint(c1, c1To, c1ScaleWidth, c1ScaleHeight);
-                drawMovingTexture(c2, c2From, c2To, c2ScaleWidth, c2ScaleHeight, stateTime-1);
+                drawMovingTexture(c2, c2From, c2To, c2ScaleWidth, c2ScaleHeight, (stateTime - finishMoveInSecond) / finishMoveInSecond);
                 break;
             case NONE:
-                if(stateTime > 1) {
+                if(stateTime > finishMoveInSecond) {
                     status = Status.C1;
                 }
-                drawMovingTexture(c1, c1From, c1To, c1ScaleWidth, c1ScaleHeight, stateTime);
+                drawMovingTexture(c1, c1From, c1To, c1ScaleWidth, c1ScaleHeight, stateTime / finishMoveInSecond);
                 break;
         }
 
@@ -136,11 +156,13 @@ public class StartScreen extends GameScreen {
     }
 
     private void drawOnLastPoint(Texture texture, Vector2 position, float width, float height) {
-        spriteBatch.draw(texture, position.x * LibTest.SCALE_RATE, position.y * LibTest.SCALE_RATE, width, height);
+        spriteBatch.draw(texture, position.x, position.y, width, height);
     }
 
-    private void drawMovingTexture(Texture texture, Vector2 from, Vector2 to, float width, float height, float stateTime) {
-
+    private void drawMovingTexture(Texture texture, Vector2 from, Vector2 to, float width, float height, float movedRate) {
+        float x = (to.x - from.x) * movedRate + from.x;
+        float y = (to.y - from.y) * movedRate + from.y;
+        spriteBatch.draw(texture, x, y, width, height);
     }
 
     @Override
