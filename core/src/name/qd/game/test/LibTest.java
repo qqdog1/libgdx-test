@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import name.qd.game.test.screens.LogoScreen;
+import name.qd.game.test.screens.MenuScreen;
 import name.qd.game.test.screens.StartScreen;
 
 public class LibTest extends Game {
@@ -25,7 +26,9 @@ public class LibTest extends Game {
 		initGame();
 
 //		resourceInstance.setScreen(new LogoScreen());
-		resourceInstance.setScreen(new StartScreen());
+//		resourceInstance.setScreen(new StartScreen());
+		resourceInstance.setScreen(new MenuScreen());
+
 	}
 
 	@Override
@@ -52,6 +55,11 @@ public class LibTest extends Game {
 		assetManager = new AssetManager();
 
 		assetManager.load("pic/background.png", Texture.class);
+		assetManager.load("pic/stage.png", Texture.class);
+
+		assetManager.load("pic/btn/upgrade.png", Texture.class);
+		assetManager.load("pic/btn/settings.png", Texture.class);
+		assetManager.load("pic/btn/stageselect.png", Texture.class);
 
 		assetManager.finishLoading();
 	}

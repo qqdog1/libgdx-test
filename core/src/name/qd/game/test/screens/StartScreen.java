@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.utils.PreferencesUtils;
 
 public class StartScreen extends GameScreen {
     private enum Status {NONE,C1,C2,C3}
@@ -48,6 +49,7 @@ public class StartScreen extends GameScreen {
 
     private Music music;
     private int background_y = 0;
+    private int saveState;
 
     public StartScreen() {
         background = assetManager.get("pic/background.png", Texture.class);
@@ -89,22 +91,28 @@ public class StartScreen extends GameScreen {
         //  有紀錄 進MenuScreen
 
         status = Status.NONE;
+
+        loadSaveState();
     }
 
     @Override
     public void show() {
     }
 
-    private void handleInput() {
+    protected void handleInput() {
         if(Gdx.input.justTouched() && status == Status.C3) {
-            ResourceInstance.getInstance().setScreen(new IntroAnimationScreen());
+            if(saveState == 0) {
+                ResourceInstance.getInstance().setScreen(new IntroAnimationScreen());
+            } else {
+                ResourceInstance.getInstance().setScreen(new MenuScreen());
+            }
             dispose();
         }
     }
 
     @Override
     public void render(float delta) {
-        handleInput();
+        super.render(delta);
 
         stateTime += delta;
 
@@ -165,8 +173,8 @@ public class StartScreen extends GameScreen {
         spriteBatch.draw(texture, x, y, width, height);
     }
 
-    @Override
-    public void resize(int width, int height) {
+    private void loadSaveState() {
+        saveState = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.STATE);
     }
 
     @Override

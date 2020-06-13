@@ -1,7 +1,6 @@
 package name.qd.game.test.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
 import name.qd.game.test.ResourceInstance;
@@ -33,30 +32,25 @@ public class LogoScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
+
         stateTime += delta;
 
-        handleInput();
         if(stateTime >= 5) {
             ResourceInstance.getInstance().setScreen(new StartScreen());
             dispose();
         }
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
         spriteBatch.draw(logo, x, y, scaleWidth, scaleHeight);
         spriteBatch.end();
     }
 
-    private void handleInput() {
+    protected void handleInput() {
         if(Gdx.input.justTouched() && stateTime >= 2) {
             ResourceInstance.getInstance().setScreen(new StartScreen());
             dispose();
         }
-    }
-
-    @Override
-    public void resize(int width, int height) {
     }
 
     @Override

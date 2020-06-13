@@ -7,13 +7,13 @@ public class UpgradeScreen extends GameScreen {
     }
 
     @Override
-    public void render(float delta) {
+    protected void handleInput() {
 
     }
 
     @Override
-    public void resize(int width, int height) {
-
+    public void render(float delta) {
+        super.render(delta);
     }
 
     @Override

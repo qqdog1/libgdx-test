@@ -8,11 +8,11 @@ public class StageSelectScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-
+        super.render(delta);
     }
 
     @Override
-    public void resize(int width, int height) {
+    protected void handleInput() {
 
     }
 
