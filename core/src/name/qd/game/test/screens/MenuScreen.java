@@ -15,7 +15,7 @@ import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.utils.MaterialCreator;
 
-public class MenuScreen extends GameScreen implements InputProcessor {
+public class MenuScreen extends GameScreen {
     private Stage stage;
     private AssetManager assetManager;
     private Texture background;
@@ -33,19 +33,19 @@ public class MenuScreen extends GameScreen implements InputProcessor {
         background = assetManager.get("pic/stage.png", Texture.class);
         backgroundScaleHeight = (int)(background.getHeight() * LibTest.SCALE_RATE);
 
-
         btnStageSelect = MaterialCreator.createButton(assetManager.get("pic/btn/stageselect.png", Texture.class));
 
-//        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(stage);
 
         initButton();
 
         stage.addListener(new ClickListener() {
            @Override
            public void touchDragged (InputEvent event, float x, float y, int pointer) {
+               super.touchDragged(event, x, y, pointer);
                if(lastY != 0) {
                    int diff = (int)y - lastY;
-                   background_y -= diff;
+                   background_y += diff;
                    if(background_y > 0) {
                        background_y = 0;
                    }
@@ -55,11 +55,16 @@ public class MenuScreen extends GameScreen implements InputProcessor {
                }
                lastY = (int)y;
            }
+
+           @Override
+           public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+               super.touchUp(event, x, y, pointer, button);
+               lastY = 0;
+           }
         });
     }
 
     private void initButton() {
-        btnUpgrade = MaterialCreator.createButton(assetManager.get("pic/btn/upgrade.png", Texture.class));
         btnSettings = MaterialCreator.createButton(assetManager.get("pic/btn/settings.png", Texture.class));
 
         btnSettings.setTransform(true);
@@ -75,11 +80,27 @@ public class MenuScreen extends GameScreen implements InputProcessor {
         });
 
         stage.addActor(btnSettings);
+
+        btnUpgrade = MaterialCreator.createButton(assetManager.get("pic/btn/upgrade.png", Texture.class));
+
+        btnUpgrade.setTransform(true);
+        btnUpgrade.setX(LibTest.WIDTH - (10 * LibTest.SCALE_RATE) - (btnUpgrade.getWidth() * LibTest.SCALE_RATE));
+        btnUpgrade.setY(10 * LibTest.SCALE_RATE);
+        btnUpgrade.setScale(LibTest.SCALE_RATE);
+
+        btnUpgrade.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                Gdx.app.log("Btn", "Upgrade");
+            }
+        });
+
+        stage.addActor(btnUpgrade);
+
     }
 
     @Override
     public void show() {
-
     }
 
     protected void handleInput() {
@@ -98,74 +119,18 @@ public class MenuScreen extends GameScreen implements InputProcessor {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
 
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Gdx.app.log("Touch", String.format("%S:%d, %s:%d", "pointer", pointer, "button", button));
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        lastY = 0;
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if(lastY != 0) {
-            int diff = screenY - lastY;
-            background_y -= diff;
-            if(background_y > 0) {
-                background_y = 0;
-            }
-            if(background_y < -backgroundScaleHeight + LibTest.HEIGHT) {
-                background_y = -backgroundScaleHeight + LibTest.HEIGHT;
-            }
-        }
-        lastY = screenY;
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }
