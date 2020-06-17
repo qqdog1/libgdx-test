@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,6 +24,9 @@ public class MenuScreen extends GameScreen {
     private TextButton btnSettings;
     private TextButton btnStageSelect;
 
+    private Table tableSettings;
+    private boolean isShowSettings;
+
     private int background_y = 0;
     private int lastY;
     private int backgroundScaleHeight;
@@ -38,6 +42,7 @@ public class MenuScreen extends GameScreen {
         Gdx.input.setInputProcessor(stage);
 
         initButton();
+        initSettingsTable();
 
         stage.addListener(new ClickListener() {
            @Override
@@ -97,6 +102,15 @@ public class MenuScreen extends GameScreen {
 
         stage.addActor(btnUpgrade);
 
+    }
+
+    private void initSettingsTable() {
+        tableSettings = new Table();
+
+
+
+
+        stage.addActor(tableSettings);
     }
 
     @Override

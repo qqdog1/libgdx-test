@@ -5,7 +5,9 @@ import com.badlogic.gdx.Preferences;
 
 public class PreferencesUtils {
     public enum PreferencesEnum {
-        STATE
+        STATE,
+        SOUND,
+        MUSIC,
     }
 
     private static Preferences values = Gdx.app.getPreferences("values");
