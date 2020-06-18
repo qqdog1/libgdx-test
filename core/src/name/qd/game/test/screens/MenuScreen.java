@@ -20,10 +20,14 @@ public class MenuScreen extends GameScreen {
     private AssetManager assetManager;
     private Texture background;
     private Texture settingsBackground;
+    private Texture selected;
+    private Texture unselected;
     private TextButton btnUpgrade;
     private TextButton btnSettings;
     private TextButton btnStageSelect;
     private TextButton btnCloseSettings;
+    private TextButton btnMusic;
+    private TextButton btnSound;
 
     private Table tableSettings;
     private boolean isShowSettings;
@@ -37,6 +41,8 @@ public class MenuScreen extends GameScreen {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stage.png", Texture.class);
         settingsBackground = assetManager.get("pic/settingsbackground.png", Texture.class);
+        selected = assetManager.get("pic/selected.png", Texture.class);
+        unselected = assetManager.get("pic/unselected.png", Texture.class);
         backgroundScaleHeight = (int)(background.getHeight() * LibTest.SCALE_RATE);
 
         btnStageSelect = MaterialCreator.createButton(assetManager.get("pic/btn/stageselect.png", Texture.class));
@@ -75,6 +81,8 @@ public class MenuScreen extends GameScreen {
         initSettingsButton();
         initUpgradeButton();
         initCloseSettingsButton();
+        initMusicButton();
+        initSoundButton();
     }
 
     private void initSettingsButton() {
@@ -129,6 +137,14 @@ public class MenuScreen extends GameScreen {
                 isShowSettings = false;
             }
         });
+    }
+
+    private void initMusicButton() {
+        btnMusic = MaterialCreator.createButton(unselected, selected);
+    }
+
+    private void initSoundButton() {
+        btnSound = MaterialCreator.createButton(unselected, selected);
     }
 
     private void initSettingsTable() {

@@ -63,6 +63,8 @@ public class LibTest extends Game {
 		assetManager.load("pic/btn/settings.png", Texture.class);
 		assetManager.load("pic/btn/stageselect.png", Texture.class);
 		assetManager.load("pic/btn/cancel.png", Texture.class);
+		assetManager.load("pic/btn/selected.png", Texture.class);
+		assetManager.load("pic/btn/unselected.png", Texture.class);
 
 		assetManager.finishLoading();
 	}
