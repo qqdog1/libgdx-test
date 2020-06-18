@@ -2,14 +2,18 @@ package name.qd.game.test.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
@@ -28,10 +32,14 @@ public class MenuScreen extends GameScreen {
     private TextButton btnStageSelect;
     private TextButton btnCloseSettings;
     private TextButton btnMusic;
+    private Label lblMusic;
     private TextButton btnSound;
+    private Label lblSound;
+    private BitmapFont font;
 
     private Table tableSettings;
     private boolean isShowSettings;
+    private Table tableLevelSelect;
 
     private int background_y = 0;
     private int lastY;
@@ -42,7 +50,7 @@ public class MenuScreen extends GameScreen {
         stage = new Stage(viewport, spriteBatch);
         assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stage.png", Texture.class);
-        settingsBackground = assetManager.get("pic/settingsbackground.png", Texture.class);
+        settingsBackground = assetManager.get("pic/board.png", Texture.class);
         selected = assetManager.get("pic/btn/selected.png", Texture.class);
         unselected = assetManager.get("pic/btn/unselected.png", Texture.class);
         backgroundScaleHeight = (int)(background.getHeight() * LibTest.SCALE_RATE);
@@ -50,8 +58,12 @@ public class MenuScreen extends GameScreen {
 
         Gdx.input.setInputProcessor(stage);
 
+        font = new BitmapFont();
+        font.getData().setScale(4 * LibTest.SCALE_RATE);
+
         initButton();
         initSettingsTable();
+        initLevelSelectTable();
 
         stage.addListener(new ClickListener() {
            @Override
@@ -82,8 +94,8 @@ public class MenuScreen extends GameScreen {
         initSettingsButton();
         initUpgradeButton();
         initCloseSettingsButton();
-        initMusicButton();
-        initSoundButton();
+        initMusic();
+        initSound();
     }
 
     private void initSettingsButton() {
@@ -140,7 +152,7 @@ public class MenuScreen extends GameScreen {
         });
     }
 
-    private void initMusicButton() {
+    private void initMusic() {
         btnMusic = MaterialCreator.createButton(unselected, selected);
         Boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
         btnMusic.setChecked(isMusicOn);
@@ -159,9 +171,11 @@ public class MenuScreen extends GameScreen {
                 PreferencesUtils.set(PreferencesUtils.PreferencesEnum.MUSIC, isMusicOn);
             }
         });
+
+        lblMusic = new Label("MUSIC", new Label.LabelStyle(font, Color.RED));
     }
 
-    private void initSoundButton() {
+    private void initSound() {
         btnSound = MaterialCreator.createButton(unselected, selected);
         Boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
         btnSound.setChecked(isSoundOn);
@@ -180,12 +194,15 @@ public class MenuScreen extends GameScreen {
                 PreferencesUtils.set(PreferencesUtils.PreferencesEnum.SOUND, isSoundOn);
             }
         });
+
+        lblSound = new Label("SOUND", new Label.LabelStyle(font, Color.RED));
     }
 
     private void initSettingsTable() {
         tableSettings = new Table();
         tableSettings.top();
         tableSettings.left();
+        tableSettings.setDebug(true);
 
         TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(settingsBackground);
         tableSettings.setX(LibTest.WIDTH);
@@ -193,29 +210,41 @@ public class MenuScreen extends GameScreen {
         tableSettings.setSize(settingsBackground.getWidth() * LibTest.SCALE_RATE, settingsBackground.getHeight() * LibTest.SCALE_RATE);
         tableSettings.setBackground(textureRegionDrawable);
 
-        tableSettings.add(btnCloseSettings)
+        Table closeBtnTable = new Table();
+
+        closeBtnTable.add(btnCloseSettings)
                 .width(btnCloseSettings.getWidth() * LibTest.SCALE_RATE)
                 .height(btnCloseSettings.getHeight() * LibTest.SCALE_RATE)
                 .padTop(btnCloseSettings.getWidth() * LibTest.SCALE_RATE)
                 .padLeft(tableSettings.getWidth() - 2 * (btnCloseSettings.getWidth() * LibTest.SCALE_RATE));
 
-        tableSettings.row().top().left();
+        tableSettings.add(closeBtnTable);
+        tableSettings.row();
 
-        tableSettings.add(btnSound)
+        Table selectBtnTable = new Table();
+
+        selectBtnTable.add(lblMusic).expandX()
+                .padTop(100 * LibTest.SCALE_RATE);
+
+        selectBtnTable.add(btnMusic)
+                .width(btnMusic.getWidth() * LibTest.SCALE_RATE)
+                .height(btnMusic.getHeight() * LibTest.SCALE_RATE)
+                .padTop(80 * LibTest.SCALE_RATE);
+
+        selectBtnTable.row().top().left();
+
+        selectBtnTable.add(btnSound)
                 .width(btnSound.getWidth() * LibTest.SCALE_RATE)
                 .height(btnSound.getHeight() * LibTest.SCALE_RATE)
                 .padTop(btnSound.getWidth() * LibTest.SCALE_RATE)
                 .padLeft(settingsBackground.getWidth() * LibTest.SCALE_RATE / 2);
 
-        tableSettings.row().top().left();
-
-        tableSettings.add(btnMusic)
-                .width(btnMusic.getWidth() * LibTest.SCALE_RATE)
-                .height(btnMusic.getHeight() * LibTest.SCALE_RATE)
-                .padTop(btnMusic.getWidth() * LibTest.SCALE_RATE)
-                .padLeft(settingsBackground.getWidth() * LibTest.SCALE_RATE / 2);
-
+        tableSettings.add(selectBtnTable);
         stage.addActor(tableSettings);
+    }
+
+    private void initLevelSelectTable() {
+
     }
 
     @Override

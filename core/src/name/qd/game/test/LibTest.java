@@ -57,7 +57,7 @@ public class LibTest extends Game {
 		assetManager.load("pic/background.png", Texture.class);
 		assetManager.load("pic/stage.png", Texture.class);
 
-		assetManager.load("pic/settingsbackground.png", Texture.class);
+		assetManager.load("pic/board.png", Texture.class);
 
 		assetManager.load("pic/btn/upgrade.png", Texture.class);
 		assetManager.load("pic/btn/settings.png", Texture.class);
