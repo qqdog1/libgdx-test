@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.utils.MaterialCreator;
+import name.qd.game.test.utils.PreferencesUtils;
 
 public class MenuScreen extends GameScreen {
     private Stage stage;
@@ -35,17 +36,17 @@ public class MenuScreen extends GameScreen {
     private int background_y = 0;
     private int lastY;
     private int backgroundScaleHeight;
+    private int backgroundScaleWidth;
 
     public MenuScreen() {
         stage = new Stage(viewport, spriteBatch);
         assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stage.png", Texture.class);
         settingsBackground = assetManager.get("pic/settingsbackground.png", Texture.class);
-        selected = assetManager.get("pic/selected.png", Texture.class);
-        unselected = assetManager.get("pic/unselected.png", Texture.class);
+        selected = assetManager.get("pic/btn/selected.png", Texture.class);
+        unselected = assetManager.get("pic/btn/unselected.png", Texture.class);
         backgroundScaleHeight = (int)(background.getHeight() * LibTest.SCALE_RATE);
-
-        btnStageSelect = MaterialCreator.createButton(assetManager.get("pic/btn/stageselect.png", Texture.class));
+        backgroundScaleWidth = (int)(background.getWidth() * LibTest.SCALE_RATE);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -141,10 +142,44 @@ public class MenuScreen extends GameScreen {
 
     private void initMusicButton() {
         btnMusic = MaterialCreator.createButton(unselected, selected);
+        Boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
+        btnMusic.setChecked(isMusicOn);
+
+        btnMusic.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                Boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
+                if(isMusicOn) {
+                    isMusicOn = false;
+                } else {
+                    isMusicOn = true;
+                }
+                btnMusic.setChecked(isMusicOn);
+                Gdx.app.log("Music button", String.valueOf(isMusicOn));
+                PreferencesUtils.set(PreferencesUtils.PreferencesEnum.MUSIC, isMusicOn);
+            }
+        });
     }
 
     private void initSoundButton() {
         btnSound = MaterialCreator.createButton(unselected, selected);
+        Boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
+        btnSound.setChecked(isSoundOn);
+
+        btnSound.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                Boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
+                if(isSoundOn) {
+                    isSoundOn = false;
+                } else {
+                    isSoundOn = true;
+                }
+                btnSound.setChecked(isSoundOn);
+                Gdx.app.log("Sound button", String.valueOf(isSoundOn));
+                PreferencesUtils.set(PreferencesUtils.PreferencesEnum.SOUND, isSoundOn);
+            }
+        });
     }
 
     private void initSettingsTable() {
@@ -162,7 +197,23 @@ public class MenuScreen extends GameScreen {
                 .width(btnCloseSettings.getWidth() * LibTest.SCALE_RATE)
                 .height(btnCloseSettings.getHeight() * LibTest.SCALE_RATE)
                 .padTop(btnCloseSettings.getWidth() * LibTest.SCALE_RATE)
-                .padLeft((settingsBackground.getWidth() * LibTest.SCALE_RATE) - 2 * (btnCloseSettings.getWidth() * LibTest.SCALE_RATE));
+                .padLeft(tableSettings.getWidth() - 2 * (btnCloseSettings.getWidth() * LibTest.SCALE_RATE));
+
+        tableSettings.row().top().left();
+
+        tableSettings.add(btnSound)
+                .width(btnSound.getWidth() * LibTest.SCALE_RATE)
+                .height(btnSound.getHeight() * LibTest.SCALE_RATE)
+                .padTop(btnSound.getWidth() * LibTest.SCALE_RATE)
+                .padLeft(settingsBackground.getWidth() * LibTest.SCALE_RATE / 2);
+
+        tableSettings.row().top().left();
+
+        tableSettings.add(btnMusic)
+                .width(btnMusic.getWidth() * LibTest.SCALE_RATE)
+                .height(btnMusic.getHeight() * LibTest.SCALE_RATE)
+                .padTop(btnMusic.getWidth() * LibTest.SCALE_RATE)
+                .padLeft(settingsBackground.getWidth() * LibTest.SCALE_RATE / 2);
 
         stage.addActor(tableSettings);
     }
@@ -179,7 +230,7 @@ public class MenuScreen extends GameScreen {
         super.render(delta);
 
         spriteBatch.begin();
-        spriteBatch.draw(background, 0, background_y, background.getWidth() * LibTest.SCALE_RATE, background.getHeight() * LibTest.SCALE_RATE);
+        spriteBatch.draw(background, 0, background_y, backgroundScaleWidth, backgroundScaleHeight);
         spriteBatch.end();
 
         stage.draw();

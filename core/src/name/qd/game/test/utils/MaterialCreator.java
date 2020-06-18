@@ -18,6 +18,7 @@ public class MaterialCreator {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.up = skin.getDrawable("off");
         style.down = skin.getDrawable("on");
+        style.checked = skin.getDrawable("on");
         style.font = new BitmapFont();
 
         return new TextButton("", style);
