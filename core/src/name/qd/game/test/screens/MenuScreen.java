@@ -13,7 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
@@ -21,15 +23,17 @@ import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class MenuScreen extends GameScreen {
+    private static final int TOTAL_STAGE = 10;
+
     private Stage stage;
     private AssetManager assetManager;
     private Texture background;
     private Texture settingsBackground;
     private Texture selected;
     private Texture unselected;
+    private List<TextButton> lstBtnStageSelect;
     private TextButton btnUpgrade;
     private TextButton btnSettings;
-    private TextButton btnStageSelect;
     private TextButton btnCloseSettings;
     private TextButton btnMusic;
     private Label lblMusic;
@@ -37,9 +41,9 @@ public class MenuScreen extends GameScreen {
     private Label lblSound;
     private BitmapFont font;
 
+    private Table tableLevelSelect;
     private Table tableSettings;
     private boolean isShowSettings;
-    private Table tableLevelSelect;
 
     private int background_y = 0;
     private int lastY;
@@ -53,8 +57,8 @@ public class MenuScreen extends GameScreen {
         settingsBackground = assetManager.get("pic/board.png", Texture.class);
         selected = assetManager.get("pic/btn/selected.png", Texture.class);
         unselected = assetManager.get("pic/btn/unselected.png", Texture.class);
-        backgroundScaleHeight = (int)(background.getHeight() * LibTest.SCALE_RATE);
-        backgroundScaleWidth = (int)(background.getWidth() * LibTest.SCALE_RATE);
+        backgroundScaleHeight = (int) (background.getHeight() * LibTest.SCALE_RATE);
+        backgroundScaleWidth = (int) (background.getWidth() * LibTest.SCALE_RATE);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -62,31 +66,33 @@ public class MenuScreen extends GameScreen {
         font.getData().setScale(4 * LibTest.SCALE_RATE);
 
         initButton();
-        initSettingsTable();
         initLevelSelectTable();
+        initSettingsTable();
 
         stage.addListener(new ClickListener() {
-           @Override
-           public void touchDragged (InputEvent event, float x, float y, int pointer) {
-               super.touchDragged(event, x, y, pointer);
-               if(lastY != 0) {
-                   int diff = (int)y - lastY;
-                   background_y += diff;
-                   if(background_y > 0) {
-                       background_y = 0;
-                   }
-                   if(background_y < -backgroundScaleHeight + LibTest.HEIGHT) {
-                       background_y = -backgroundScaleHeight + LibTest.HEIGHT;
-                   }
-               }
-               lastY = (int)y;
-           }
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                super.touchDragged(event, x, y, pointer);
+                if (lastY != 0) {
+                    int diff = (int) y - lastY;
+                    background_y += diff;
+                    if (background_y > 0) {
+                        background_y = 0;
+                    }
+                    if (background_y < -backgroundScaleHeight + LibTest.HEIGHT) {
+                        background_y = -backgroundScaleHeight + LibTest.HEIGHT;
+                    }
 
-           @Override
-           public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-               super.touchUp(event, x, y, pointer, button);
-               lastY = 0;
-           }
+                    tableLevelSelect.moveBy(0, diff);
+                }
+                lastY = (int) y;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                lastY = 0;
+            }
         });
     }
 
@@ -108,9 +114,9 @@ public class MenuScreen extends GameScreen {
 
         btnSettings.addListener(new ClickListener() {
             @Override
-            public void clicked (InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Btn", "Settings");
-                if(isShowSettings) {
+                if (isShowSettings) {
                     isShowSettings = false;
                 } else {
                     isShowSettings = true;
@@ -131,8 +137,9 @@ public class MenuScreen extends GameScreen {
 
         btnUpgrade.addListener(new ClickListener() {
             @Override
-            public void clicked (InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Btn", "Upgrade");
+                ResourceInstance.getInstance().setScreen(new UpgradeScreen());
             }
         });
 
@@ -145,7 +152,7 @@ public class MenuScreen extends GameScreen {
 
         btnCloseSettings.addListener(new ClickListener() {
             @Override
-            public void clicked (InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Btn", "Close settings");
                 isShowSettings = false;
             }
@@ -159,9 +166,9 @@ public class MenuScreen extends GameScreen {
 
         btnMusic.addListener(new ClickListener() {
             @Override
-            public void clicked (InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {
                 Boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
-                if(isMusicOn) {
+                if (isMusicOn) {
                     isMusicOn = false;
                 } else {
                     isMusicOn = true;
@@ -182,9 +189,9 @@ public class MenuScreen extends GameScreen {
 
         btnSound.addListener(new ClickListener() {
             @Override
-            public void clicked (InputEvent event, float x, float y) {
+            public void clicked(InputEvent event, float x, float y) {
                 Boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
-                if(isSoundOn) {
+                if (isSoundOn) {
                     isSoundOn = false;
                 } else {
                     isSoundOn = true;
@@ -246,7 +253,25 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initLevelSelectTable() {
+        lstBtnStageSelect = new ArrayList<>();
+        Texture btnTexture = assetManager.get("pic/btn/stageselect.png", Texture.class);
+        for (int i = 0; i <= TOTAL_STAGE; i++) {
+            TextButton btnStageSelect = MaterialCreator.createButton(btnTexture);
+            btnStageSelect.setText(String.valueOf(TOTAL_STAGE - i));
+            lstBtnStageSelect.add(btnStageSelect);
+        }
 
+        tableLevelSelect = new Table();
+        tableLevelSelect.setDebug(true);
+        tableLevelSelect.top().left();
+        tableLevelSelect.setWidth(backgroundScaleWidth);
+        tableLevelSelect.setHeight(backgroundScaleHeight);
+
+        tableLevelSelect.add(lstBtnStageSelect.get(0))
+                .padLeft(348 * LibTest.SCALE_RATE)
+                .padTop(225 * LibTest.SCALE_RATE);
+
+        stage.addActor(tableLevelSelect);
     }
 
     @Override
@@ -270,7 +295,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void updateSettingsTableAction() {
-        if(isShowSettings) {
+        if (isShowSettings) {
             tableSettings.addAction(Actions.moveTo(0, tableSettings.getY(), 0.6f));
         } else {
             tableSettings.addAction(Actions.moveTo(LibTest.WIDTH, tableSettings.getY(), 0.6f));

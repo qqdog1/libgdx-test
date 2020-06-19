@@ -174,7 +174,7 @@ public class StartScreen extends GameScreen {
     }
 
     private void loadSaveState() {
-        saveState = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.STATE);
+        saveState = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.LEVEL);
     }
 
     @Override

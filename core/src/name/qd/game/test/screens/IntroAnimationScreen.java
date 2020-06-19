@@ -24,7 +24,7 @@ public class IntroAnimationScreen extends GameScreen {
 
     protected void handleInput() {
         if(Gdx.input.justTouched()) {
-            PreferencesUtils.set(PreferencesUtils.PreferencesEnum.STATE, 1);
+            PreferencesUtils.set(PreferencesUtils.PreferencesEnum.LEVEL, 1);
             ResourceInstance.getInstance().setScreen(new MenuScreen());
             dispose();
         }
