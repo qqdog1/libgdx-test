@@ -83,7 +83,13 @@ public class MenuScreen extends GameScreen {
                         background_y = -backgroundScaleHeight + LibTest.HEIGHT;
                     }
 
-                    tableLevelSelect.moveBy(0, diff);
+                    if(tableLevelSelect.getY() + diff > 0) {
+                        tableLevelSelect.setY(0);
+                    } else if(tableLevelSelect.getY() + diff < -backgroundScaleHeight + LibTest.HEIGHT) {
+                        tableLevelSelect.setY(-backgroundScaleHeight + LibTest.HEIGHT);
+                    }else {
+                        tableLevelSelect.moveBy(0, diff);
+                    }
                 }
                 lastY = (int) y;
             }
