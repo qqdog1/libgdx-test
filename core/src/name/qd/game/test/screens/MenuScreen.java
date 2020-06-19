@@ -202,7 +202,6 @@ public class MenuScreen extends GameScreen {
         tableSettings = new Table();
         tableSettings.top();
         tableSettings.left();
-        tableSettings.setDebug(true);
 
         TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(settingsBackground);
         tableSettings.setX(LibTest.WIDTH);
@@ -222,22 +221,25 @@ public class MenuScreen extends GameScreen {
         tableSettings.row();
 
         Table selectBtnTable = new Table();
+        selectBtnTable.top().left();
 
-        selectBtnTable.add(lblMusic).expandX()
-                .padTop(100 * LibTest.SCALE_RATE);
+        selectBtnTable.add(lblMusic).padTop(90 * LibTest.SCALE_RATE);
 
         selectBtnTable.add(btnMusic)
                 .width(btnMusic.getWidth() * LibTest.SCALE_RATE)
                 .height(btnMusic.getHeight() * LibTest.SCALE_RATE)
+                .padLeft(30 * LibTest.SCALE_RATE)
                 .padTop(80 * LibTest.SCALE_RATE);
 
         selectBtnTable.row().top().left();
 
+        selectBtnTable.add(lblSound).padTop(50 * LibTest.SCALE_RATE);
+
         selectBtnTable.add(btnSound)
                 .width(btnSound.getWidth() * LibTest.SCALE_RATE)
                 .height(btnSound.getHeight() * LibTest.SCALE_RATE)
-                .padTop(btnSound.getWidth() * LibTest.SCALE_RATE)
-                .padLeft(settingsBackground.getWidth() * LibTest.SCALE_RATE / 2);
+                .padLeft(30 * LibTest.SCALE_RATE)
+                .padTop(40 * LibTest.SCALE_RATE);
 
         tableSettings.add(selectBtnTable);
         stage.addActor(tableSettings);
