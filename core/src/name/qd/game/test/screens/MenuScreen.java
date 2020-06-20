@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -65,9 +66,11 @@ public class MenuScreen extends GameScreen {
         font = new BitmapFont();
         font.getData().setScale(4 * LibTest.SCALE_RATE);
 
-        initButton();
+        initButtons();
         initLevelSelectTable();
+        initSettingsButton();
         initSettingsTable();
+        initUpgradeButton();
 
         stage.addListener(new ClickListener() {
             @Override
@@ -102,9 +105,7 @@ public class MenuScreen extends GameScreen {
         });
     }
 
-    private void initButton() {
-        initSettingsButton();
-        initUpgradeButton();
+    private void initButtons() {
         initCloseSettingsButton();
         initMusic();
         initSound();
@@ -259,23 +260,89 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initLevelSelectTable() {
+        int level = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.LEVEL);
+
         lstBtnStageSelect = new ArrayList<>();
-        Texture btnTexture = assetManager.get("pic/btn/stageselect.png", Texture.class);
+        Texture btnEnable = assetManager.get("pic/btn/stageselect.png", Texture.class);
+        Texture btnDisable = assetManager.get("pic/btn/stagedisable.png", Texture.class);
         for (int i = 0; i <= TOTAL_STAGE; i++) {
-            TextButton btnStageSelect = MaterialCreator.createButton(btnTexture);
-            btnStageSelect.setText(String.valueOf(TOTAL_STAGE - i));
+            TextButton btnStageSelect = MaterialCreator.createButton(btnDisable, btnEnable);
+            btnStageSelect.setName(String.valueOf(i));
+            btnStageSelect.setText(String.valueOf(i));
+
+            if(i >= level) {
+                btnStageSelect.setTouchable(Touchable.disabled);
+            } else {
+                btnStageSelect.setChecked(true);
+            }
+
+            btnStageSelect.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    TextButton btn = (TextButton) event.getListenerActor();
+                    btn.setChecked(true);
+                    openStageBoard(btn.getName());
+                }
+            });
+
             lstBtnStageSelect.add(btnStageSelect);
         }
 
         tableLevelSelect = new Table();
-        tableLevelSelect.setDebug(true);
         tableLevelSelect.top().left();
         tableLevelSelect.setWidth(backgroundScaleWidth);
         tableLevelSelect.setHeight(backgroundScaleHeight);
 
+        tableLevelSelect.add(lstBtnStageSelect.get(9))
+                .padLeft(300 * LibTest.SCALE_RATE)
+                .padTop(140 * LibTest.SCALE_RATE);
+
+        tableLevelSelect.row().left();
+
+        tableLevelSelect.add(lstBtnStageSelect.get(7))
+                .padLeft(114* LibTest.SCALE_RATE)
+                .padTop(170 * LibTest.SCALE_RATE);
+        tableLevelSelect.add(lstBtnStageSelect.get(8))
+                .padLeft(0* LibTest.SCALE_RATE)
+                .padTop(110 * LibTest.SCALE_RATE);
+
+        tableLevelSelect.row().left();
+
+        tableLevelSelect.add(lstBtnStageSelect.get(5))
+                .padLeft(240 * LibTest.SCALE_RATE)
+                .padTop(200 * LibTest.SCALE_RATE);
+        tableLevelSelect.add(lstBtnStageSelect.get(6))
+                .padLeft(100* LibTest.SCALE_RATE)
+                .padTop(100 * LibTest.SCALE_RATE);
+
+        tableLevelSelect.row().left();
+
+        tableLevelSelect.add(lstBtnStageSelect.get(4))
+                .padLeft(94 * LibTest.SCALE_RATE)
+                .padTop(100 * LibTest.SCALE_RATE);
+
+        tableLevelSelect.row().left();
+
+        tableLevelSelect.add(lstBtnStageSelect.get(3)).colspan(2)
+                .padLeft(540 * LibTest.SCALE_RATE)
+                .padTop(50 * LibTest.SCALE_RATE);
+
+        tableLevelSelect.row().left();
+
+        tableLevelSelect.add(lstBtnStageSelect.get(2))
+                .padLeft(195 * LibTest.SCALE_RATE);
+
+        tableLevelSelect.row().left();
+
+        tableLevelSelect.add(lstBtnStageSelect.get(1)).colspan(2)
+                .padLeft(435 * LibTest.SCALE_RATE)
+                .padTop(100 * LibTest.SCALE_RATE);
+
+        tableLevelSelect.row().left();
+
         tableLevelSelect.add(lstBtnStageSelect.get(0))
-                .padLeft(348 * LibTest.SCALE_RATE)
-                .padTop(225 * LibTest.SCALE_RATE);
+                .padLeft(122 * LibTest.SCALE_RATE)
+                .padTop(0 * LibTest.SCALE_RATE);
 
         stage.addActor(tableLevelSelect);
     }
@@ -306,6 +373,10 @@ public class MenuScreen extends GameScreen {
         } else {
             tableSettings.addAction(Actions.moveTo(LibTest.WIDTH, tableSettings.getY(), 0.6f));
         }
+    }
+
+    private void openStageBoard(String stageName) {
+
     }
 
     @Override

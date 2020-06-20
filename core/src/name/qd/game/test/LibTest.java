@@ -25,9 +25,9 @@ public class LibTest extends Game {
 
 		initGame();
 
-//		resourceInstance.setScreen(new LogoScreen());
+		resourceInstance.setScreen(new LogoScreen());
 //		resourceInstance.setScreen(new StartScreen());
-		resourceInstance.setScreen(new MenuScreen());
+//		resourceInstance.setScreen(new MenuScreen());
 
 	}
 
@@ -62,6 +62,7 @@ public class LibTest extends Game {
 		assetManager.load("pic/btn/upgrade.png", Texture.class);
 		assetManager.load("pic/btn/settings.png", Texture.class);
 		assetManager.load("pic/btn/stageselect.png", Texture.class);
+		assetManager.load("pic/btn/stagedisable.png", Texture.class);
 		assetManager.load("pic/btn/cancel.png", Texture.class);
 		assetManager.load("pic/btn/selected.png", Texture.class);
 		assetManager.load("pic/btn/unselected.png", Texture.class);
