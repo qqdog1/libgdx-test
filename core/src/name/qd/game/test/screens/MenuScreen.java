@@ -20,6 +20,7 @@ import java.util.List;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.constant.Level;
 import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
@@ -44,7 +45,9 @@ public class MenuScreen extends GameScreen {
 
     private Table tableLevelSelect;
     private Table tableSettings;
-    private boolean isShowSettings;
+    private boolean isSettingsShow;
+    private Table tableStageInfo;
+    private boolean isStageInfoShow;
 
     private int background_y = 0;
     private int lastY;
@@ -71,6 +74,7 @@ public class MenuScreen extends GameScreen {
         initSettingsButton();
         initSettingsTable();
         initUpgradeButton();
+        initStageInfoTable();
 
         stage.addListener(new ClickListener() {
             @Override
@@ -123,10 +127,10 @@ public class MenuScreen extends GameScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Btn", "Settings");
-                if (isShowSettings) {
-                    isShowSettings = false;
+                if (isSettingsShow) {
+                    isSettingsShow = false;
                 } else {
-                    isShowSettings = true;
+                    isSettingsShow = true;
                 }
             }
         });
@@ -161,7 +165,7 @@ public class MenuScreen extends GameScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Btn", "Close settings");
-                isShowSettings = false;
+                isSettingsShow = false;
             }
         });
     }
@@ -214,6 +218,7 @@ public class MenuScreen extends GameScreen {
 
     private void initSettingsTable() {
         tableSettings = new Table();
+        tableSettings.setTouchable(Touchable.enabled);
         tableSettings.top();
         tableSettings.left();
 
@@ -265,10 +270,10 @@ public class MenuScreen extends GameScreen {
         lstBtnStageSelect = new ArrayList<>();
         Texture btnEnable = assetManager.get("pic/btn/stageselect.png", Texture.class);
         Texture btnDisable = assetManager.get("pic/btn/stagedisable.png", Texture.class);
-        for (int i = 0; i <= TOTAL_STAGE; i++) {
+        for (int i = 0; i < TOTAL_STAGE; i++) {
             TextButton btnStageSelect = MaterialCreator.createButton(btnDisable, btnEnable);
-            btnStageSelect.setName(String.valueOf(i));
-            btnStageSelect.setText(String.valueOf(i));
+            btnStageSelect.setName(String.valueOf(Level.getLevel(i).getLevel()));
+            btnStageSelect.setText(Level.getLevel(i).getDisplayName());
 
             if(i >= level) {
                 btnStageSelect.setTouchable(Touchable.disabled);
@@ -281,7 +286,7 @@ public class MenuScreen extends GameScreen {
                 public void clicked(InputEvent event, float x, float y) {
                     TextButton btn = (TextButton) event.getListenerActor();
                     btn.setChecked(true);
-                    openStageBoard(btn.getName());
+                    openStageInfoBoard(btn.getName());
                 }
             });
 
@@ -294,57 +299,92 @@ public class MenuScreen extends GameScreen {
         tableLevelSelect.setHeight(backgroundScaleHeight);
 
         tableLevelSelect.add(lstBtnStageSelect.get(9))
-                .padLeft(300 * LibTest.SCALE_RATE)
-                .padTop(140 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(9).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(9).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(340 * LibTest.SCALE_RATE)
+                .padTop(170 * LibTest.SCALE_RATE);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(7))
-                .padLeft(114* LibTest.SCALE_RATE)
-                .padTop(170 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(7).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(7).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(138 * LibTest.SCALE_RATE)
+                .padTop(280 * LibTest.SCALE_RATE);
         tableLevelSelect.add(lstBtnStageSelect.get(8))
-                .padLeft(0* LibTest.SCALE_RATE)
-                .padTop(110 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(8).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(8).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(65 * LibTest.SCALE_RATE)
+                .padTop(176 * LibTest.SCALE_RATE);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(5))
-                .padLeft(240 * LibTest.SCALE_RATE)
-                .padTop(200 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(5).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(5).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(280 * LibTest.SCALE_RATE)
+                .padTop(240 * LibTest.SCALE_RATE);
         tableLevelSelect.add(lstBtnStageSelect.get(6))
-                .padLeft(100* LibTest.SCALE_RATE)
-                .padTop(100 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(6).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(6).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(168 * LibTest.SCALE_RATE)
+                .padTop(180 * LibTest.SCALE_RATE);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(4))
-                .padLeft(94 * LibTest.SCALE_RATE)
-                .padTop(100 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(4).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(4).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(110 * LibTest.SCALE_RATE)
+                .padTop(180 * LibTest.SCALE_RATE);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(3)).colspan(2)
-                .padLeft(540 * LibTest.SCALE_RATE)
-                .padTop(50 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(3).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(3).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(550 * LibTest.SCALE_RATE)
+                .padTop(190 * LibTest.SCALE_RATE);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(2))
-                .padLeft(195 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(2).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(2).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(215 * LibTest.SCALE_RATE)
+                .padTop(30 * LibTest.SCALE_RATE);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(1)).colspan(2)
-                .padLeft(435 * LibTest.SCALE_RATE)
-                .padTop(100 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(1).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(1).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(460 * LibTest.SCALE_RATE)
+                .padTop(180 * LibTest.SCALE_RATE);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(0))
-                .padLeft(122 * LibTest.SCALE_RATE)
-                .padTop(0 * LibTest.SCALE_RATE);
+                .width(lstBtnStageSelect.get(0).getWidth() * LibTest.SCALE_RATE)
+                .height(lstBtnStageSelect.get(0).getHeight() * LibTest.SCALE_RATE)
+                .padLeft(142 * LibTest.SCALE_RATE)
+                .padTop(70 * LibTest.SCALE_RATE);
 
         stage.addActor(tableLevelSelect);
+    }
+
+    private void initStageInfoTable() {
+        tableStageInfo = new Table();
+        tableStageInfo.setTouchable(Touchable.enabled);
+        tableStageInfo.top();
+        tableStageInfo.left();
+
+        TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(settingsBackground);
+        tableStageInfo.setX(LibTest.WIDTH);
+        tableStageInfo.setY(btnSettings.getHeight() * LibTest.SCALE_RATE);
+        tableStageInfo.setSize(settingsBackground.getWidth() * LibTest.SCALE_RATE, settingsBackground.getHeight() * LibTest.SCALE_RATE);
+        tableStageInfo.setBackground(textureRegionDrawable);
+
     }
 
     @Override
@@ -365,17 +405,28 @@ public class MenuScreen extends GameScreen {
         stage.draw();
         updateSettingsTableAction();
         tableSettings.act(delta);
+        updateStageInfoTableAction();
+        tableStageInfo.act(delta);
     }
 
     private void updateSettingsTableAction() {
-        if (isShowSettings) {
+        if (isSettingsShow) {
             tableSettings.addAction(Actions.moveTo(0, tableSettings.getY(), 0.6f));
         } else {
             tableSettings.addAction(Actions.moveTo(LibTest.WIDTH, tableSettings.getY(), 0.6f));
         }
     }
 
-    private void openStageBoard(String stageName) {
+    private void updateStageInfoTableAction() {
+        if(isStageInfoShow) {
+            tableStageInfo.addAction(Actions.moveTo(0, tableSettings.getY(), 0.6f));
+        } else {
+            tableStageInfo.addAction(Actions.moveTo(LibTest.WIDTH, tableSettings.getY(), 0.6f));
+        }
+    }
+
+    private void openStageInfoBoard(String stageName) {
+        Gdx.app.log("stage", stageName);
 
     }
 
