@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -33,10 +34,11 @@ public class MenuScreen extends GameScreen {
     private Texture settingsBackground;
     private Texture selected;
     private Texture unselected;
+    private Texture star;
+    private Texture starFilled;
     private List<TextButton> lstBtnStageSelect;
     private TextButton btnUpgrade;
     private TextButton btnSettings;
-    private TextButton btnCloseSettings;
     private TextButton btnMusic;
     private Label lblMusic;
     private TextButton btnSound;
@@ -61,6 +63,8 @@ public class MenuScreen extends GameScreen {
         settingsBackground = assetManager.get("pic/board.png", Texture.class);
         selected = assetManager.get("pic/btn/selected.png", Texture.class);
         unselected = assetManager.get("pic/btn/unselected.png", Texture.class);
+        star = assetManager.get("pic/star.png", Texture.class);
+        starFilled = assetManager.get("pic/starfilled.png", Texture.class);
         backgroundScaleHeight = (int) (background.getHeight() * LibTest.SCALE_RATE);
         backgroundScaleWidth = (int) (background.getWidth() * LibTest.SCALE_RATE);
 
@@ -72,9 +76,9 @@ public class MenuScreen extends GameScreen {
         initButtons();
         initLevelSelectTable();
         initSettingsButton();
+        initStageInfoTable();
         initSettingsTable();
         initUpgradeButton();
-        initStageInfoTable();
 
         stage.addListener(new ClickListener() {
             @Override
@@ -110,7 +114,6 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initButtons() {
-        initCloseSettingsButton();
         initMusic();
         initSound();
     }
@@ -155,19 +158,6 @@ public class MenuScreen extends GameScreen {
         });
 
         stage.addActor(btnUpgrade);
-    }
-
-    private void initCloseSettingsButton() {
-        btnCloseSettings = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
-        btnCloseSettings.setTransform(true);
-
-        btnCloseSettings.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Btn", "Close settings");
-                isSettingsShow = false;
-            }
-        });
     }
 
     private void initMusic() {
@@ -227,6 +217,17 @@ public class MenuScreen extends GameScreen {
         tableSettings.setY(btnSettings.getHeight() * LibTest.SCALE_RATE);
         tableSettings.setSize(settingsBackground.getWidth() * LibTest.SCALE_RATE, settingsBackground.getHeight() * LibTest.SCALE_RATE);
         tableSettings.setBackground(textureRegionDrawable);
+
+        TextButton btnCloseSettings = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
+        btnCloseSettings.setTransform(true);
+
+        btnCloseSettings.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Btn", "Close settings");
+                isSettingsShow = false;
+            }
+        });
 
         Table closeBtnTable = new Table();
 
@@ -377,7 +378,6 @@ public class MenuScreen extends GameScreen {
         tableStageInfo = new Table();
         tableStageInfo.setTouchable(Touchable.enabled);
         tableStageInfo.top();
-        tableStageInfo.left();
 
         TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(settingsBackground);
         tableStageInfo.setX(LibTest.WIDTH);
@@ -385,6 +385,77 @@ public class MenuScreen extends GameScreen {
         tableStageInfo.setSize(settingsBackground.getWidth() * LibTest.SCALE_RATE, settingsBackground.getHeight() * LibTest.SCALE_RATE);
         tableStageInfo.setBackground(textureRegionDrawable);
 
+        Label lblStage = new Label("Stage", new Label.LabelStyle(font, Color.RED));
+        Label lblLevel = new Label("0", new Label.LabelStyle(font, Color.RED));
+        Label lblName = new Label("The XXX XXX", new Label.LabelStyle(font, Color.RED));
+
+        TextButton btnClose = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
+        btnClose.setTransform(true);
+
+        btnClose.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                isStageInfoShow = false;
+            }
+        });
+
+        Table closeBtnTable = new Table();
+
+        closeBtnTable.add(btnClose)
+                .width(btnClose.getWidth() * LibTest.SCALE_RATE)
+                .height(btnClose.getHeight() * LibTest.SCALE_RATE)
+                .padTop(btnClose.getWidth() * LibTest.SCALE_RATE)
+                .padLeft(tableStageInfo.getWidth() - 2 * (btnClose.getWidth() * LibTest.SCALE_RATE));
+
+        tableStageInfo.add(closeBtnTable).colspan(2);
+        tableStageInfo.row().left();
+
+        tableStageInfo.add(lblStage)
+                .width(lblStage.getWidth() * LibTest.SCALE_RATE)
+                .padLeft(200 * LibTest.SCALE_RATE);
+        tableStageInfo.add(lblLevel)
+                .padLeft(20 * LibTest.SCALE_RATE);
+
+        tableStageInfo.row();
+
+        tableStageInfo.add(lblName).colspan(2);
+
+        tableStageInfo.row();
+
+        Image star1 = new Image(star);
+        Image star2 = new Image(star);
+        Image star3 = new Image(star);
+
+        Table starsTable = new Table();
+
+        starsTable.add(star1)
+                .width(star1.getWidth() * LibTest.SCALE_RATE)
+                .height(star1.getHeight() * LibTest.SCALE_RATE);
+        starsTable.add(star2)
+                .width(star2.getWidth() * LibTest.SCALE_RATE)
+                .height(star2.getHeight() * LibTest.SCALE_RATE);
+        starsTable.add(star3)
+                .width(star3.getWidth() * LibTest.SCALE_RATE)
+                .height(star3.getHeight() * LibTest.SCALE_RATE);
+
+        tableStageInfo.add(starsTable).colspan(2);
+
+        tableStageInfo.row();
+
+        TextButton btnGo = MaterialCreator.createButton(assetManager.get("pic/btn/go.png", Texture.class));
+
+        btnGo.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Btn", "Go");
+            }
+         });
+
+        tableStageInfo.add(btnGo).colspan(2)
+                .width(btnGo.getWidth() * LibTest.SCALE_RATE)
+                .height(btnGo.getHeight() * LibTest.SCALE_RATE);
+
+        stage.addActor(tableStageInfo);
     }
 
     @Override
@@ -427,7 +498,7 @@ public class MenuScreen extends GameScreen {
 
     private void openStageInfoBoard(String stageName) {
         Gdx.app.log("stage", stageName);
-
+        isStageInfoShow = true;
     }
 
     @Override

@@ -10,7 +10,7 @@ import name.qd.game.test.screens.MenuScreen;
 import name.qd.game.test.screens.StartScreen;
 
 public class LibTest extends Game {
-	public static final float SCALE_RATE = 0.8f;
+	public static final float SCALE_RATE = 0.4f;
 	public static final int WIDTH = (int)(720 * SCALE_RATE);
 	public static final int HEIGHT = (int)(1280 * SCALE_RATE);
 
@@ -58,6 +58,8 @@ public class LibTest extends Game {
 		assetManager.load("pic/stage.png", Texture.class);
 
 		assetManager.load("pic/board.png", Texture.class);
+		assetManager.load("pic/star.png", Texture.class);
+		assetManager.load("pic/starfilled.png", Texture.class);
 
 		assetManager.load("pic/btn/upgrade.png", Texture.class);
 		assetManager.load("pic/btn/settings.png", Texture.class);
@@ -66,6 +68,7 @@ public class LibTest extends Game {
 		assetManager.load("pic/btn/cancel.png", Texture.class);
 		assetManager.load("pic/btn/selected.png", Texture.class);
 		assetManager.load("pic/btn/unselected.png", Texture.class);
+		assetManager.load("pic/btn/go.png", Texture.class);
 
 		assetManager.finishLoading();
 	}
