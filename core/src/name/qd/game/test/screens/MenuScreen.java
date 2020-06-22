@@ -21,21 +21,20 @@ import java.util.List;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.Level;
 import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class MenuScreen extends GameScreen {
-    private static final int TOTAL_STAGE = 10;
-
     private Stage stage;
     private AssetManager assetManager;
     private Texture background;
     private Texture settingsBackground;
     private Texture selected;
     private Texture unselected;
-    private Texture star;
-    private Texture starFilled;
+    private TextureRegionDrawable star;
+    private TextureRegionDrawable starFilled;
     private List<TextButton> lstBtnStageSelect;
     private TextButton btnUpgrade;
     private TextButton btnSettings;
@@ -50,6 +49,11 @@ public class MenuScreen extends GameScreen {
     private boolean isSettingsShow;
     private Table tableStageInfo;
     private boolean isStageInfoShow;
+    private Label lblLevel;
+    private Label lblName;
+    private Image star1;
+    private Image star2;
+    private Image star3;
 
     private int background_y = 0;
     private int lastY;
@@ -63,8 +67,8 @@ public class MenuScreen extends GameScreen {
         settingsBackground = assetManager.get("pic/board.png", Texture.class);
         selected = assetManager.get("pic/btn/selected.png", Texture.class);
         unselected = assetManager.get("pic/btn/unselected.png", Texture.class);
-        star = assetManager.get("pic/star.png", Texture.class);
-        starFilled = assetManager.get("pic/starfilled.png", Texture.class);
+        star = new TextureRegionDrawable(assetManager.get("pic/star.png", Texture.class));
+        starFilled = new TextureRegionDrawable(assetManager.get("pic/starfilled.png", Texture.class));
         backgroundScaleHeight = (int) (background.getHeight() * LibTest.SCALE_RATE);
         backgroundScaleWidth = (int) (background.getWidth() * LibTest.SCALE_RATE);
 
@@ -271,7 +275,7 @@ public class MenuScreen extends GameScreen {
         lstBtnStageSelect = new ArrayList<>();
         Texture btnEnable = assetManager.get("pic/btn/stageselect.png", Texture.class);
         Texture btnDisable = assetManager.get("pic/btn/stagedisable.png", Texture.class);
-        for (int i = 0; i < TOTAL_STAGE; i++) {
+        for (int i = 0; i < Constants.TOTAL_STAGES ; i++) {
             TextButton btnStageSelect = MaterialCreator.createButton(btnDisable, btnEnable);
             btnStageSelect.setName(String.valueOf(Level.getLevel(i).getLevel()));
             btnStageSelect.setText(Level.getLevel(i).getDisplayName());
@@ -386,8 +390,8 @@ public class MenuScreen extends GameScreen {
         tableStageInfo.setBackground(textureRegionDrawable);
 
         Label lblStage = new Label("Stage", new Label.LabelStyle(font, Color.RED));
-        Label lblLevel = new Label("0", new Label.LabelStyle(font, Color.RED));
-        Label lblName = new Label("The XXX XXX", new Label.LabelStyle(font, Color.RED));
+        lblLevel = new Label("0", new Label.LabelStyle(font, Color.RED));
+        lblName = new Label("The XXX XXX", new Label.LabelStyle(font, Color.RED));
 
         TextButton btnClose = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
         btnClose.setTransform(true);
@@ -422,9 +426,9 @@ public class MenuScreen extends GameScreen {
 
         tableStageInfo.row();
 
-        Image star1 = new Image(star);
-        Image star2 = new Image(star);
-        Image star3 = new Image(star);
+        star1 = new Image(star);
+        star2 = new Image(star);
+        star3 = new Image(star);
 
         Table starsTable = new Table();
 
@@ -499,6 +503,56 @@ public class MenuScreen extends GameScreen {
     private void openStageInfoBoard(String stageName) {
         Gdx.app.log("stage", stageName);
         isStageInfoShow = true;
+
+        lblLevel.setText(stageName);
+        int index = Integer.parseInt(stageName) - 1;
+        lblName.setText(Level.getLevel(index).getDisplayName());
+
+        int stars = getStarsByStage(stageName);
+
+        star1.setDrawable(star);
+        star2.setDrawable(star);
+        star3.setDrawable(star);
+
+        if(stars >= 4) {
+            stars -= 4;
+            star3.setDrawable(starFilled);
+        }
+        if(stars >= 2) {
+            stars -= 2;
+            star2.setDrawable(starFilled);
+        }
+        if(stars == 1) {
+            star1.setDrawable(starFilled);
+        }
+    }
+
+    private int getStarsByStage(String stageName) {
+        int stage = Integer.parseInt(stageName);
+
+        switch (stage) {
+            case 1:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L1);
+            case 2:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L2);
+            case 3:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L3);
+            case 4:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L4);
+            case 5:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L5);
+            case 6:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L6);
+            case 7:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L7);
+            case 8:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L8);
+            case 9:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L9);
+            case 10:
+                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L10);
+        }
+        return 0;
     }
 
     @Override

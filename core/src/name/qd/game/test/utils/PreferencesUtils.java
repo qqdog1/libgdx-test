@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 
 public class PreferencesUtils {
     public enum PreferencesEnum {
+        L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,
         LEVEL, // level not exist, see intro
         SOUND,
         MUSIC,
