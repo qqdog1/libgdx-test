@@ -418,7 +418,7 @@ public class MenuScreen extends GameScreen {
                 .width(lblStage.getWidth() * LibTest.SCALE_RATE)
                 .padLeft(200 * LibTest.SCALE_RATE);
         tableStageInfo.add(lblLevel)
-                .padLeft(20 * LibTest.SCALE_RATE);
+                .padRight(120 * LibTest.SCALE_RATE);
 
         tableStageInfo.row();
 
