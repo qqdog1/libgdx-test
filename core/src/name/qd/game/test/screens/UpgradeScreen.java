@@ -23,30 +23,24 @@ public class UpgradeScreen extends GameScreen {
         Texture texture = assetManager.get("pic/btn/return.png", Texture.class);
         btnReturn = MaterialCreator.createButton(texture);
         btnReturn.setTransform(true);
+        btnReturn.setScale(LibTest.SCALE_RATE);
         btnReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("btn", "return");
-                ResourceInstance.getInstance().setScreen(new MenuScreen());
-                dispose();
+                toNextScreen(ScreenType.MENU);
             }
         });
 
-        Table table = new Table();
-        table.setDebug(true);
-        table.top().left();
+        btnReturn.setPosition(LibTest.WIDTH - (btnReturn.getWidth() * LibTest.SCALE_RATE), LibTest.HEIGHT - (btnReturn.getHeight() * LibTest.SCALE_RATE));
 
-        table.add(btnReturn)
-                .width(btnReturn.getWidth() * LibTest.SCALE_RATE)
-                .height(btnReturn.getHeight() * LibTest.SCALE_RATE)
-                .padLeft(500 * LibTest.SCALE_RATE);
 
         stage.addActor(btnReturn);
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -82,6 +76,5 @@ public class UpgradeScreen extends GameScreen {
 
     @Override
     public void dispose() {
-        stage.dispose();
     }
 }

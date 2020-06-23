@@ -73,8 +73,6 @@ public class MenuScreen extends GameScreen {
         backgroundScaleHeight = (int) (background.getHeight() * LibTest.SCALE_RATE);
         backgroundScaleWidth = (int) (background.getWidth() * LibTest.SCALE_RATE);
 
-        Gdx.input.setInputProcessor(stage);
-
         font = new BitmapFont();
         font.getData().setScale(4 * LibTest.SCALE_RATE);
 
@@ -465,6 +463,7 @@ public class MenuScreen extends GameScreen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     protected void handleInput() {
@@ -575,7 +574,5 @@ public class MenuScreen extends GameScreen {
 
     @Override
     public void dispose() {
-        stage.dispose();
-
     }
 }
