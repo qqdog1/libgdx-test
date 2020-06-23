@@ -5,8 +5,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.screens.LogoScreen;
 import name.qd.game.test.screens.MenuScreen;
+import name.qd.game.test.screens.ScreenManager;
 import name.qd.game.test.screens.StartScreen;
 
 public class LibTest extends Game {
@@ -25,10 +27,11 @@ public class LibTest extends Game {
 
 		initGame();
 
-//		resourceInstance.setScreen(new LogoScreen());
-//		resourceInstance.setScreen(new StartScreen());
-		resourceInstance.setScreen(new MenuScreen());
+		ScreenManager screenManager = ScreenManager.getInstance();
 
+//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.LOGO));
+//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.START));
+		resourceInstance.setScreen(screenManager.getScreen(ScreenType.MENU));
 	}
 
 	@Override
@@ -69,6 +72,7 @@ public class LibTest extends Game {
 		assetManager.load("pic/btn/selected.png", Texture.class);
 		assetManager.load("pic/btn/unselected.png", Texture.class);
 		assetManager.load("pic/btn/go.png", Texture.class);
+		assetManager.load("pic/btn/return.png", Texture.class);
 
 		assetManager.finishLoading();
 	}

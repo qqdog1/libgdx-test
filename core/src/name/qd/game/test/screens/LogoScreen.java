@@ -3,8 +3,8 @@ package name.qd.game.test.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
-import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.LibTest;
+import name.qd.game.test.constant.ScreenType;
 
 public class LogoScreen extends GameScreen {
     private final Texture logo;
@@ -37,8 +37,7 @@ public class LogoScreen extends GameScreen {
         stateTime += delta;
 
         if(stateTime >= 5) {
-            ResourceInstance.getInstance().setScreen(new StartScreen());
-            dispose();
+            toNextScreen(ScreenType.START);
         }
 
         spriteBatch.begin();
@@ -48,9 +47,13 @@ public class LogoScreen extends GameScreen {
 
     protected void handleInput() {
         if(Gdx.input.justTouched() && stateTime >= 2) {
-            ResourceInstance.getInstance().setScreen(new StartScreen());
-            dispose();
+            toNextScreen(ScreenType.START);
         }
+    }
+
+    @Override
+    protected ScreenType currentScreen() {
+        return ScreenType.LOGO;
     }
 
     @Override
@@ -69,5 +72,6 @@ public class LogoScreen extends GameScreen {
     public void dispose() {
         logo.dispose();
 //        sound.dispose();
+        Gdx.app.log("Disposed", "LogoScreen");
     }
 }

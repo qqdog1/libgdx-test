@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 
 import name.qd.game.test.LibTest;
-import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class StartScreen extends GameScreen {
@@ -84,12 +84,6 @@ public class StartScreen extends GameScreen {
         bitmapFont.setColor(Color.RED);
         glyphLayout.setText(bitmapFont, "TOUCH TO START");
 
-        // TODO: Title掉下來 大家飛過來 start跑出來
-        //  自動 login google 讀紀錄 或 local紀錄
-        //  先做local的就好了
-        //  沒紀錄的 進IntroAnimationScreen
-        //  有紀錄 進MenuScreen
-
         status = Status.NONE;
 
         loadSaveState();
@@ -102,12 +96,16 @@ public class StartScreen extends GameScreen {
     protected void handleInput() {
         if(Gdx.input.justTouched() && status == Status.C3) {
             if(saveState == 0) {
-                ResourceInstance.getInstance().setScreen(new IntroAnimationScreen());
+                toNextScreen(ScreenType.INTRO);
             } else {
-                ResourceInstance.getInstance().setScreen(new MenuScreen());
+                toNextScreen(ScreenType.MENU);
             }
-            dispose();
         }
+    }
+
+    @Override
+    protected ScreenType currentScreen() {
+        return ScreenType.START;
     }
 
     @Override

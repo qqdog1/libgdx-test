@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class IntroAnimationScreen extends GameScreen {
@@ -25,9 +26,13 @@ public class IntroAnimationScreen extends GameScreen {
     protected void handleInput() {
         if(Gdx.input.justTouched()) {
             PreferencesUtils.set(PreferencesUtils.PreferencesEnum.LEVEL, 1);
-            ResourceInstance.getInstance().setScreen(new MenuScreen());
-            dispose();
+            toNextScreen(ScreenType.MENU);
         }
+    }
+
+    @Override
+    protected ScreenType currentScreen() {
+        return ScreenType.INTRO;
     }
 
     @Override

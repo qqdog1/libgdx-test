@@ -23,6 +23,7 @@ import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.Level;
+import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
@@ -157,7 +158,7 @@ public class MenuScreen extends GameScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Btn", "Upgrade");
-                ResourceInstance.getInstance().setScreen(new UpgradeScreen());
+                toNextScreen(ScreenType.UPGRADE);
             }
         });
 
@@ -470,6 +471,11 @@ public class MenuScreen extends GameScreen {
     }
 
     @Override
+    protected ScreenType currentScreen() {
+        return ScreenType.MENU;
+    }
+
+    @Override
     public void render(float delta) {
         super.render(delta);
 
@@ -569,6 +575,7 @@ public class MenuScreen extends GameScreen {
 
     @Override
     public void dispose() {
+        stage.dispose();
 
     }
 }

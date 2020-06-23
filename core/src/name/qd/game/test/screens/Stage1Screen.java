@@ -2,6 +2,8 @@ package name.qd.game.test.screens;
 
 import com.badlogic.gdx.Screen;
 
+import name.qd.game.test.constant.ScreenType;
+
 public class Stage1Screen extends GameScreen {
 
     @Override
@@ -15,6 +17,11 @@ public class Stage1Screen extends GameScreen {
 
     @Override
     protected void handleInput() {
+    }
+
+    @Override
+    protected ScreenType currentScreen() {
+        return ScreenType.L1;
     }
 
     @Override

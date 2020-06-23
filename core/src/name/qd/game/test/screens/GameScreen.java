@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.constant.ScreenType;
 
 public abstract class GameScreen implements Screen {
     protected final SpriteBatch spriteBatch;
@@ -45,4 +46,11 @@ public abstract class GameScreen implements Screen {
     }
 
     protected abstract void handleInput();
+
+    protected abstract ScreenType currentScreen();
+
+    public void toNextScreen(ScreenType screenType) {
+        ResourceInstance.getInstance().setScreen(ScreenManager.getInstance().getScreen(screenType));
+        ScreenManager.getInstance().closeScreen(currentScreen());
+    }
 }
