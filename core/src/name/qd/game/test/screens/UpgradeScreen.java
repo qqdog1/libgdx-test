@@ -34,7 +34,6 @@ public class UpgradeScreen extends GameScreen {
 
         btnReturn.setPosition(LibTest.WIDTH - (btnReturn.getWidth() * LibTest.SCALE_RATE), LibTest.HEIGHT - (btnReturn.getHeight() * LibTest.SCALE_RATE));
 
-
         stage.addActor(btnReturn);
     }
 

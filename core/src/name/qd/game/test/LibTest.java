@@ -58,6 +58,7 @@ public class LibTest extends Game {
 		assetManager = new AssetManager();
 
 		assetManager.load("pic/background.png", Texture.class);
+		assetManager.load("pic/stagebackground.png", Texture.class);
 		assetManager.load("pic/stage.png", Texture.class);
 
 		assetManager.load("pic/board.png", Texture.class);
@@ -73,6 +74,10 @@ public class LibTest extends Game {
 		assetManager.load("pic/btn/unselected.png", Texture.class);
 		assetManager.load("pic/btn/go.png", Texture.class);
 		assetManager.load("pic/btn/return.png", Texture.class);
+
+		assetManager.load("pic/sprite/cnormal.png", Texture.class);
+		assetManager.load("pic/sprite/cleft.png", Texture.class);
+		assetManager.load("pic/sprite/cright.png", Texture.class);
 
 		assetManager.finishLoading();
 	}

@@ -269,17 +269,19 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initLevelSelectTable() {
-        int level = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.LEVEL);
+        int userLastLevel = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.LEVEL);
 
         lstBtnStageSelect = new ArrayList<>();
         Texture btnEnable = assetManager.get("pic/btn/stageselect.png", Texture.class);
         Texture btnDisable = assetManager.get("pic/btn/stagedisable.png", Texture.class);
         for (int i = 0; i < Constants.TOTAL_STAGES ; i++) {
             TextButton btnStageSelect = MaterialCreator.createButton(btnDisable, btnEnable);
-            btnStageSelect.setName(String.valueOf(Level.getLevel(i).getLevel()));
-            btnStageSelect.setText(Level.getLevel(i).getDisplayName());
+            Level level = Level.getLevel(i);
+            btnStageSelect.setName(String.valueOf(level.getLevel()));
+            btnStageSelect.setText(level.getDisplayName());
+            btnStageSelect.setUserObject(level);
 
-            if(i >= level) {
+            if(i >= userLastLevel) {
                 btnStageSelect.setTouchable(Touchable.disabled);
             } else {
                 btnStageSelect.setChecked(true);
@@ -290,7 +292,7 @@ public class MenuScreen extends GameScreen {
                 public void clicked(InputEvent event, float x, float y) {
                     TextButton btn = (TextButton) event.getListenerActor();
                     btn.setChecked(true);
-                    openStageInfoBoard(btn.getName());
+                    openStageInfoBoard((Level)btn.getUserObject());
                 }
             });
 
@@ -391,7 +393,6 @@ public class MenuScreen extends GameScreen {
         Label lblStage = new Label("Stage", new Label.LabelStyle(font, Color.RED));
         lblLevel = new Label("0", new Label.LabelStyle(font, Color.RED));
         lblName = new Label("The XXX XXX", new Label.LabelStyle(font, Color.RED));
-
         TextButton btnClose = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
         btnClose.setTransform(true);
 
@@ -450,7 +451,8 @@ public class MenuScreen extends GameScreen {
         btnGo.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Btn", "Go");
+                Gdx.app.log("btn", "GO");
+                toStageScreen((Level)lblLevel.getUserObject());
             }
          });
 
@@ -459,6 +461,41 @@ public class MenuScreen extends GameScreen {
                 .height(btnGo.getHeight() * LibTest.SCALE_RATE);
 
         stage.addActor(tableStageInfo);
+    }
+
+    private void toStageScreen(Level level) {
+        switch (level.getLevel()) {
+            case 1:
+                toNextScreen(ScreenType.L1);
+                break;
+            case 2:
+                toNextScreen(ScreenType.L2);
+                break;
+            case 3:
+                toNextScreen(ScreenType.L3);
+                break;
+            case 4:
+                toNextScreen(ScreenType.L4);
+                break;
+            case 5:
+                toNextScreen(ScreenType.L5);
+                break;
+            case 6:
+                toNextScreen(ScreenType.L6);
+                break;
+            case 7:
+                toNextScreen(ScreenType.L7);
+                break;
+            case 8:
+                toNextScreen(ScreenType.L8);
+                break;
+            case 9:
+                toNextScreen(ScreenType.L9);
+                break;
+            case 10:
+                toNextScreen(ScreenType.L10);
+                break;
+        }
     }
 
     @Override
@@ -505,15 +542,15 @@ public class MenuScreen extends GameScreen {
         }
     }
 
-    private void openStageInfoBoard(String stageName) {
-        Gdx.app.log("stage", stageName);
+    private void openStageInfoBoard(Level level) {
+        Gdx.app.log("stage", level.getDisplayName());
         isStageInfoShow = true;
 
-        lblLevel.setText(stageName);
-        int index = Integer.parseInt(stageName) - 1;
-        lblName.setText(Level.getLevel(index).getDisplayName());
+        lblLevel.setText(level.getDisplayName());
+        lblLevel.setUserObject(level);
+        lblName.setText(level.getDisplayName());
 
-        int stars = getStarsByStage(stageName);
+        int stars = getStarsByStage(level.getLevel());
 
         star1.setDrawable(star);
         star2.setDrawable(star);
@@ -532,9 +569,7 @@ public class MenuScreen extends GameScreen {
         }
     }
 
-    private int getStarsByStage(String stageName) {
-        int stage = Integer.parseInt(stageName);
-
+    private int getStarsByStage(int stage) {
         switch (stage) {
             case 1:
                 return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L1);
