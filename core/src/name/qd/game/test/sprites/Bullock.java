@@ -54,8 +54,7 @@ public class Bullock extends Sprite {
 
     private void createBullockBody() {
         BodyDef bodyDef = new BodyDef();
-//        bodyDef.position.set((LibTest.WIDTH - tStand.getWidth() * LibTest.SCALE_RATE) / 2, 30 * LibTest.SCALE_RATE);
-        bodyDef.position.set(999, 999);
+        bodyDef.position.set((LibTest.WIDTH - tStand.getWidth() * LibTest.SCALE_RATE) / 2, 30 * LibTest.SCALE_RATE);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
@@ -67,5 +66,6 @@ public class Bullock extends Sprite {
 
         setBounds(0, 0, tStand.getWidth() * LibTest.SCALE_RATE, tStand.getHeight() * LibTest.SCALE_RATE);
         setRegion(tStand);
+        setPosition((LibTest.WIDTH - tStand.getWidth() * LibTest.SCALE_RATE) / 2, 30 * LibTest.SCALE_RATE);
     }
 }
