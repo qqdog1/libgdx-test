@@ -1,5 +1,6 @@
 package name.qd.game.test.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -46,7 +47,6 @@ public class Bullock extends Sprite {
         } else {
             setState(State.STAND);
         }
-
     }
 
     public void setState(State state) {
@@ -65,14 +65,15 @@ public class Bullock extends Sprite {
     }
 
     private void createBullockBody() {
+        int radius = 30;
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set((LibTest.WIDTH - tStand.getWidth() * LibTest.SCALE_RATE) / 2, 30 * LibTest.SCALE_RATE);
+        bodyDef.position.set(LibTest.WIDTH / 2, (radius * LibTest.SCALE_RATE) + (tStand.getWidth() * LibTest.SCALE_RATE / 2));
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(30 * LibTest.SCALE_RATE);
+        shape.setRadius(radius * LibTest.SCALE_RATE);
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef).setUserData(this);
 
