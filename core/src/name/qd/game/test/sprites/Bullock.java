@@ -1,11 +1,8 @@
 package name.qd.game.test.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -22,17 +19,13 @@ public class Bullock extends Sprite {
     private World world;
     private Body body;
     private AssetManager assetManager;
-    private Texture tStand;
-    private Texture tLeft;
-    private Texture tRight;
+    private Texture texture;
 
     public Bullock(World world) {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         this.world = world;
 
-        tStand = assetManager.get("pic/sprite/cnormal.png", Texture.class);
-        tLeft = assetManager.get("pic/sprite/cleft.png", Texture.class);
-        tRight = assetManager.get("pic/sprite/cright.png", Texture.class);
+        texture = assetManager.get("pic/sprite/cnormal.png", Texture.class);
 
         currentState = State.STAND;
 
@@ -40,30 +33,7 @@ public class Bullock extends Sprite {
     }
 
     public void move(float x, float y) {
-        if(x > 0) {
-            setState(State.RIGHT);
-        } else if(x < 0) {
-            setState(State.LEFT);
-        } else {
-            setState(State.STAND);
-        }
-
-        body.applyLinearImpulse(new Vector2(0, 20f), body.getWorldCenter(), true);
-    }
-
-    public void setState(State state) {
-        currentState = state;
-        switch (state) {
-            case STAND:
-                setRegion(tStand);
-                break;
-            case RIGHT:
-                setRegion(tRight);
-                break;
-            case LEFT:
-                setRegion(tLeft);
-                break;
-        }
+        body.setTransform(body.getPosition().x + x, body.getPosition().y + y, body.getAngle());
     }
 
     public void update(float delta) {
@@ -73,7 +43,7 @@ public class Bullock extends Sprite {
     private void createBullockBody() {
         int radius = 30;
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(LibTest.WIDTH / 2, (radius * LibTest.SCALE_RATE) + (tStand.getWidth() * LibTest.SCALE_RATE / 2));
+        bodyDef.position.set(LibTest.WIDTH / 2, (radius * LibTest.SCALE_RATE) + (texture.getWidth() * LibTest.SCALE_RATE / 2));
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
@@ -83,8 +53,8 @@ public class Bullock extends Sprite {
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef).setUserData(this);
 
-        setBounds(0, 0, tStand.getWidth() * LibTest.SCALE_RATE, tStand.getHeight() * LibTest.SCALE_RATE);
-        setRegion(tStand);
-        setPosition((LibTest.WIDTH - tStand.getWidth() * LibTest.SCALE_RATE) / 2, 30 * LibTest.SCALE_RATE);
+        setBounds(0, 0, texture.getWidth() * LibTest.SCALE_RATE, texture.getHeight() * LibTest.SCALE_RATE);
+        setRegion(texture);
+        setPosition((LibTest.WIDTH - texture.getWidth() * LibTest.SCALE_RATE) / 2, 30 * LibTest.SCALE_RATE);
     }
 }
