@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -35,6 +36,17 @@ public class Bullock extends Sprite {
         currentState = State.STAND;
 
         createBullockBody();
+    }
+
+    public void move(float x, float y) {
+        if(x > 0) {
+            setState(State.RIGHT);
+        } else if(x < 0) {
+            setState(State.LEFT);
+        } else {
+            setState(State.STAND);
+        }
+
     }
 
     public void setState(State state) {

@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
@@ -21,15 +24,48 @@ public class Stage1Screen extends GameScreen {
 
     private World world;
     private Bullock bullock;
+    private float lastX;
+    private float lastY;
+
+    private Stage stage;
 
     public Stage1Screen() {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stagebackground.png", Texture.class);
+        stage = new Stage(viewport, spriteBatch);
 
         world = new World(new Vector2(0, 0), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
 
         bullock = new Bullock(world);
+
+        Gdx.input.setInputProcessor(stage);
+
+        stage.addListener(new ClickListener() {
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                super.touchDragged(event, x, y, pointer);
+                float diffX = 0;
+                float diffY = 0;
+                if (lastY != 0) {
+                    diffY = y - lastY;
+                }
+                if(lastX != 0) {
+                    diffX = x - lastX;
+                }
+                lastX = (int) x;
+                lastY = (int) y;
+
+                bullock.move(diffX, diffY);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                lastX = 0;
+                lastY = 0;
+            }
+        });
     }
 
     @Override
