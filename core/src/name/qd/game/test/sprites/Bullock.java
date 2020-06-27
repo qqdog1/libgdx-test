@@ -47,6 +47,8 @@ public class Bullock extends Sprite {
         } else {
             setState(State.STAND);
         }
+
+        body.applyLinearImpulse(new Vector2(0, 20f), body.getWorldCenter(), true);
     }
 
     public void setState(State state) {
@@ -62,6 +64,10 @@ public class Bullock extends Sprite {
                 setRegion(tLeft);
                 break;
         }
+    }
+
+    public void update(float delta) {
+        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
     }
 
     private void createBullockBody() {
