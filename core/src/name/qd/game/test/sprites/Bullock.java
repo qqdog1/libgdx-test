@@ -41,7 +41,7 @@ public class Bullock extends GameSprite {
         int radius = 30;
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(LibTest.WIDTH / 2, (radius * LibTest.SCALE_RATE) + (texture.getWidth() * LibTest.SCALE_RATE / 2));
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();

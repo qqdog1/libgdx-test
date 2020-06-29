@@ -21,6 +21,7 @@ import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.listener.CollisionDetector;
 import name.qd.game.test.listener.GameContactListener;
 import name.qd.game.test.listener.StageContactListener;
+import name.qd.game.test.listener.WorldContactListener;
 import name.qd.game.test.sprites.Bullet;
 import name.qd.game.test.sprites.Bullock;
 
@@ -56,6 +57,7 @@ public class Stage1Screen extends GameScreen {
         bullock = new Bullock(world);
 
         Gdx.input.setInputProcessor(stage);
+        world.setContactListener(new WorldContactListener());
         collisionDetector = new CollisionDetector(new StageContactListener());
 
         collisionDetector.addBullockSide(bullock);
@@ -107,7 +109,7 @@ public class Stage1Screen extends GameScreen {
             Bullet bullet = new Bullet(world, BulletType.BULLOCK_RED, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
             lstBullet.add(bullet);
 //            collisionDetector.addBullockSide(bullet);
-            collisionDetector.addEnemySide(bullet);
+//            collisionDetector.addEnemySide(bullet);
         }
 
         if(background_y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
