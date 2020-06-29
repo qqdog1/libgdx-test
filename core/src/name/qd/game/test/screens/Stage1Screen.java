@@ -10,10 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
+import name.qd.game.test.sprites.Bullet;
 import name.qd.game.test.sprites.Bullock;
 
 public class Stage1Screen extends GameScreen {
@@ -30,6 +35,11 @@ public class Stage1Screen extends GameScreen {
 
     private Stage stage;
 
+    private float stateTime = 0;
+    private float fireRate;
+
+    private List<Bullet> lstBullet = new ArrayList<>();
+
     public Stage1Screen() {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stagebackground.png", Texture.class);
@@ -41,6 +51,8 @@ public class Stage1Screen extends GameScreen {
         bullock = new Bullock(world);
 
         Gdx.input.setInputProcessor(stage);
+
+        fireRate = 1;
 
         stage.addListener(new ClickListener() {
             @Override
@@ -77,8 +89,14 @@ public class Stage1Screen extends GameScreen {
     public void render(float delta) {
         super.render(delta);
         world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
+        stateTime += delta;
 
         bullock.update(delta);
+
+        if(stateTime > 1) {
+            stateTime -= 1;
+            lstBullet.add(new Bullet(world, BulletType.BULLOCK_RED, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight()));
+        }
 
         if(background_y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
             background_y = 0;
@@ -87,11 +105,29 @@ public class Stage1Screen extends GameScreen {
         spriteBatch.begin();
         spriteBatch.draw(background, 0, background_y--, background.getWidth() * LibTest.SCALE_RATE, background.getHeight() * LibTest.SCALE_RATE);
         bullock.draw(spriteBatch);
-
+        for(Bullet bullet : lstBullet) {
+            bullet.update(delta);
+            bullet.draw(spriteBatch);
+        }
         spriteBatch.end();
 
         box2DDebugRenderer.render(world, camera.combined);
 
+        clearBullet();
+    }
+
+    private void clearBullet() {
+        List<Bullet> lst = new ArrayList<>();
+        for(Bullet bullet : lstBullet) {
+            if(bullet.getY() > LibTest.HEIGHT) {
+                lst.add(bullet);
+            }
+        }
+
+        for(Bullet bullet : lst) {
+            bullet.destroy();
+            lstBullet.remove(bullet);
+        }
     }
 
     @Override

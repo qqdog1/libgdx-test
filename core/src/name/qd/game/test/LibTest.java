@@ -12,7 +12,7 @@ import name.qd.game.test.screens.ScreenManager;
 import name.qd.game.test.screens.StartScreen;
 
 public class LibTest extends Game {
-	public static final float SCALE_RATE = 0.5f;
+	public static final float SCALE_RATE = 0.4f;
 	public static final int WIDTH = (int)(720 * SCALE_RATE);
 	public static final int HEIGHT = (int)(1280 * SCALE_RATE);
 
@@ -79,6 +79,9 @@ public class LibTest extends Game {
 		assetManager.load("pic/sprite/cnormal.png", Texture.class);
 		assetManager.load("pic/sprite/cleft.png", Texture.class);
 		assetManager.load("pic/sprite/cright.png", Texture.class);
+		assetManager.load("pic/sprite/bulletred.png", Texture.class);
+		assetManager.load("pic/sprite/bulletgreen.png", Texture.class);
+		assetManager.load("pic/sprite/bulletblue.png", Texture.class);
 
 		assetManager.finishLoading();
 	}

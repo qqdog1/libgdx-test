@@ -13,9 +13,6 @@ import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 
 public class Bullock extends Sprite {
-    public enum State {STAND, RIGHT, LEFT};
-    private State currentState;
-
     private World world;
     private Body body;
     private AssetManager assetManager;
@@ -26,8 +23,6 @@ public class Bullock extends Sprite {
         this.world = world;
 
         texture = assetManager.get("pic/sprite/cnormal.png", Texture.class);
-
-        currentState = State.STAND;
 
         createBullockBody();
     }
