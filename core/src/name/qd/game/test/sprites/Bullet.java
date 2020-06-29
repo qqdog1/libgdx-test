@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -13,8 +12,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.BulletType;
+import name.qd.game.test.constant.CollisionType;
 
-public class Bullet extends Sprite {
+public class Bullet extends GameSprite {
     private Body body;
     private World world;
     private Texture texture;
@@ -47,13 +47,15 @@ public class Bullet extends Sprite {
     private void createBody(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(scaleWidth / 2, scaleHeight / 2);
         fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = CollisionType.BULLOCK_BULLET;
+        fixtureDef.filter.maskBits = CollisionType.BULLOCK;
         body.createFixture(fixtureDef).setUserData(this);
 
         body.setLinearVelocity(0, 80 * LibTest.SCALE_RATE);

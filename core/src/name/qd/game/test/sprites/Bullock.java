@@ -7,12 +7,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.JointDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.constant.CollisionType;
 
-public class Bullock extends Sprite {
+public class Bullock extends GameSprite {
     private World world;
     private Body body;
     private AssetManager assetManager;
@@ -39,13 +41,15 @@ public class Bullock extends Sprite {
         int radius = 30;
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(LibTest.WIDTH / 2, (radius * LibTest.SCALE_RATE) + (texture.getWidth() * LibTest.SCALE_RATE / 2));
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(radius * LibTest.SCALE_RATE);
         fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = CollisionType.BULLOCK;
+        fixtureDef.filter.maskBits = CollisionType.BULLOCK_BULLET;
         body.createFixture(fixtureDef).setUserData(this);
 
         setBounds(0, 0, texture.getWidth() * LibTest.SCALE_RATE, texture.getHeight() * LibTest.SCALE_RATE);
