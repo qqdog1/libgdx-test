@@ -100,6 +100,7 @@ public class Stage1Screen extends GameScreen {
         stateTime += delta;
 
         bullock.update(delta);
+        collisionDetector.update();
 
         if(stateTime > 1) {
             stateTime -= 1;
