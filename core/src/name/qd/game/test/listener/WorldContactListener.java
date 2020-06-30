@@ -14,7 +14,7 @@ import name.qd.game.test.constant.CollisionType;
 public class WorldContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
-
+        Gdx.app.log("Collision", "C");
     }
 
     @Override

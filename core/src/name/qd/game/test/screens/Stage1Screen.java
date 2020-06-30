@@ -18,9 +18,7 @@ import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
-import name.qd.game.test.listener.CollisionDetector;
-import name.qd.game.test.listener.GameContactListener;
-import name.qd.game.test.listener.StageContactListener;
+import name.qd.game.test.listener.WorldContactFilter;
 import name.qd.game.test.listener.WorldContactListener;
 import name.qd.game.test.sprites.Bullet;
 import name.qd.game.test.sprites.Bullock;
@@ -29,8 +27,6 @@ public class Stage1Screen extends GameScreen {
     private AssetManager assetManager;
     private Texture background;
     private int background_y;
-
-    private CollisionDetector collisionDetector;
 
     private Box2DDebugRenderer box2DDebugRenderer;
 
@@ -58,11 +54,8 @@ public class Stage1Screen extends GameScreen {
 
         Gdx.input.setInputProcessor(stage);
         world.setContactListener(new WorldContactListener());
-        collisionDetector = new CollisionDetector(new StageContactListener());
 
-        collisionDetector.addBullockSide(bullock);
-
-        fireRate = 1;
+        fireRate = 0.5f;
 
         stage.addListener(new ClickListener() {
             @Override
@@ -100,16 +93,14 @@ public class Stage1Screen extends GameScreen {
         super.render(delta);
         world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
         stateTime += delta;
+        world.setContactFilter(new WorldContactFilter());
 
         bullock.update(delta);
-        collisionDetector.update();
 
-        if(stateTime > 1) {
-            stateTime -= 1;
-            Bullet bullet = new Bullet(world, BulletType.BULLOCK_RED, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
+        if(stateTime > fireRate) {
+            stateTime -= fireRate;
+            Bullet bullet = new Bullet(world, BulletType.BULLOCK_BLUE, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
             lstBullet.add(bullet);
-//            collisionDetector.addBullockSide(bullet);
-//            collisionDetector.addEnemySide(bullet);
         }
 
         if(background_y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {

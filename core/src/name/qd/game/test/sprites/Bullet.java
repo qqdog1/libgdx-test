@@ -1,11 +1,13 @@
 package name.qd.game.test.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -22,6 +24,7 @@ public class Bullet extends GameSprite {
 
     private float scaleWidth;
     private float scaleHeight;
+    private float speed = 100000;
 
     public Bullet(World world, BulletType bulletType, float x, float y) {
         this.world = world;
@@ -47,7 +50,8 @@ public class Bullet extends GameSprite {
     private void createBody(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
-        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.bullet = true;
         body = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -58,7 +62,7 @@ public class Bullet extends GameSprite {
         fixtureDef.filter.maskBits = CollisionType.BULLOCK;
         body.createFixture(fixtureDef).setUserData(this);
 
-        body.setLinearVelocity(0, 80 * LibTest.SCALE_RATE);
+        body.setLinearVelocity(0, speed * LibTest.SCALE_RATE);
 
         setBounds(0, 0, scaleWidth, scaleHeight);
         setRegion(texture);
