@@ -17,6 +17,8 @@ public abstract class GameScreen implements Screen {
     public static final float SCALE_RATE = 1f;
     public static final int WIDTH = (int)(360 * SCALE_RATE);
     public static final int HEIGHT = (int)(640 * SCALE_RATE);
+    public static final float SCREEN_WIDTH = WIDTH / Constants.PIXEL_PER_METER;
+    public static final float SCREEN_HEIGHT = HEIGHT / Constants.PIXEL_PER_METER;
 
     final SpriteBatch spriteBatch;
     final AssetManager assetManager;
@@ -29,7 +31,7 @@ public abstract class GameScreen implements Screen {
         assetManager = ResourceInstance.getInstance().getAssetManager();
 
         camera = new OrthographicCamera();
-        viewport = new FitViewport((float)WIDTH / Constants.PIXEL_PER_METER, (float)HEIGHT / Constants.PIXEL_PER_METER, camera);
+        viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
         camera.position.set(viewport.getWorldWidth(), viewport.getWorldHeight(), 0);
     }
@@ -56,5 +58,13 @@ public abstract class GameScreen implements Screen {
     void toNextScreen(ScreenType screenType) {
         ResourceInstance.getInstance().setScreen(ScreenManager.getInstance().getScreen(screenType));
         ScreenManager.getInstance().closeScreen(currentScreen());
+    }
+
+    void quickLog(String title, Object ... objects) {
+        StringBuilder sb = new StringBuilder();
+        for(Object obj : objects) {
+            sb.append(obj).append(":");
+        }
+        Gdx.app.log(title, sb.toString());
     }
 }

@@ -57,8 +57,8 @@ public class MenuScreen extends GameScreen {
 
     private float background_y = 0;
     private float lastY;
-    private int backgroundScaleHeight;
-    private int backgroundScaleWidth;
+    private float backgroundScaleHeight;
+    private float backgroundScaleWidth;
 
     MenuScreen() {
         stage = new Stage(viewport, spriteBatch);
@@ -69,11 +69,11 @@ public class MenuScreen extends GameScreen {
         unselected = assetManager.get("pic/btn/unselected.png", Texture.class);
         star = new TextureRegionDrawable(assetManager.get("pic/star.png", Texture.class));
         starFilled = new TextureRegionDrawable(assetManager.get("pic/starfilled.png", Texture.class));
-        backgroundScaleHeight = (int) (background.getHeight() * SCALE_RATE);
-        backgroundScaleWidth = (int) (background.getWidth() * SCALE_RATE);
+        backgroundScaleHeight = background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        backgroundScaleWidth = background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
 
         font = new BitmapFont();
-        font.getData().setScale(2 * SCALE_RATE);
+        font.getData().setScale(2 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         initButtons();
         initLevelSelectTable();
@@ -92,19 +92,19 @@ public class MenuScreen extends GameScreen {
                     if (background_y > 0) {
                         background_y = 0;
                     }
-                    if (background_y < -backgroundScaleHeight + HEIGHT) {
-                        background_y = -backgroundScaleHeight + HEIGHT;
+                    if (background_y < -backgroundScaleHeight + SCREEN_HEIGHT) {
+                        background_y = -backgroundScaleHeight + SCREEN_HEIGHT;
                     }
 
                     if(tableLevelSelect.getY() + diff > 0) {
                         tableLevelSelect.setY(0);
-                    } else if(tableLevelSelect.getY() + diff < -backgroundScaleHeight + HEIGHT) {
-                        tableLevelSelect.setY(-backgroundScaleHeight + HEIGHT);
+                    } else if(tableLevelSelect.getY() + diff < -backgroundScaleHeight + SCREEN_HEIGHT) {
+                        tableLevelSelect.setY(-backgroundScaleHeight + SCREEN_HEIGHT);
                     }else {
                         tableLevelSelect.moveBy(0, diff);
                     }
                 }
-                lastY = (int) y;
+                lastY = y;
             }
 
             @Override
@@ -126,7 +126,7 @@ public class MenuScreen extends GameScreen {
         btnSettings.setTransform(true);
         btnSettings.setX(0);
         btnSettings.setY(0);
-        btnSettings.setScale(SCALE_RATE);
+        btnSettings.setScale(SCALE_RATE / Constants.PIXEL_PER_METER);
 
         btnSettings.addListener(new ClickListener() {
             @Override
@@ -143,9 +143,9 @@ public class MenuScreen extends GameScreen {
         btnUpgrade = MaterialCreator.createButton(assetManager.get("pic/btn/upgrade.png", Texture.class));
 
         btnUpgrade.setTransform(true);
-        btnUpgrade.setX(WIDTH - (btnUpgrade.getWidth() * SCALE_RATE));
+        btnUpgrade.setX(SCREEN_WIDTH - (btnUpgrade.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
         btnUpgrade.setY(0);
-        btnUpgrade.setScale(SCALE_RATE);
+        btnUpgrade.setScale(SCALE_RATE / Constants.PIXEL_PER_METER);
 
         btnUpgrade.addListener(new ClickListener() {
             @Override
@@ -162,6 +162,7 @@ public class MenuScreen extends GameScreen {
         btnMusic = MaterialCreator.createButton(unselected, selected);
         boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
         btnMusic.setChecked(isMusicOn);
+        btnMusic.setTransform(true);
 
         btnMusic.addListener(new ClickListener() {
             @Override
@@ -180,6 +181,7 @@ public class MenuScreen extends GameScreen {
         btnSound = MaterialCreator.createButton(unselected, selected);
         boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
         btnSound.setChecked(isSoundOn);
+        btnSound.setTransform(true);
 
         btnSound.addListener(new ClickListener() {
             @Override
@@ -196,18 +198,18 @@ public class MenuScreen extends GameScreen {
 
     private void initSettingsTable() {
         tableSettings = new Table();
+        tableSettings.setDebug(true);
         tableSettings.setTouchable(Touchable.enabled);
         tableSettings.top();
         tableSettings.left();
 
         TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(settingsBackground);
-        tableSettings.setX(WIDTH);
-        tableSettings.setY(btnSettings.getHeight() * SCALE_RATE);
-        tableSettings.setSize(settingsBackground.getWidth() * SCALE_RATE, settingsBackground.getHeight() * SCALE_RATE);
+        tableSettings.setX(SCREEN_WIDTH);
+        tableSettings.setY(btnSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+        tableSettings.setSize(settingsBackground.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, settingsBackground.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         tableSettings.setBackground(textureRegionDrawable);
 
         TextButton btnCloseSettings = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
-        btnCloseSettings.setTransform(true);
 
         btnCloseSettings.addListener(new ClickListener() {
             @Override
@@ -218,32 +220,42 @@ public class MenuScreen extends GameScreen {
         });
 
         Table closeBtnTable = new Table();
+        closeBtnTable.setDebug(true);
 
         closeBtnTable.add(btnCloseSettings)
-                .width(btnCloseSettings.getWidth() * SCALE_RATE)
-                .height(btnCloseSettings.getHeight() * SCALE_RATE)
-                .padTop(btnCloseSettings.getWidth() * SCALE_RATE)
-                .padLeft(tableSettings.getWidth() - 2 * (btnCloseSettings.getWidth() * SCALE_RATE));
+                .width(btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(btnCloseSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(tableSettings.getWidth() - 2 * (btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
+
+        quickLog("WW", btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableSettings.add(closeBtnTable);
         tableSettings.row();
 
         Table selectBtnTable = new Table();
+        selectBtnTable.setDebug(true);
         selectBtnTable.top().left();
+
+        Gdx.app.log("Width", String.valueOf(lblMusic.getWidth()));
+        Gdx.app.log("BtnWidth", String.valueOf(btnMusic.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
+        Gdx.app.log("ScreenWidth", String.valueOf(SCREEN_WIDTH));
 
         selectBtnTable.add(lblMusic);
 
         selectBtnTable.add(btnMusic)
-                .width(btnMusic.getWidth() * SCALE_RATE)
-                .height(btnMusic.getHeight() * SCALE_RATE);
+                .width(btnMusic.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(btnMusic.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         selectBtnTable.row().top().left();
 
         selectBtnTable.add(lblSound);
 
         selectBtnTable.add(btnSound)
-                .width(btnSound.getWidth() * SCALE_RATE)
-                .height(btnSound.getHeight() * SCALE_RATE);
+                .width(btnSound.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(btnSound.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+
+        quickLog("BB", btnSound.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableSettings.add(selectBtnTable);
         stage.addActor(tableSettings);
@@ -260,6 +272,7 @@ public class MenuScreen extends GameScreen {
             Level level = Level.getLevel(i);
             btnStageSelect.setName(String.valueOf(level.getLevel()));
             btnStageSelect.setText(level.getDisplayName());
+            btnStageSelect.setTransform(true);
             btnStageSelect.setUserObject(level);
 
             if(i >= userLastLevel) {
@@ -286,76 +299,76 @@ public class MenuScreen extends GameScreen {
         tableLevelSelect.setHeight(backgroundScaleHeight);
 
         tableLevelSelect.add(lstBtnStageSelect.get(9))
-                .width(lstBtnStageSelect.get(9).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(9).getHeight() * SCALE_RATE)
-                .padLeft(170 * SCALE_RATE)
-                .padTop(86 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(9).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(9).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(170 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(86 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(7))
-                .width(lstBtnStageSelect.get(7).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(7).getHeight() * SCALE_RATE)
-                .padLeft(70 * SCALE_RATE)
-                .padTop(140 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(7).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(7).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(70 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(140 * SCALE_RATE / Constants.PIXEL_PER_METER);
         tableLevelSelect.add(lstBtnStageSelect.get(8))
-                .width(lstBtnStageSelect.get(8).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(8).getHeight() * SCALE_RATE)
-                .padLeft(40 * SCALE_RATE)
-                .padTop(85 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(8).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(8).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(40 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(85 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(5))
-                .width(lstBtnStageSelect.get(5).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(5).getHeight() * SCALE_RATE)
-                .padLeft(140 * SCALE_RATE)
-                .padTop(120 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(5).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(5).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(140 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(120 * SCALE_RATE / Constants.PIXEL_PER_METER);
         tableLevelSelect.add(lstBtnStageSelect.get(6))
-                .width(lstBtnStageSelect.get(6).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(6).getHeight() * SCALE_RATE)
-                .padLeft(80 * SCALE_RATE)
-                .padTop(80 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(6).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(6).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(80 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(80 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(4))
-                .width(lstBtnStageSelect.get(4).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(4).getHeight() * SCALE_RATE)
-                .padLeft(60 * SCALE_RATE)
-                .padTop(90 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(4).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(4).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(60 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(90 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(3)).colspan(2)
-                .width(lstBtnStageSelect.get(3).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(3).getHeight() * SCALE_RATE)
-                .padLeft(280 * SCALE_RATE)
-                .padTop(90 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(3).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(3).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(280 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(90 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(2))
-                .width(lstBtnStageSelect.get(2).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(2).getHeight() * SCALE_RATE)
-                .padLeft(110 * SCALE_RATE)
-                .padTop(20 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(2).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(2).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(110 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(20 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(1)).colspan(2)
-                .width(lstBtnStageSelect.get(1).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(1).getHeight() * SCALE_RATE)
-                .padLeft(230 * SCALE_RATE)
-                .padTop(90 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(1).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(1).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(230 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(90 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableLevelSelect.row().left();
 
         tableLevelSelect.add(lstBtnStageSelect.get(0))
-                .width(lstBtnStageSelect.get(0).getWidth() * SCALE_RATE)
-                .height(lstBtnStageSelect.get(0).getHeight() * SCALE_RATE)
-                .padLeft(71 * SCALE_RATE)
-                .padTop(32 * SCALE_RATE);
+                .width(lstBtnStageSelect.get(0).getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(lstBtnStageSelect.get(0).getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(71 * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(32 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         stage.addActor(tableLevelSelect);
     }
@@ -366,9 +379,9 @@ public class MenuScreen extends GameScreen {
         tableStageInfo.top();
 
         TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(settingsBackground);
-        tableStageInfo.setX(WIDTH);
-        tableStageInfo.setY(btnSettings.getHeight() * SCALE_RATE);
-        tableStageInfo.setSize(settingsBackground.getWidth() * SCALE_RATE, settingsBackground.getHeight() * SCALE_RATE);
+        tableStageInfo.setX(SCREEN_WIDTH);
+        tableStageInfo.setY(btnSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+        tableStageInfo.setSize(settingsBackground.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, settingsBackground.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         tableStageInfo.setBackground(textureRegionDrawable);
 
         Label lblStage = new Label("Stage", new Label.LabelStyle(font, Color.RED));
@@ -387,19 +400,19 @@ public class MenuScreen extends GameScreen {
         Table closeBtnTable = new Table();
 
         closeBtnTable.add(btnClose)
-                .width(btnClose.getWidth() * SCALE_RATE)
-                .height(btnClose.getHeight() * SCALE_RATE)
-                .padTop(btnClose.getWidth() * SCALE_RATE)
-                .padLeft(tableStageInfo.getWidth() - 2 * (btnClose.getWidth() * SCALE_RATE));
+                .width(btnClose.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(btnClose.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padTop(btnClose.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft((tableStageInfo.getWidth() - 2 * (btnClose.getWidth() * SCALE_RATE)) / Constants.PIXEL_PER_METER);
 
         tableStageInfo.add(closeBtnTable).colspan(2);
         tableStageInfo.row().left();
 
         tableStageInfo.add(lblStage)
-                .width(lblStage.getWidth() * SCALE_RATE)
-                .padLeft(100 * SCALE_RATE);
+                .width(lblStage.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .padLeft(100 * SCALE_RATE / Constants.PIXEL_PER_METER);
         tableStageInfo.add(lblLevel)
-                .padRight(60 * SCALE_RATE);
+                .padRight(60 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableStageInfo.row();
 
@@ -414,14 +427,14 @@ public class MenuScreen extends GameScreen {
         Table starsTable = new Table();
 
         starsTable.add(star1)
-                .width(star1.getWidth() * SCALE_RATE)
-                .height(star1.getHeight() * SCALE_RATE);
+                .width(star1.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(star1.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         starsTable.add(star2)
-                .width(star2.getWidth() * SCALE_RATE)
-                .height(star2.getHeight() * SCALE_RATE);
+                .width(star2.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(star2.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         starsTable.add(star3)
-                .width(star3.getWidth() * SCALE_RATE)
-                .height(star3.getHeight() * SCALE_RATE);
+                .width(star3.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(star3.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         tableStageInfo.add(starsTable).colspan(2);
 
@@ -438,8 +451,8 @@ public class MenuScreen extends GameScreen {
          });
 
         tableStageInfo.add(btnGo).colspan(2)
-                .width(btnGo.getWidth() * SCALE_RATE)
-                .height(btnGo.getHeight() * SCALE_RATE);
+                .width(btnGo.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(btnGo.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         stage.addActor(tableStageInfo);
     }
@@ -511,7 +524,7 @@ public class MenuScreen extends GameScreen {
         if (isSettingsShow) {
             tableSettings.addAction(Actions.moveTo(0, tableSettings.getY(), 0.6f));
         } else {
-            tableSettings.addAction(Actions.moveTo(WIDTH, tableSettings.getY(), 0.6f));
+            tableSettings.addAction(Actions.moveTo(SCREEN_WIDTH, tableSettings.getY(), 0.6f));
         }
     }
 
@@ -519,7 +532,7 @@ public class MenuScreen extends GameScreen {
         if(isStageInfoShow) {
             tableStageInfo.addAction(Actions.moveTo(0, tableSettings.getY(), 0.6f));
         } else {
-            tableStageInfo.addAction(Actions.moveTo(WIDTH, tableSettings.getY(), 0.6f));
+            tableStageInfo.addAction(Actions.moveTo(SCREEN_WIDTH, tableSettings.getY(), 0.6f));
         }
     }
 
