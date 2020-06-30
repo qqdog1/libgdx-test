@@ -22,7 +22,9 @@ public class Bullet extends Sprite {
 
     private float scaleWidth;
     private float scaleHeight;
-    private float speed = 100000;
+    private float speed = 10;
+
+    public static int count = 1;
 
     public Bullet(World world, BulletType bulletType, float x, float y) {
         this.world = world;
@@ -48,7 +50,7 @@ public class Bullet extends Sprite {
     private void createBody(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.bullet = true;
         body = world.createBody(bodyDef);
 
@@ -60,7 +62,8 @@ public class Bullet extends Sprite {
         fixtureDef.filter.maskBits = CollisionType.BULLOCK;
         body.createFixture(fixtureDef).setUserData(this);
 
-        body.setLinearVelocity(0, speed * GameScreen.SCALE_RATE);
+        body.setLinearVelocity(0, speed * count);
+        count++;
 
         setBounds(0, 0, scaleWidth, scaleHeight);
         setRegion(texture);

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.ScreenType;
 
@@ -28,7 +29,7 @@ public abstract class GameScreen implements Screen {
         assetManager = ResourceInstance.getInstance().getAssetManager();
 
         camera = new OrthographicCamera();
-        viewport = new FitViewport(WIDTH, HEIGHT, camera);
+        viewport = new FitViewport((float)WIDTH / Constants.PIXEL_PER_METER, (float)HEIGHT / Constants.PIXEL_PER_METER, camera);
 
         camera.position.set(viewport.getWorldWidth(), viewport.getWorldHeight(), 0);
     }

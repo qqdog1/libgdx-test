@@ -90,7 +90,7 @@ public class Stage1Screen extends GameScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
+
         stateTime += delta;
         world.setContactFilter(new WorldContactFilter());
 
@@ -118,6 +118,8 @@ public class Stage1Screen extends GameScreen {
         box2DDebugRenderer.render(world, camera.combined);
 
         clearBullet();
+
+        world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
     }
 
     private void clearBullet() {

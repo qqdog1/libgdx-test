@@ -55,8 +55,8 @@ public class MenuScreen extends GameScreen {
     private Image star2;
     private Image star3;
 
-    private int background_y = 0;
-    private int lastY;
+    private float background_y = 0;
+    private float lastY;
     private int backgroundScaleHeight;
     private int backgroundScaleWidth;
 
@@ -87,7 +87,7 @@ public class MenuScreen extends GameScreen {
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 super.touchDragged(event, x, y, pointer);
                 if (lastY != 0) {
-                    int diff = (int) y - lastY;
+                    float diff = y - lastY;
                     background_y += diff;
                     if (background_y > 0) {
                         background_y = 0;
