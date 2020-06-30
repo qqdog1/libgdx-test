@@ -40,7 +40,7 @@ public class IntroAnimationScreen extends GameScreen {
         super.render(delta);
 
         spriteBatch.begin();
-        spriteBatch.draw(texture, 0, 0, texture.getWidth() * LibTest.SCALE_RATE, texture.getHeight() * LibTest.SCALE_RATE);
+        spriteBatch.draw(texture, 0, 0, texture.getWidth() * SCALE_RATE, texture.getHeight() * SCALE_RATE);
         spriteBatch.end();
     }
 

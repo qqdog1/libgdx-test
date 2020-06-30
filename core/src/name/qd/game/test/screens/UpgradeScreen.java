@@ -23,7 +23,7 @@ public class UpgradeScreen extends GameScreen {
         Texture texture = assetManager.get("pic/btn/return.png", Texture.class);
         btnReturn = MaterialCreator.createButton(texture);
         btnReturn.setTransform(true);
-        btnReturn.setScale(LibTest.SCALE_RATE);
+        btnReturn.setScale(SCALE_RATE);
         btnReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -32,7 +32,7 @@ public class UpgradeScreen extends GameScreen {
             }
         });
 
-        btnReturn.setPosition(LibTest.WIDTH - (btnReturn.getWidth() * LibTest.SCALE_RATE), LibTest.HEIGHT - (btnReturn.getHeight() * LibTest.SCALE_RATE));
+        btnReturn.setPosition(WIDTH - (btnReturn.getWidth() * SCALE_RATE), HEIGHT - (btnReturn.getHeight() * SCALE_RATE));
 
         stage.addActor(btnReturn);
     }

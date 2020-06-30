@@ -103,12 +103,12 @@ public class Stage1Screen extends GameScreen {
             lstBullet.add(bullet);
         }
 
-        if(background_y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
+        if(background_y < HEIGHT - (background.getHeight() * SCALE_RATE)) {
             background_y = 0;
         }
 
         spriteBatch.begin();
-        spriteBatch.draw(background, 0, background_y--, background.getWidth() * LibTest.SCALE_RATE, background.getHeight() * LibTest.SCALE_RATE);
+        spriteBatch.draw(background, 0, background_y--, background.getWidth() * SCALE_RATE, background.getHeight() * SCALE_RATE);
         bullock.draw(spriteBatch);
         for(Bullet bullet : lstBullet) {
             bullet.update(delta);
@@ -124,7 +124,7 @@ public class Stage1Screen extends GameScreen {
     private void clearBullet() {
         List<Bullet> lst = new ArrayList<>();
         for(Bullet bullet : lstBullet) {
-            if(bullet.getY() > LibTest.HEIGHT) {
+            if(bullet.getY() > HEIGHT) {
                 lst.add(bullet);
             }
         }

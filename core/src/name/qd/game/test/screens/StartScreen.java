@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 
-import name.qd.game.test.LibTest;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.PreferencesUtils;
 
@@ -54,33 +53,33 @@ public class StartScreen extends GameScreen {
     public StartScreen() {
         background = assetManager.get("pic/background.png", Texture.class);
         title = new Texture("pic/title.png");
-        titleScaleWidth = title.getWidth() * LibTest.SCALE_RATE;
-        titleScaleHeight = title.getHeight() * LibTest.SCALE_RATE;
+        titleScaleWidth = title.getWidth() * SCALE_RATE;
+        titleScaleHeight = title.getHeight() * SCALE_RATE;
 
         c1 = new Texture("pic/c1.png");
-        c1ScaleWidth = c1.getWidth() * LibTest.SCALE_RATE;
-        c1ScaleHeight = c1.getHeight() * LibTest.SCALE_RATE;
-        c1From = new Vector2(720 * LibTest.SCALE_RATE, 800 * LibTest.SCALE_RATE);
-        c1To = new Vector2(0, 400 * LibTest.SCALE_RATE);
+        c1ScaleWidth = c1.getWidth() * SCALE_RATE;
+        c1ScaleHeight = c1.getHeight() * SCALE_RATE;
+        c1From = new Vector2(720 * SCALE_RATE, 800 * SCALE_RATE);
+        c1To = new Vector2(0, 400 * SCALE_RATE);
 
         c2 = new Texture("pic/c2.png");
-        c2ScaleWidth = c2.getWidth() * LibTest.SCALE_RATE;
-        c2ScaleHeight = c2.getHeight() * LibTest.SCALE_RATE;
-        c2From = new Vector2(-c2.getWidth(), 800 * LibTest.SCALE_RATE);
-        c2To = new Vector2(LibTest.WIDTH - c2ScaleWidth, 400 * LibTest.SCALE_RATE);
+        c2ScaleWidth = c2.getWidth() * SCALE_RATE;
+        c2ScaleHeight = c2.getHeight() * SCALE_RATE;
+        c2From = new Vector2(-c2.getWidth(), 800 * SCALE_RATE);
+        c2To = new Vector2(WIDTH - c2ScaleWidth, 400 * SCALE_RATE);
 
         c3 = new Texture("pic/c3.png");
-        c3ScaleWidth = c3.getWidth() * LibTest.SCALE_RATE;
-        c3ScaleHeight = c3.getHeight() * LibTest.SCALE_RATE;
-        c3From = new Vector2(720 * LibTest.SCALE_RATE, 800 * LibTest.SCALE_RATE);
-        c3To = new Vector2((LibTest.WIDTH - c3ScaleWidth) / 2, 300 * LibTest.SCALE_RATE);
+        c3ScaleWidth = c3.getWidth() * SCALE_RATE;
+        c3ScaleHeight = c3.getHeight() * SCALE_RATE;
+        c3From = new Vector2(720 * SCALE_RATE, 800 * SCALE_RATE);
+        c3To = new Vector2((WIDTH - c3ScaleWidth) / 2, 300 * SCALE_RATE);
 
         finishMoveInSecond = 0.2f;
         startFlashRate = 0.3f;
 
         glyphLayout = new GlyphLayout();
         bitmapFont = new BitmapFont();
-        bitmapFont.getData().setScale(3 * LibTest.SCALE_RATE);
+        bitmapFont.getData().setScale(3 * SCALE_RATE);
         bitmapFont.setColor(Color.RED);
         glyphLayout.setText(bitmapFont, "TOUCH TO START");
 
@@ -114,17 +113,17 @@ public class StartScreen extends GameScreen {
 
         stateTime += delta;
 
-        if(background_y < LibTest.HEIGHT - (background.getHeight() * LibTest.SCALE_RATE)) {
+        if(background_y < HEIGHT - (background.getHeight() * SCALE_RATE)) {
             background_y = 0;
         }
 
         spriteBatch.begin();
 
-        spriteBatch.draw(background, 0, background_y--, background.getWidth() * LibTest.SCALE_RATE, background.getHeight() * LibTest.SCALE_RATE);
-        spriteBatch.draw(title, (LibTest.WIDTH - titleScaleWidth) / 2, 1000 * LibTest.SCALE_RATE, titleScaleWidth, titleScaleHeight);
+        spriteBatch.draw(background, 0, background_y--, background.getWidth() * SCALE_RATE, background.getHeight() * SCALE_RATE);
+        spriteBatch.draw(title, (WIDTH - titleScaleWidth) / 2, 1000 * SCALE_RATE, titleScaleWidth, titleScaleHeight);
 
         if((int)(stateTime / startFlashRate) % 2 > 0) {
-            bitmapFont.draw(spriteBatch, glyphLayout, (LibTest.WIDTH - glyphLayout.width) / 2, 200 * LibTest.SCALE_RATE);
+            bitmapFont.draw(spriteBatch, glyphLayout, (WIDTH - glyphLayout.width) / 2, 200 * SCALE_RATE);
         }
 
         switch(status) {

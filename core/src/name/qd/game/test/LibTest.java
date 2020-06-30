@@ -12,10 +12,6 @@ import name.qd.game.test.screens.ScreenManager;
 import name.qd.game.test.screens.StartScreen;
 
 public class LibTest extends Game {
-	public static final float SCALE_RATE = 0.4f;
-	public static final int WIDTH = (int)(720 * SCALE_RATE);
-	public static final int HEIGHT = (int)(1280 * SCALE_RATE);
-
 	private SpriteBatch batch;
 	private AssetManager assetManager;
 
@@ -29,10 +25,10 @@ public class LibTest extends Game {
 
 		ScreenManager screenManager = ScreenManager.getInstance();
 
-//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.LOGO));
+		resourceInstance.setScreen(screenManager.getScreen(ScreenType.LOGO));
 //		resourceInstance.setScreen(screenManager.getScreen(ScreenType.START));
 //		resourceInstance.setScreen(screenManager.getScreen(ScreenType.MENU));
-		resourceInstance.setScreen(screenManager.getScreen(ScreenType.L1));
+//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.L1));
 	}
 
 	@Override

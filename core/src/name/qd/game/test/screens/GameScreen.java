@@ -9,23 +9,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.ScreenType;
 
 public abstract class GameScreen implements Screen {
-    protected final SpriteBatch spriteBatch;
-    protected final AssetManager assetManager;
+    public static final float SCALE_RATE = 0.8f;
+    public static final int WIDTH = (int)(360 * SCALE_RATE);
+    public static final int HEIGHT = (int)(640 * SCALE_RATE);
 
-    protected OrthographicCamera camera;
-    protected Viewport viewport;
+    final SpriteBatch spriteBatch;
+    final AssetManager assetManager;
 
-    public GameScreen() {
+    OrthographicCamera camera;
+    Viewport viewport;
+
+    GameScreen() {
         spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
         assetManager = ResourceInstance.getInstance().getAssetManager();
 
         camera = new OrthographicCamera();
-        viewport = new FitViewport(LibTest.WIDTH, LibTest.HEIGHT, camera);
+        viewport = new FitViewport(WIDTH, HEIGHT, camera);
 
         camera.position.set(viewport.getWorldWidth(), viewport.getWorldHeight(), 0);
     }
@@ -45,11 +48,11 @@ public abstract class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
-    protected abstract void handleInput();
+    abstract void handleInput();
 
-    protected abstract ScreenType currentScreen();
+    abstract ScreenType currentScreen();
 
-    public void toNextScreen(ScreenType screenType) {
+    void toNextScreen(ScreenType screenType) {
         ResourceInstance.getInstance().setScreen(ScreenManager.getInstance().getScreen(screenType));
         ScreenManager.getInstance().closeScreen(currentScreen());
     }

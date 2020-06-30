@@ -3,7 +3,6 @@ package name.qd.game.test.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
-import name.qd.game.test.LibTest;
 import name.qd.game.test.constant.ScreenType;
 
 public class LogoScreen extends GameScreen {
@@ -20,10 +19,10 @@ public class LogoScreen extends GameScreen {
     public LogoScreen() {
         logo = new Texture("pic/logo.png");
 
-        scaleWidth = logo.getWidth() * LibTest.SCALE_RATE;
-        scaleHeight = logo.getHeight() * LibTest.SCALE_RATE;
-        x = (LibTest.WIDTH - scaleWidth) / 2;
-        y = LibTest.HEIGHT / 2;
+        scaleWidth = logo.getWidth() * SCALE_RATE;
+        scaleHeight = logo.getHeight() * SCALE_RATE;
+        x = (WIDTH - scaleWidth) / 2;
+        y = HEIGHT / 2;
     }
 
     @Override

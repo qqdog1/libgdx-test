@@ -1,22 +1,20 @@
 package name.qd.game.test.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.CollisionType;
+import name.qd.game.test.screens.GameScreen;
 
-public class Bullet extends GameSprite {
+public class Bullet extends Sprite {
     private Body body;
     private World world;
     private Texture texture;
@@ -41,8 +39,8 @@ public class Bullet extends GameSprite {
                 texture = assetManager.get("pic/sprite/bulletgreen.png", Texture.class);
                 break;
         }
-        scaleWidth = texture.getWidth() * LibTest.SCALE_RATE;
-        scaleHeight = texture.getHeight() * LibTest.SCALE_RATE;
+        scaleWidth = texture.getWidth() * GameScreen.SCALE_RATE;
+        scaleHeight = texture.getHeight() * GameScreen.SCALE_RATE;
 
         createBody(x, y);
     }
@@ -62,7 +60,7 @@ public class Bullet extends GameSprite {
         fixtureDef.filter.maskBits = CollisionType.BULLOCK;
         body.createFixture(fixtureDef).setUserData(this);
 
-        body.setLinearVelocity(0, speed * LibTest.SCALE_RATE);
+        body.setLinearVelocity(0, speed * GameScreen.SCALE_RATE);
 
         setBounds(0, 0, scaleWidth, scaleHeight);
         setRegion(texture);
