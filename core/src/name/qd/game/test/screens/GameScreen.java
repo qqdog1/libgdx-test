@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.ScreenType;
 
 public abstract class GameScreen implements Screen {

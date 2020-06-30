@@ -1,4 +1,4 @@
-package name.qd.game.test;
+package name.qd.game.test.utils;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
@@ -18,15 +18,15 @@ public class ResourceInstance {
     private ResourceInstance() {
     }
 
-    void setGame(Game game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 
-    void setSpriteBatch(SpriteBatch spriteBatch) {
+    public void setSpriteBatch(SpriteBatch spriteBatch) {
         this.spriteBatch = spriteBatch;
     }
 
-    void setAssetManager(AssetManager assetManager) {
+    public void setAssetManager(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
 

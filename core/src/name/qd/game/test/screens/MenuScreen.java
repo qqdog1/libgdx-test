@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.ArrayList;
 import java.util.List;
 
-import name.qd.game.test.ResourceInstance;
+import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.Level;
 import name.qd.game.test.constant.ScreenType;

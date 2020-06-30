@@ -6,16 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import name.qd.game.test.constant.ScreenType;
-import name.qd.game.test.screens.LogoScreen;
-import name.qd.game.test.screens.MenuScreen;
 import name.qd.game.test.screens.ScreenManager;
-import name.qd.game.test.screens.StartScreen;
+import name.qd.game.test.utils.PreferencesUtils;
+import name.qd.game.test.utils.ResourceInstance;
 
 public class LibTest extends Game {
 	private SpriteBatch batch;
 	private AssetManager assetManager;
 
-	private ResourceInstance resourceInstance = ResourceInstance.getInstance();
+	private name.qd.game.test.utils.ResourceInstance resourceInstance = ResourceInstance.getInstance();
 
 	@Override
 	public void create () {
@@ -25,12 +24,13 @@ public class LibTest extends Game {
 
 		ScreenManager screenManager = ScreenManager.getInstance();
 
-//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.LOGO));
-//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.START));
-		resourceInstance.setScreen(screenManager.getScreen(ScreenType.MENU));
-//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.INTRO));
-//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.UPGRADE));
-//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.L1));
+		if(PreferencesUtils.isLabelExist(PreferencesUtils.PreferencesEnum.SCREEN)) {
+			String screenName = PreferencesUtils.getStringValue(PreferencesUtils.PreferencesEnum.SCREEN);
+			ScreenType screenType = ScreenType.valueOf(screenName);
+			resourceInstance.setScreen(screenManager.getScreen(screenType));
+		} else {
+			resourceInstance.setScreen(screenManager.getScreen(ScreenType.LOGO));
+		}
 	}
 
 	@Override

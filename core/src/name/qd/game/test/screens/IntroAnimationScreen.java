@@ -3,8 +3,6 @@ package name.qd.game.test.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
-import name.qd.game.test.LibTest;
-import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.PreferencesUtils;
 
