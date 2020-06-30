@@ -59,27 +59,27 @@ public class StartScreen extends GameScreen {
         c1 = new Texture("pic/c1.png");
         c1ScaleWidth = c1.getWidth() * SCALE_RATE;
         c1ScaleHeight = c1.getHeight() * SCALE_RATE;
-        c1From = new Vector2(720 * SCALE_RATE, 800 * SCALE_RATE);
-        c1To = new Vector2(0, 400 * SCALE_RATE);
+        c1From = new Vector2(WIDTH, HEIGHT);
+        c1To = new Vector2(0, (HEIGHT - c1ScaleHeight) / 2);
 
         c2 = new Texture("pic/c2.png");
         c2ScaleWidth = c2.getWidth() * SCALE_RATE;
         c2ScaleHeight = c2.getHeight() * SCALE_RATE;
-        c2From = new Vector2(-c2.getWidth(), 800 * SCALE_RATE);
-        c2To = new Vector2(WIDTH - c2ScaleWidth, 400 * SCALE_RATE);
+        c2From = new Vector2(-c2.getWidth(), HEIGHT);
+        c2To = new Vector2(WIDTH - c2ScaleWidth, (HEIGHT - c2ScaleHeight) / 2);
 
         c3 = new Texture("pic/c3.png");
         c3ScaleWidth = c3.getWidth() * SCALE_RATE;
         c3ScaleHeight = c3.getHeight() * SCALE_RATE;
-        c3From = new Vector2(720 * SCALE_RATE, 800 * SCALE_RATE);
-        c3To = new Vector2((WIDTH - c3ScaleWidth) / 2, 300 * SCALE_RATE);
+        c3From = new Vector2(WIDTH, HEIGHT);
+        c3To = new Vector2((WIDTH - c3ScaleWidth) / 2, (HEIGHT - c3ScaleHeight * 1.5f) / 2);
 
         finishMoveInSecond = 0.2f;
         startFlashRate = 0.3f;
 
         glyphLayout = new GlyphLayout();
         bitmapFont = new BitmapFont();
-        bitmapFont.getData().setScale(3 * SCALE_RATE);
+        bitmapFont.getData().setScale(2 * SCALE_RATE);
         bitmapFont.setColor(Color.RED);
         glyphLayout.setText(bitmapFont, "TOUCH TO START");
 
@@ -120,10 +120,10 @@ public class StartScreen extends GameScreen {
         spriteBatch.begin();
 
         spriteBatch.draw(background, 0, background_y--, background.getWidth() * SCALE_RATE, background.getHeight() * SCALE_RATE);
-        spriteBatch.draw(title, (WIDTH - titleScaleWidth) / 2, 1000 * SCALE_RATE, titleScaleWidth, titleScaleHeight);
+        spriteBatch.draw(title, (WIDTH - titleScaleWidth) / 2, HEIGHT - titleScaleHeight * 1.5f, titleScaleWidth, titleScaleHeight);
 
         if((int)(stateTime / startFlashRate) % 2 > 0) {
-            bitmapFont.draw(spriteBatch, glyphLayout, (WIDTH - glyphLayout.width) / 2, 200 * SCALE_RATE);
+            bitmapFont.draw(spriteBatch, glyphLayout, (WIDTH - glyphLayout.width) / 2, c3To.y / 2 + glyphLayout.height);
         }
 
         switch(status) {

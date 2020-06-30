@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import name.qd.game.test.LibTest;
 import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.MaterialCreator;

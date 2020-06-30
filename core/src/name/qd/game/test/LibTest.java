@@ -25,9 +25,11 @@ public class LibTest extends Game {
 
 		ScreenManager screenManager = ScreenManager.getInstance();
 
-		resourceInstance.setScreen(screenManager.getScreen(ScreenType.LOGO));
+//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.LOGO));
 //		resourceInstance.setScreen(screenManager.getScreen(ScreenType.START));
-//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.MENU));
+		resourceInstance.setScreen(screenManager.getScreen(ScreenType.MENU));
+//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.INTRO));
+//		resourceInstance.setScreen(screenManager.getScreen(ScreenType.UPGRADE));
 //		resourceInstance.setScreen(screenManager.getScreen(ScreenType.L1));
 	}
 

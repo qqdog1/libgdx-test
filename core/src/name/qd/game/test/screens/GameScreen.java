@@ -13,7 +13,7 @@ import name.qd.game.test.ResourceInstance;
 import name.qd.game.test.constant.ScreenType;
 
 public abstract class GameScreen implements Screen {
-    public static final float SCALE_RATE = 0.8f;
+    public static final float SCALE_RATE = 1f;
     public static final int WIDTH = (int)(360 * SCALE_RATE);
     public static final int HEIGHT = (int)(640 * SCALE_RATE);
 
