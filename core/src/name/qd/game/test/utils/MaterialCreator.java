@@ -1,8 +1,11 @@
 package name.qd.game.test.utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
@@ -26,5 +29,43 @@ public class MaterialCreator {
 
     public static TextButton createButton(Texture texture) {
         return createButton(texture, texture);
+    }
+
+    public static Label.LabelStyle getDefaultLabelStyle(Color color, float scale) {
+        BitmapFont font = getDefaultFont(scale);
+        return new Label.LabelStyle(font, color);
+    }
+
+    public static BitmapFont getDefaultFont(float scale) {
+        BitmapFont font = new BitmapFont();
+
+        for(BitmapFont.Glyph[] glyphs : font.getData().glyphs) {
+            if(glyphs != null) {
+                for(BitmapFont.Glyph glyph : glyphs) {
+                    if(glyph != null) {
+                        Gdx.app.log(glyph.toString(), String.valueOf(glyph.width));
+
+                        switch (glyph.toString()) {
+                            case "O":
+                            case "b":
+                            case "e":
+                            case "g":
+                            case "n":
+                                glyph.xadvance = 10;
+                                break;
+                            case "i":
+                                glyph.xadvance = 5;
+                                break;
+                            default:
+                                glyph.xadvance = glyph.width;
+                        }
+                    }
+                }
+            }
+        }
+
+        font.getData().setScale(scale);
+
+        return font;
     }
 }

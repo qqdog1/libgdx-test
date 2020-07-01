@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -42,7 +43,6 @@ public class MenuScreen extends GameScreen {
     private Label lblMusic;
     private TextButton btnSound;
     private Label lblSound;
-    private BitmapFont font;
 
     private Table tableLevelSelect;
     private Table tableSettings;
@@ -54,6 +54,9 @@ public class MenuScreen extends GameScreen {
     private Image star1;
     private Image star2;
     private Image star3;
+
+    private Label.LabelStyle labelStyleRed;
+    private Label.LabelStyle labelStyleWhite;
 
     private float background_y = 0;
     private float lastY;
@@ -72,8 +75,8 @@ public class MenuScreen extends GameScreen {
         backgroundScaleHeight = background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
         backgroundScaleWidth = background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
 
-        font = new BitmapFont();
-        font.getData().setScale(2 * SCALE_RATE / Constants.PIXEL_PER_METER);
+        labelStyleRed = MaterialCreator.getDefaultLabelStyle(Color.RED, 2f * SCALE_RATE / Constants.PIXEL_PER_METER);
+        labelStyleWhite = MaterialCreator.getDefaultLabelStyle(Color.WHITE, 1f * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         initButtons();
         initLevelSelectTable();
@@ -154,15 +157,14 @@ public class MenuScreen extends GameScreen {
                 toNextScreen(ScreenType.UPGRADE);
             }
         });
-
         stage.addActor(btnUpgrade);
     }
 
     private void initMusic() {
         btnMusic = MaterialCreator.createButton(unselected, selected);
+        btnMusic.setTransform(true);
         boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
         btnMusic.setChecked(isMusicOn);
-        btnMusic.setTransform(true);
 
         btnMusic.addListener(new ClickListener() {
             @Override
@@ -174,11 +176,12 @@ public class MenuScreen extends GameScreen {
             }
         });
 
-        lblMusic = new Label("MUSIC", new Label.LabelStyle(font, Color.RED));
+        lblMusic = new Label("MUSIC", labelStyleRed);
     }
 
     private void initSound() {
         btnSound = MaterialCreator.createButton(unselected, selected);
+        btnSound.setTransform(true);
         boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
         btnSound.setChecked(isSoundOn);
         btnSound.setTransform(true);
@@ -193,7 +196,7 @@ public class MenuScreen extends GameScreen {
             }
         });
 
-        lblSound = new Label("SOUND", new Label.LabelStyle(font, Color.RED));
+        lblSound = new Label("SOUND", labelStyleRed);
     }
 
     private void initSettingsTable() {
@@ -210,6 +213,9 @@ public class MenuScreen extends GameScreen {
         tableSettings.setBackground(textureRegionDrawable);
 
         TextButton btnCloseSettings = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
+        btnCloseSettings.setDebug(true);
+        btnCloseSettings.setTransform(true);
+        btnCloseSettings.setScale(1 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         btnCloseSettings.addListener(new ClickListener() {
             @Override
@@ -223,41 +229,38 @@ public class MenuScreen extends GameScreen {
         closeBtnTable.setDebug(true);
 
         closeBtnTable.add(btnCloseSettings)
-                .width(btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .height(btnCloseSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
+//                .width(btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+//                .height(btnCloseSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
                 .padTop(btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
                 .padLeft(tableSettings.getWidth() - 2 * (btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
+        quickLog("Btn Close", closeBtnTable.getRowHeight(0), closeBtnTable.getRowMinHeight(0));
 
-        quickLog("WW", btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER);
+
 
         tableSettings.add(closeBtnTable);
         tableSettings.row();
 
-        Table selectBtnTable = new Table();
-        selectBtnTable.setDebug(true);
-        selectBtnTable.top().left();
-
-        Gdx.app.log("Width", String.valueOf(lblMusic.getWidth()));
-        Gdx.app.log("BtnWidth", String.valueOf(btnMusic.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
-        Gdx.app.log("ScreenWidth", String.valueOf(SCREEN_WIDTH));
-
-        selectBtnTable.add(lblMusic);
-
-        selectBtnTable.add(btnMusic)
-                .width(btnMusic.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .height(btnMusic.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
-
-        selectBtnTable.row().top().left();
-
-        selectBtnTable.add(lblSound);
-
-        selectBtnTable.add(btnSound)
-                .width(btnSound.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .height(btnSound.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
-
-        quickLog("BB", btnSound.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER);
-
-        tableSettings.add(selectBtnTable);
+//        Table selectBtnTable = new Table();
+//        selectBtnTable.setDebug(false);
+//        selectBtnTable.top().left();
+//
+//        selectBtnTable.add(lblMusic);
+//
+//        btnMusic.setDebug(false);
+//        selectBtnTable.add(btnMusic)
+//                .width(btnMusic.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+//                .height(btnMusic.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+//
+//        selectBtnTable.row().top().left();
+//
+//        selectBtnTable.add(lblSound);
+//
+//        btnSound.setDebug(false);
+//        selectBtnTable.add(btnSound)
+//                .width(btnSound.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+//                .height(btnSound.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+//
+//        tableSettings.add(selectBtnTable);
         stage.addActor(tableSettings);
     }
 
@@ -274,6 +277,7 @@ public class MenuScreen extends GameScreen {
             btnStageSelect.setText(level.getDisplayName());
             btnStageSelect.setTransform(true);
             btnStageSelect.setUserObject(level);
+            btnStageSelect.getLabel().setStyle(labelStyleWhite);
 
             if(i >= userLastLevel) {
                 btnStageSelect.setTouchable(Touchable.disabled);
@@ -384,9 +388,9 @@ public class MenuScreen extends GameScreen {
         tableStageInfo.setSize(settingsBackground.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, settingsBackground.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         tableStageInfo.setBackground(textureRegionDrawable);
 
-        Label lblStage = new Label("Stage", new Label.LabelStyle(font, Color.RED));
-        lblLevel = new Label("0", new Label.LabelStyle(font, Color.RED));
-        lblName = new Label("The XXX XXX", new Label.LabelStyle(font, Color.RED));
+        Label lblStage = new Label("Stage", labelStyleRed);
+        lblLevel = new Label("0", labelStyleRed);
+        lblName = new Label("The XXX XXX", labelStyleRed);
         TextButton btnClose = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
         btnClose.setTransform(true);
 
@@ -522,17 +526,17 @@ public class MenuScreen extends GameScreen {
 
     private void updateSettingsTableAction() {
         if (isSettingsShow) {
-            tableSettings.addAction(Actions.moveTo(0, tableSettings.getY(), 0.6f));
+            tableSettings.addAction(Actions.moveTo(0, tableSettings.getY(), 0.2f, Interpolation.linear));
         } else {
-            tableSettings.addAction(Actions.moveTo(SCREEN_WIDTH, tableSettings.getY(), 0.6f));
+            tableSettings.addAction(Actions.moveTo(SCREEN_WIDTH, tableSettings.getY(), 0.2f, Interpolation.linear));
         }
     }
 
     private void updateStageInfoTableAction() {
         if(isStageInfoShow) {
-            tableStageInfo.addAction(Actions.moveTo(0, tableSettings.getY(), 0.6f));
+            tableStageInfo.addAction(Actions.moveTo(0, tableSettings.getY(), 0.3f));
         } else {
-            tableStageInfo.addAction(Actions.moveTo(SCREEN_WIDTH, tableSettings.getY(), 0.6f));
+            tableStageInfo.addAction(Actions.moveTo(SCREEN_WIDTH, tableSettings.getY(), 0.3f));
         }
     }
 
