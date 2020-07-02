@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.CollisionType;
@@ -41,8 +42,8 @@ public class Bullet extends Sprite {
                 texture = assetManager.get("pic/sprite/bulletgreen.png", Texture.class);
                 break;
         }
-        scaleWidth = texture.getWidth() * GameScreen.SCALE_RATE;
-        scaleHeight = texture.getHeight() * GameScreen.SCALE_RATE;
+        scaleWidth = texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
+        scaleHeight = texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
 
         createBody(x, y);
     }

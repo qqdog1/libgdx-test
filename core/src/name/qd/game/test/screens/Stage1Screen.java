@@ -25,7 +25,7 @@ import name.qd.game.test.sprites.Bullock;
 public class Stage1Screen extends GameScreen {
     private AssetManager assetManager;
     private Texture background;
-    private int background_y;
+    private float background_y;
 
     private Box2DDebugRenderer box2DDebugRenderer;
 
@@ -102,12 +102,13 @@ public class Stage1Screen extends GameScreen {
             lstBullet.add(bullet);
         }
 
-        if(background_y < HEIGHT - (background.getHeight() * SCALE_RATE)) {
+        if(background_y < SCREEN_HEIGHT - (background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)) {
             background_y = 0;
         }
 
         spriteBatch.begin();
-        spriteBatch.draw(background, 0, background_y--, background.getWidth() * SCALE_RATE, background.getHeight() * SCALE_RATE);
+        spriteBatch.draw(background, 0, background_y, background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+        background_y -= 1 / Constants.PIXEL_PER_METER;
         bullock.draw(spriteBatch);
         for(Bullet bullet : lstBullet) {
             bullet.update(delta);
@@ -125,7 +126,7 @@ public class Stage1Screen extends GameScreen {
     private void clearBullet() {
         List<Bullet> lst = new ArrayList<>();
         for(Bullet bullet : lstBullet) {
-            if(bullet.getY() > HEIGHT) {
+            if(bullet.getY() > SCREEN_HEIGHT) {
                 lst.add(bullet);
             }
         }

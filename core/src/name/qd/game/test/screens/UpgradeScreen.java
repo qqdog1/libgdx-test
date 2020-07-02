@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.MaterialCreator;
 
@@ -20,7 +21,7 @@ public class UpgradeScreen extends GameScreen {
         Texture texture = assetManager.get("pic/btn/return.png", Texture.class);
         btnReturn = MaterialCreator.createButton(texture);
         btnReturn.setTransform(true);
-        btnReturn.setScale(SCALE_RATE);
+        btnReturn.setScale(SCALE_RATE / Constants.PIXEL_PER_METER);
         btnReturn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -29,7 +30,7 @@ public class UpgradeScreen extends GameScreen {
             }
         });
 
-        btnReturn.setPosition(WIDTH - (btnReturn.getWidth() * SCALE_RATE), HEIGHT - (btnReturn.getHeight() * SCALE_RATE));
+        btnReturn.setPosition(SCREEN_WIDTH - (btnReturn.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER), SCREEN_HEIGHT - (btnReturn.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER));
 
         stage.addActor(btnReturn);
     }

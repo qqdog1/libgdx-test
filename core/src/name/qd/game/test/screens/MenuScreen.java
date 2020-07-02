@@ -165,6 +165,7 @@ public class MenuScreen extends GameScreen {
         btnMusic.setTransform(true);
         boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
         btnMusic.setChecked(isMusicOn);
+        btnMusic.setScale(1 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         btnMusic.addListener(new ClickListener() {
             @Override
@@ -185,6 +186,7 @@ public class MenuScreen extends GameScreen {
         boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
         btnSound.setChecked(isSoundOn);
         btnSound.setTransform(true);
+        btnSound.setScale(1 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         btnSound.addListener(new ClickListener() {
             @Override
