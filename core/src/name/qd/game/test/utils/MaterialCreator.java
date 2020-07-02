@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class MaterialCreator {
 
-    public static TextButton createButton(Texture btnOff, Texture btnOn) {
+    public static TextButton createTextButton(Texture btnOff, Texture btnOn) {
         TextureAtlas atlas = new TextureAtlas();
         atlas.addRegion("off", btnOff, 0, 0, btnOff.getWidth(), btnOff.getHeight());
         atlas.addRegion("on", btnOn, 0, 0, btnOn.getWidth(), btnOn.getHeight());
@@ -27,8 +28,27 @@ public class MaterialCreator {
         return new TextButton("", style);
     }
 
-    public static TextButton createButton(Texture texture) {
-        return createButton(texture, texture);
+    public static TextButton createTextButton(Texture texture) {
+        return createTextButton(texture, texture);
+    }
+
+    public static ImageButton createImageButton(Texture texture) {
+        return createImageButton(texture, texture);
+    }
+
+    public static ImageButton createImageButton(Texture btnOff, Texture btnOn) {
+        TextureAtlas atlas = new TextureAtlas();
+        atlas.addRegion("off", btnOff, 0, 0, btnOff.getWidth(), btnOff.getHeight());
+        atlas.addRegion("on", btnOn, 0, 0, btnOn.getWidth(), btnOn.getHeight());
+
+        Skin skin = new Skin(atlas);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = skin.getDrawable("off");
+        style.down = skin.getDrawable("on");
+        style.checked = skin.getDrawable("on");
+
+        return new ImageButton(style);
     }
 
     public static Label.LabelStyle getDefaultLabelStyle(Color color, float scale) {

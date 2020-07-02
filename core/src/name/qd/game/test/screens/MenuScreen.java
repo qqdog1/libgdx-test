@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -124,7 +124,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initSettingsButton() {
-        btnSettings = MaterialCreator.createButton(assetManager.get("pic/btn/settings.png", Texture.class));
+        btnSettings = MaterialCreator.createTextButton(assetManager.get("pic/btn/settings.png", Texture.class));
 
         btnSettings.setTransform(true);
         btnSettings.setX(0);
@@ -143,7 +143,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initUpgradeButton() {
-        btnUpgrade = MaterialCreator.createButton(assetManager.get("pic/btn/upgrade.png", Texture.class));
+        btnUpgrade = MaterialCreator.createTextButton(assetManager.get("pic/btn/upgrade.png", Texture.class));
 
         btnUpgrade.setTransform(true);
         btnUpgrade.setX(SCREEN_WIDTH - (btnUpgrade.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
@@ -161,7 +161,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initMusic() {
-        btnMusic = MaterialCreator.createButton(unselected, selected);
+        btnMusic = MaterialCreator.createTextButton(unselected, selected);
         btnMusic.setTransform(true);
         boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
         btnMusic.setChecked(isMusicOn);
@@ -181,7 +181,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initSound() {
-        btnSound = MaterialCreator.createButton(unselected, selected);
+        btnSound = MaterialCreator.createTextButton(unselected, selected);
         btnSound.setTransform(true);
         boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
         btnSound.setChecked(isSoundOn);
@@ -214,10 +214,7 @@ public class MenuScreen extends GameScreen {
         tableSettings.setSize(settingsBackground.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, settingsBackground.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         tableSettings.setBackground(textureRegionDrawable);
 
-        TextButton btnCloseSettings = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
-        btnCloseSettings.setDebug(true);
-        btnCloseSettings.setTransform(true);
-        btnCloseSettings.setScale(1 * SCALE_RATE / Constants.PIXEL_PER_METER);
+        ImageButton btnCloseSettings = MaterialCreator.createImageButton(assetManager.get("pic/btn/cancel.png", Texture.class));
 
         btnCloseSettings.addListener(new ClickListener() {
             @Override
@@ -227,17 +224,14 @@ public class MenuScreen extends GameScreen {
             }
         });
 
+        float btnScaleWidth = btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        float btnScaleHeight = btnCloseSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
+
         Table closeBtnTable = new Table();
-        closeBtnTable.setDebug(true);
 
-        closeBtnTable.add(btnCloseSettings)
-//                .width(btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-//                .height(btnCloseSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .padTop(btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .padLeft(tableSettings.getWidth() - 2 * (btnCloseSettings.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
-        quickLog("Btn Close", closeBtnTable.getRowHeight(0), closeBtnTable.getRowMinHeight(0));
-
-
+        closeBtnTable.add(btnCloseSettings).width(btnScaleWidth).height(btnScaleHeight)
+                .padTop(btnScaleHeight)
+                .padLeft(tableSettings.getWidth() - 2 * btnScaleWidth);
 
         tableSettings.add(closeBtnTable);
         tableSettings.row();
@@ -273,7 +267,7 @@ public class MenuScreen extends GameScreen {
         Texture btnEnable = assetManager.get("pic/btn/stageselect.png", Texture.class);
         Texture btnDisable = assetManager.get("pic/btn/stagedisable.png", Texture.class);
         for (int i = 0; i < Constants.TOTAL_STAGES ; i++) {
-            TextButton btnStageSelect = MaterialCreator.createButton(btnDisable, btnEnable);
+            TextButton btnStageSelect = MaterialCreator.createTextButton(btnDisable, btnEnable);
             Level level = Level.getLevel(i);
             btnStageSelect.setName(String.valueOf(level.getLevel()));
             btnStageSelect.setText(level.getDisplayName());
@@ -393,7 +387,7 @@ public class MenuScreen extends GameScreen {
         Label lblStage = new Label("Stage", labelStyleRed);
         lblLevel = new Label("0", labelStyleRed);
         lblName = new Label("The XXX XXX", labelStyleRed);
-        TextButton btnClose = MaterialCreator.createButton(assetManager.get("pic/btn/cancel.png", Texture.class));
+        TextButton btnClose = MaterialCreator.createTextButton(assetManager.get("pic/btn/cancel.png", Texture.class));
         btnClose.setTransform(true);
 
         btnClose.addListener(new ClickListener() {
@@ -446,7 +440,7 @@ public class MenuScreen extends GameScreen {
 
         tableStageInfo.row();
 
-        TextButton btnGo = MaterialCreator.createButton(assetManager.get("pic/btn/go.png", Texture.class));
+        TextButton btnGo = MaterialCreator.createTextButton(assetManager.get("pic/btn/go.png", Texture.class));
 
         btnGo.addListener(new ClickListener() {
             @Override

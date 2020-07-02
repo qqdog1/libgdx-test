@@ -15,8 +15,8 @@ import name.qd.game.test.constant.ScreenType;
 
 public abstract class GameScreen implements Screen {
     public static final float SCALE_RATE = 1f;
-    public static final int WIDTH = (int)(360 * SCALE_RATE);
-    public static final int HEIGHT = (int)(640 * SCALE_RATE);
+    public static final float WIDTH = 360 * SCALE_RATE;
+    public static final float HEIGHT = 640 * SCALE_RATE;
     public static final float SCREEN_WIDTH = WIDTH / Constants.PIXEL_PER_METER;
     public static final float SCREEN_HEIGHT = HEIGHT / Constants.PIXEL_PER_METER;
 

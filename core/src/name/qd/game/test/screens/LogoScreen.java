@@ -22,7 +22,7 @@ public class LogoScreen extends GameScreen {
         scaleWidth = logo.getWidth() * SCALE_RATE;
         scaleHeight = logo.getHeight() * SCALE_RATE;
         x = (WIDTH - scaleWidth) / 2;
-        y = HEIGHT / 2;
+        y = HEIGHT / 2 - scaleHeight / 3;
     }
 
     @Override

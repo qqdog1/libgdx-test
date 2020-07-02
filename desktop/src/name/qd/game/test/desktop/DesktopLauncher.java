@@ -8,8 +8,8 @@ import name.qd.game.test.screens.GameScreen;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = GameScreen.WIDTH;
-		config.height = GameScreen.HEIGHT;
+		config.width = (int)GameScreen.WIDTH;
+		config.height = (int)GameScreen.HEIGHT;
 		config.title = "LibTest";
 		new LwjglApplication(new LibTest(), config);
 	}

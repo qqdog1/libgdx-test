@@ -19,7 +19,7 @@ public class UpgradeScreen extends GameScreen {
         stage = new Stage(viewport, spriteBatch);
 
         Texture texture = assetManager.get("pic/btn/return.png", Texture.class);
-        btnReturn = MaterialCreator.createButton(texture);
+        btnReturn = MaterialCreator.createTextButton(texture);
         btnReturn.setTransform(true);
         btnReturn.setScale(SCALE_RATE / Constants.PIXEL_PER_METER);
         btnReturn.addListener(new ClickListener() {
