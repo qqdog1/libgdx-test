@@ -39,9 +39,9 @@ public class MenuScreen extends GameScreen {
     private List<TextButton> lstBtnStageSelect;
     private TextButton btnUpgrade;
     private TextButton btnSettings;
-    private TextButton btnMusic;
+    private ImageButton btnMusic;
     private Label lblMusic;
-    private TextButton btnSound;
+    private ImageButton btnSound;
     private Label lblSound;
 
     private Table tableLevelSelect;
@@ -161,11 +161,9 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initMusic() {
-        btnMusic = MaterialCreator.createTextButton(unselected, selected);
-        btnMusic.setTransform(true);
+        btnMusic = MaterialCreator.createImageButton(unselected, selected);
         boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
         btnMusic.setChecked(isMusicOn);
-        btnMusic.setScale(1 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         btnMusic.addListener(new ClickListener() {
             @Override
@@ -181,12 +179,9 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initSound() {
-        btnSound = MaterialCreator.createTextButton(unselected, selected);
-        btnSound.setTransform(true);
+        btnSound = MaterialCreator.createImageButton(unselected, selected);
         boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
         btnSound.setChecked(isSoundOn);
-        btnSound.setTransform(true);
-        btnSound.setScale(1 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         btnSound.addListener(new ClickListener() {
             @Override
@@ -203,10 +198,8 @@ public class MenuScreen extends GameScreen {
 
     private void initSettingsTable() {
         tableSettings = new Table();
-        tableSettings.setDebug(true);
         tableSettings.setTouchable(Touchable.enabled);
         tableSettings.top();
-        tableSettings.left();
 
         TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(settingsBackground);
         tableSettings.setX(SCREEN_WIDTH);
@@ -228,7 +221,6 @@ public class MenuScreen extends GameScreen {
         float btnScaleHeight = btnCloseSettings.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
 
         Table closeBtnTable = new Table();
-
         closeBtnTable.add(btnCloseSettings).width(btnScaleWidth).height(btnScaleHeight)
                 .padTop(btnScaleHeight)
                 .padLeft(tableSettings.getWidth() - 2 * btnScaleWidth);
@@ -236,27 +228,24 @@ public class MenuScreen extends GameScreen {
         tableSettings.add(closeBtnTable);
         tableSettings.row();
 
-//        Table selectBtnTable = new Table();
-//        selectBtnTable.setDebug(false);
-//        selectBtnTable.top().left();
-//
-//        selectBtnTable.add(lblMusic);
-//
-//        btnMusic.setDebug(false);
-//        selectBtnTable.add(btnMusic)
-//                .width(btnMusic.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-//                .height(btnMusic.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
-//
-//        selectBtnTable.row().top().left();
-//
-//        selectBtnTable.add(lblSound);
-//
-//        btnSound.setDebug(false);
-//        selectBtnTable.add(btnSound)
-//                .width(btnSound.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-//                .height(btnSound.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
-//
-//        tableSettings.add(selectBtnTable);
+        Table selectBtnTable = new Table();
+        selectBtnTable.top().left();
+
+        selectBtnTable.add(lblMusic);
+
+        selectBtnTable.add(btnMusic)
+                .width(btnMusic.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(btnMusic.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+
+        selectBtnTable.row().top().left();
+
+        selectBtnTable.add(lblSound);
+
+        selectBtnTable.add(btnSound)
+                .width(btnSound.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
+                .height(btnSound.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+
+        tableSettings.add(selectBtnTable);
         stage.addActor(tableSettings);
     }
 
@@ -271,7 +260,6 @@ public class MenuScreen extends GameScreen {
             Level level = Level.getLevel(i);
             btnStageSelect.setName(String.valueOf(level.getLevel()));
             btnStageSelect.setText(level.getDisplayName());
-            btnStageSelect.setTransform(true);
             btnStageSelect.setUserObject(level);
             btnStageSelect.getLabel().setStyle(labelStyleWhite);
 
@@ -387,8 +375,7 @@ public class MenuScreen extends GameScreen {
         Label lblStage = new Label("Stage", labelStyleRed);
         lblLevel = new Label("0", labelStyleRed);
         lblName = new Label("The XXX XXX", labelStyleRed);
-        TextButton btnClose = MaterialCreator.createTextButton(assetManager.get("pic/btn/cancel.png", Texture.class));
-        btnClose.setTransform(true);
+        ImageButton btnClose = MaterialCreator.createImageButton(assetManager.get("pic/btn/cancel.png", Texture.class));
 
         btnClose.addListener(new ClickListener() {
             @Override
@@ -399,11 +386,14 @@ public class MenuScreen extends GameScreen {
 
         Table closeBtnTable = new Table();
 
+        float scaleWidth = btnClose.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        float scaleHeight = btnClose.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
+
         closeBtnTable.add(btnClose)
-                .width(btnClose.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .height(btnClose.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .padTop(btnClose.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER)
-                .padLeft((tableStageInfo.getWidth() - 2 * (btnClose.getWidth() * SCALE_RATE)) / Constants.PIXEL_PER_METER);
+                .width(scaleWidth)
+                .height(scaleHeight)
+                .padTop(scaleWidth)
+                .padLeft(tableStageInfo.getWidth() - 2 * scaleHeight);
 
         tableStageInfo.add(closeBtnTable).colspan(2);
         tableStageInfo.row().left();

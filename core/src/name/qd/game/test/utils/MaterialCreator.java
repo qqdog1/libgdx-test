@@ -73,6 +73,9 @@ public class MaterialCreator {
                             case "n":
                                 glyph.xadvance = 10;
                                 break;
+                            case "U":
+                                glyph.xadvance = 12;
+                                break;
                             case "i":
                                 glyph.xadvance = 5;
                                 break;
