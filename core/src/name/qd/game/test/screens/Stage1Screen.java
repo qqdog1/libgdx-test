@@ -68,8 +68,8 @@ public class Stage1Screen extends GameScreen {
                 if(lastX != 0) {
                     diffX = x - lastX;
                 }
-                lastX = (int) x;
-                lastY = (int) y;
+                lastX = x;
+                lastY = y;
 
                 bullock.move(diffX, diffY);
             }
@@ -119,6 +119,8 @@ public class Stage1Screen extends GameScreen {
         box2DDebugRenderer.render(world, camera.combined);
 
         clearBullet();
+
+        stage.draw();
 
         world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
     }
