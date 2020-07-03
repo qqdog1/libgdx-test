@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class MaterialCreator {
 
-    public static TextButton createTextButton(Texture btnOff, Texture btnOn) {
+    public static TextButton createTextButton(Texture btnOff, Texture btnOn, String text) {
         TextureAtlas atlas = new TextureAtlas();
         atlas.addRegion("off", btnOff, 0, 0, btnOff.getWidth(), btnOff.getHeight());
         atlas.addRegion("on", btnOn, 0, 0, btnOn.getWidth(), btnOn.getHeight());
@@ -25,11 +25,11 @@ public class MaterialCreator {
         style.checked = skin.getDrawable("on");
         style.font = new BitmapFont();
 
-        return new TextButton("", style);
+        return new TextButton(text, style);
     }
 
-    public static TextButton createTextButton(Texture texture) {
-        return createTextButton(texture, texture);
+    public static TextButton createTextButton(Texture texture, String text) {
+        return createTextButton(texture, texture, text);
     }
 
     public static ImageButton createImageButton(Texture texture) {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -12,14 +13,14 @@ import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.MaterialCreator;
 
 public class UpgradeScreen extends GameScreen {
-    private TextButton btnReturn;
+    private ImageButton btnReturn;
     private Stage stage;
 
     public UpgradeScreen() {
         stage = new Stage(viewport, spriteBatch);
 
         Texture texture = assetManager.get("pic/btn/return.png", Texture.class);
-        btnReturn = MaterialCreator.createTextButton(texture);
+        btnReturn = MaterialCreator.createImageButton(texture);
         btnReturn.setTransform(true);
         btnReturn.setScale(SCALE_RATE / Constants.PIXEL_PER_METER);
         btnReturn.addListener(new ClickListener() {

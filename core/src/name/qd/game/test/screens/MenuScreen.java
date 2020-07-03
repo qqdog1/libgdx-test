@@ -37,8 +37,8 @@ public class MenuScreen extends GameScreen {
     private TextureRegionDrawable star;
     private TextureRegionDrawable starFilled;
     private List<TextButton> lstBtnStageSelect;
-    private TextButton btnUpgrade;
-    private TextButton btnSettings;
+    private ImageButton btnUpgrade;
+    private ImageButton btnSettings;
     private ImageButton btnMusic;
     private Label lblMusic;
     private ImageButton btnSound;
@@ -124,7 +124,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initSettingsButton() {
-        btnSettings = MaterialCreator.createTextButton(assetManager.get("pic/btn/settings.png", Texture.class));
+        btnSettings = MaterialCreator.createImageButton(assetManager.get("pic/btn/settings.png", Texture.class));
 
         btnSettings.setTransform(true);
         btnSettings.setX(0);
@@ -143,7 +143,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initUpgradeButton() {
-        btnUpgrade = MaterialCreator.createTextButton(assetManager.get("pic/btn/upgrade.png", Texture.class));
+        btnUpgrade = MaterialCreator.createImageButton(assetManager.get("pic/btn/upgrade.png", Texture.class));
 
         btnUpgrade.setTransform(true);
         btnUpgrade.setX(SCREEN_WIDTH - (btnUpgrade.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER));
@@ -256,10 +256,9 @@ public class MenuScreen extends GameScreen {
         Texture btnEnable = assetManager.get("pic/btn/stageselect.png", Texture.class);
         Texture btnDisable = assetManager.get("pic/btn/stagedisable.png", Texture.class);
         for (int i = 0; i < Constants.TOTAL_STAGES ; i++) {
-            TextButton btnStageSelect = MaterialCreator.createTextButton(btnDisable, btnEnable);
             Level level = Level.getLevel(i);
+            TextButton btnStageSelect = MaterialCreator.createTextButton(btnDisable, btnEnable, level.getDisplayName());
             btnStageSelect.setName(String.valueOf(level.getLevel()));
-            btnStageSelect.setText(level.getDisplayName());
             btnStageSelect.setUserObject(level);
             btnStageSelect.getLabel().setStyle(labelStyleWhite);
 
@@ -430,7 +429,7 @@ public class MenuScreen extends GameScreen {
 
         tableStageInfo.row();
 
-        TextButton btnGo = MaterialCreator.createTextButton(assetManager.get("pic/btn/go.png", Texture.class));
+        ImageButton btnGo = MaterialCreator.createImageButton(assetManager.get("pic/btn/go.png", Texture.class));
 
         btnGo.addListener(new ClickListener() {
             @Override
