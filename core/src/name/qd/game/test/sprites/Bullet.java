@@ -23,9 +23,7 @@ public class Bullet extends Sprite {
 
     private float scaleWidth;
     private float scaleHeight;
-    private float speed = 10;
-
-    public static int count = 1;
+    private float speed = 40;
 
     public Bullet(World world, BulletType bulletType, float x, float y) {
         this.world = world;
@@ -63,8 +61,7 @@ public class Bullet extends Sprite {
         fixtureDef.filter.maskBits = CollisionType.BULLOCK;
         body.createFixture(fixtureDef).setUserData(this);
 
-        body.setLinearVelocity(0, speed * count);
-        count++;
+        body.setLinearVelocity(0, speed);
 
         setBounds(0, 0, scaleWidth, scaleHeight);
         setRegion(texture);

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import name.qd.game.test.sprites.Enemy;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.Constants;
@@ -37,9 +38,15 @@ public class Stage1Screen extends GameScreen {
     private Stage stage;
 
     private float stateTime = 0;
+
+    private float lastFireTime;
     private float fireRate;
 
+    private float spawnRate;
+    private float lastSpawnTime;
+
     private List<Bullet> lstBullet = new ArrayList<>();
+    private List<Enemy> lstEnemy = new ArrayList<>();
 
     public Stage1Screen() {
         assetManager = ResourceInstance.getInstance().getAssetManager();
@@ -55,6 +62,7 @@ public class Stage1Screen extends GameScreen {
         world.setContactListener(new WorldContactListener());
 
         fireRate = 0.5f;
+        spawnRate = 2f;
 
         stage.addListener(new ClickListener() {
             @Override
@@ -96,10 +104,27 @@ public class Stage1Screen extends GameScreen {
 
         bullock.update(delta);
 
-        if(stateTime > fireRate) {
-            stateTime -= fireRate;
+        if(stateTime >= lastFireTime + fireRate) {
+            lastFireTime += fireRate;
             Bullet bullet = new Bullet(world, BulletType.BULLOCK_BLUE, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
             lstBullet.add(bullet);
+        }
+
+        if(stateTime >= lastSpawnTime + spawnRate) {
+            lastSpawnTime += spawnRate;
+            if(lstEnemy.size() < 3) {
+                float spawnX;
+                if(lastSpawnTime % 6 == 0) {
+                    spawnX = SCREEN_WIDTH * 3 / 4;
+                } else if(lastSpawnTime % 4 == 0) {
+                    spawnX = SCREEN_WIDTH / 2;
+                } else {
+                    spawnX = SCREEN_WIDTH / 4;
+                }
+
+                Enemy enemy = new Enemy(world, spawnX, SCREEN_HEIGHT);
+                lstEnemy.add(enemy);
+            }
         }
 
         if(background_y < SCREEN_HEIGHT - (background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)) {
@@ -113,6 +138,10 @@ public class Stage1Screen extends GameScreen {
         for(Bullet bullet : lstBullet) {
             bullet.update(delta);
             bullet.draw(spriteBatch);
+        }
+        for(Enemy enemy : lstEnemy) {
+            enemy.update(delta);
+            enemy.draw(spriteBatch);
         }
         spriteBatch.end();
 
