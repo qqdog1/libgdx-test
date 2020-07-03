@@ -23,6 +23,8 @@ public class Enemy extends Sprite {
     private float x;
     private float y;
 
+    private int hp = 3;
+
     public Enemy(World world, float x, float y) {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         this.world = world;
@@ -58,6 +60,13 @@ public class Enemy extends Sprite {
 
     public void update(float delta) {
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+    }
+
+    public void onHit() {
+        hp--;
+        if(hp == 0) {
+
+        }
     }
 
     public void destroy() {

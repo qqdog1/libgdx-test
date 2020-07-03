@@ -159,6 +159,8 @@ public class Stage1Screen extends GameScreen {
         for(Bullet bullet : lstBullet) {
             if(bullet.getY() > SCREEN_HEIGHT) {
                 lst.add(bullet);
+            } else if(bullet.isDestroyed()) {
+                lst.add(bullet);
             }
         }
 

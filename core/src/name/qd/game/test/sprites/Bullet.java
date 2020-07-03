@@ -25,6 +25,8 @@ public class Bullet extends Sprite {
     private float scaleHeight;
     private float speed = 40;
 
+    private boolean isDestroyed = false;
+
     public Bullet(World world, BulletType bulletType, float x, float y) {
         this.world = world;
         assetManager = ResourceInstance.getInstance().getAssetManager();
@@ -70,6 +72,14 @@ public class Bullet extends Sprite {
 
     public void update(float delta) {
         setPosition(body.getPosition().x - scaleWidth / 2, body.getPosition().y - scaleHeight / 2);
+    }
+
+    public void hit() {
+        isDestroyed = true;
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     public void destroy() {
