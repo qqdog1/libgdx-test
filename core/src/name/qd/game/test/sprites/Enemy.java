@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 
 import name.qd.game.test.constant.CollisionType;
@@ -15,13 +16,17 @@ import name.qd.game.test.screens.GameScreen;
 import name.qd.game.test.utils.ResourceInstance;
 
 public class Enemy extends Sprite {
+    private enum State {MOVING,STOP};
+    private State state;
     private World world;
     private Body body;
     private AssetManager assetManager;
     private Texture texture;
+    private Texture dead;
 
     private float x;
     private float y;
+    private float moveRange = 80 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
 
     private int hp = 3;
 
@@ -32,10 +37,12 @@ public class Enemy extends Sprite {
         this.y = y;
 
         texture = assetManager.get("pic/sprite/enemy1.png", Texture.class);
+        dead = assetManager.get("pic/sprite/edead.png", Texture.class);
 
         createBody();
 
         body.setLinearVelocity(0, -20);
+        state = State.MOVING;
     }
 
     private void createBody() {
@@ -53,6 +60,10 @@ public class Enemy extends Sprite {
         fixtureDef.filter.maskBits = CollisionType.BULLOCK_BULLET;
         body.createFixture(fixtureDef).setUserData(this);
 
+        MassData massData = new MassData();
+        massData.mass = 99999;
+        body.setMassData(massData);
+
         setBounds(0, 0, texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
         setRegion(texture);
         setPosition(body.getPosition().x, body.getPosition().y);
@@ -60,12 +71,18 @@ public class Enemy extends Sprite {
 
     public void update(float delta) {
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+
+        if(y - body.getPosition().y >= moveRange) {
+            state = State.STOP;
+            body.setLinearVelocity(0, 0);
+        }
     }
 
     public void onHit() {
         hp--;
-        if(hp == 0) {
 
+        if(hp == 0) {
+            setRegion(dead);
         }
     }
 

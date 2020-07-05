@@ -19,17 +19,22 @@ public class Bullock extends Sprite {
     private Body body;
     private AssetManager assetManager;
     private Texture texture;
+    private Texture dead;
+
+    private int hp = 3;
 
     public Bullock(World world) {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         this.world = world;
 
         texture = assetManager.get("pic/sprite/cnormal.png", Texture.class);
+        dead = assetManager.get("pic/sprite/dead.png", Texture.class);
 
         createBullockBody();
     }
 
     public void move(float x, float y) {
+        if(hp == 0) return;
         float lastX;
         float lastY;
         if(body.getPosition().x + x <= 0) {
@@ -53,6 +58,9 @@ public class Bullock extends Sprite {
 
     public void update(float delta) {
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        if(hp == 0) {
+            setRegion(dead);
+        }
     }
 
     private void createBullockBody() {
@@ -73,5 +81,10 @@ public class Bullock extends Sprite {
         setBounds(0, 0, texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
         setRegion(texture);
         setPosition(body.getPosition().x, body.getPosition().y);
+    }
+
+    public void onHit() {
+        if(hp == 0) return;
+        hp--;
     }
 }
