@@ -1,6 +1,5 @@
 package name.qd.game.test.listener;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -8,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import name.qd.game.test.constant.CollisionType;
-import name.qd.game.test.sprites.Bullet;
+import name.qd.game.test.sprites.BullockBullet;
 import name.qd.game.test.sprites.Bullock;
 import name.qd.game.test.sprites.Enemy;
 import name.qd.game.test.sprites.EnemyBullet;
@@ -24,10 +23,10 @@ public class WorldContactListener implements ContactListener {
         switch (collisionByte) {
             case CollisionType.BULLOCK_BULLET | CollisionType.ENEMY:
                 if(fixtureA.getFilterData().categoryBits == CollisionType.BULLOCK_BULLET) {
-                    ((Bullet)fixtureA.getUserData()).hit();
+                    ((BullockBullet)fixtureA.getUserData()).hit();
                     ((Enemy)fixtureB.getUserData()).onHit();
                 } else {
-                    ((Bullet)fixtureB.getUserData()).hit();
+                    ((BullockBullet)fixtureB.getUserData()).hit();
                     ((Enemy)fixtureA.getUserData()).onHit();
                 }
                 break;
