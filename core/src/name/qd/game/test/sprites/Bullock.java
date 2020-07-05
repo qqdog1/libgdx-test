@@ -20,7 +20,7 @@ public class Bullock extends Sprite {
     private AssetManager assetManager;
     private Texture texture;
     private Texture dead;
-
+    private boolean isDestroyed;
     private int hp = 3;
 
     public Bullock(World world) {
@@ -60,6 +60,7 @@ public class Bullock extends Sprite {
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
         body.setLinearVelocity(0, 0);
         if(hp == 0) {
+            isDestroyed = true;
             setRegion(dead);
         }
     }
@@ -82,6 +83,10 @@ public class Bullock extends Sprite {
         setBounds(0, 0, texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
         setRegion(texture);
         setPosition(body.getPosition().x, body.getPosition().y);
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     public void onHit() {

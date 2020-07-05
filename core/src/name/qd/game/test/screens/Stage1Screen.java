@@ -108,8 +108,11 @@ public class Stage1Screen extends GameScreen {
 
         if(stateTime >= lastFireTime + fireRate) {
             lastFireTime += fireRate;
-            Bullet bullet = new Bullet(world, BulletType.BULLOCK_BLUE, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
-            lstBullet.add(bullet);
+            if(!bullock.isDestroyed()) {
+                Bullet bullet = new Bullet(world, BulletType.BULLOCK_BLUE, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
+                lstBullet.add(bullet);
+            }
+
 
             if(lstEnemy.size() > 0) {
                 // 要改到clear enemy 之後
