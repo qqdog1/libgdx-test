@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import name.qd.game.test.sprites.Enemy;
+import name.qd.game.test.sprites.EnemyBullet;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.Constants;
@@ -46,6 +47,7 @@ public class Stage1Screen extends GameScreen {
     private float lastSpawnTime;
 
     private List<Bullet> lstBullet = new ArrayList<>();
+    private List<EnemyBullet> lstEnemyBullet = new ArrayList<>();
     private List<Enemy> lstEnemy = new ArrayList<>();
 
     public Stage1Screen() {
@@ -108,6 +110,14 @@ public class Stage1Screen extends GameScreen {
             lastFireTime += fireRate;
             Bullet bullet = new Bullet(world, BulletType.BULLOCK_BLUE, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
             lstBullet.add(bullet);
+
+            if(lstEnemy.size() > 0) {
+                // 要改到clear enemy 之後
+                for(Enemy enemy : lstEnemy) {
+                    EnemyBullet enemyBullet = new EnemyBullet(world, enemy.getX() + (enemy.getWidth() / 2), enemy.getY());
+                    lstEnemyBullet.add(enemyBullet);
+                }
+            }
         }
 
         if(stateTime >= lastSpawnTime + spawnRate) {
@@ -139,6 +149,10 @@ public class Stage1Screen extends GameScreen {
             bullet.update(delta);
             bullet.draw(spriteBatch);
         }
+        for(EnemyBullet bullet : lstEnemyBullet) {
+            bullet.update(delta);
+            bullet.draw(spriteBatch);
+        }
         for(Enemy enemy : lstEnemy) {
             enemy.update(delta);
             enemy.draw(spriteBatch);
@@ -147,11 +161,17 @@ public class Stage1Screen extends GameScreen {
 
         box2DDebugRenderer.render(world, camera.combined);
 
-        clearBullet();
+        clearSprite();
 
         stage.draw();
 
         world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
+    }
+
+    private void clearSprite() {
+        clearBullet();
+        clearEnemyBullet();
+        clearEnemy();
     }
 
     private void clearBullet() {
@@ -167,6 +187,34 @@ public class Stage1Screen extends GameScreen {
         for(Bullet bullet : lst) {
             bullet.destroy();
             lstBullet.remove(bullet);
+        }
+    }
+
+    private void clearEnemyBullet() {
+        List<EnemyBullet> lst = new ArrayList<>();
+        for(EnemyBullet bullet : lstEnemyBullet) {
+            if(bullet.isDestroyed()) {
+                lst.add(bullet);
+            }
+        }
+
+        for(EnemyBullet bullet : lst) {
+            bullet.destroy();
+            lstEnemyBullet.remove(bullet);
+        }
+    }
+
+    private void clearEnemy() {
+        List<Enemy> lst = new ArrayList<>();
+        for(Enemy enemy : lstEnemy) {
+            if(enemy.isDestroyed()) {
+                lst.add(enemy);
+            }
+        }
+
+        for(Enemy enemy : lst) {
+            enemy.destroy();
+            lstEnemy.remove(enemy);
         }
     }
 

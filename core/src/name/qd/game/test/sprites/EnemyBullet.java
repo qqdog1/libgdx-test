@@ -6,17 +6,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import name.qd.game.test.constant.Constants;
-import name.qd.game.test.utils.ResourceInstance;
-import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.CollisionType;
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.screens.GameScreen;
+import name.qd.game.test.utils.ResourceInstance;
 
-public class Bullet extends Sprite {
+public class EnemyBullet extends Sprite {
     private Body body;
     private World world;
     private Texture texture;
@@ -24,25 +22,15 @@ public class Bullet extends Sprite {
 
     private float scaleWidth;
     private float scaleHeight;
-    private float speed = 40;
+    private float speed = -20;
 
     private boolean isDestroyed = false;
 
-    public Bullet(World world, BulletType bulletType, float x, float y) {
+    public EnemyBullet(World world, float x, float y) {
         this.world = world;
         assetManager = ResourceInstance.getInstance().getAssetManager();
+        texture = assetManager.get("pic/sprite/ebullet.png", Texture.class);
 
-        switch (bulletType) {
-            case BULLOCK_RED:
-                texture = assetManager.get("pic/sprite/bulletred.png", Texture.class);
-                break;
-            case BULLOCK_BLUE:
-                texture = assetManager.get("pic/sprite/bulletblue.png", Texture.class);
-                break;
-            case BULLOCK_GREEN:
-                texture = assetManager.get("pic/sprite/bulletgreen.png", Texture.class);
-                break;
-        }
         scaleWidth = texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
         scaleHeight = texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
 
@@ -60,8 +48,8 @@ public class Bullet extends Sprite {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(scaleWidth / 2, scaleHeight / 2);
         fixtureDef.shape = shape;
-        fixtureDef.filter.categoryBits = CollisionType.BULLOCK_BULLET;
-        fixtureDef.filter.maskBits = CollisionType.ENEMY;
+        fixtureDef.filter.categoryBits = CollisionType.ENEMY_BULLET;
+        fixtureDef.filter.maskBits = CollisionType.BULLOCK;
         body.createFixture(fixtureDef).setUserData(this);
 
         body.setLinearVelocity(0, speed);

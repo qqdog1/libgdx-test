@@ -58,6 +58,7 @@ public class Bullock extends Sprite {
 
     public void update(float delta) {
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        body.setLinearVelocity(0, 0);
         if(hp == 0) {
             setRegion(dead);
         }

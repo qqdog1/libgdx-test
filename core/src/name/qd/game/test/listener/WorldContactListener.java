@@ -9,7 +9,9 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.sprites.Bullet;
+import name.qd.game.test.sprites.Bullock;
 import name.qd.game.test.sprites.Enemy;
+import name.qd.game.test.sprites.EnemyBullet;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -30,6 +32,13 @@ public class WorldContactListener implements ContactListener {
                 }
                 break;
             case CollisionType.ENEMY_BULLET | CollisionType.BULLOCK:
+                if(fixtureA.getFilterData().categoryBits == CollisionType.BULLOCK) {
+                    ((Bullock)fixtureA.getUserData()).onHit();
+                    ((EnemyBullet)fixtureB.getUserData()).hit();
+                } else {
+                    ((Bullock)fixtureB.getUserData()).onHit();
+                    ((EnemyBullet)fixtureA.getUserData()).hit();
+                }
                 break;
             case CollisionType.BULLOCK | CollisionType.ENEMY:
                 break;

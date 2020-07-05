@@ -16,8 +16,6 @@ import name.qd.game.test.screens.GameScreen;
 import name.qd.game.test.utils.ResourceInstance;
 
 public class Enemy extends Sprite {
-    private enum State {MOVING,STOP};
-    private State state;
     private World world;
     private Body body;
     private AssetManager assetManager;
@@ -29,6 +27,8 @@ public class Enemy extends Sprite {
     private float moveRange = 80 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
 
     private int hp = 3;
+    private float stateTime;
+    private boolean isDestroyed;
 
     public Enemy(World world, float x, float y) {
         assetManager = ResourceInstance.getInstance().getAssetManager();
@@ -42,7 +42,6 @@ public class Enemy extends Sprite {
         createBody();
 
         body.setLinearVelocity(0, -20);
-        state = State.MOVING;
     }
 
     private void createBody() {
@@ -73,8 +72,15 @@ public class Enemy extends Sprite {
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
 
         if(y - body.getPosition().y >= moveRange) {
-            state = State.STOP;
             body.setLinearVelocity(0, 0);
+        }
+
+        if(hp <= 0) {
+            body.setActive(false);
+            stateTime += delta;
+            if(stateTime >= 0.5f) {
+                isDestroyed = true;
+            }
         }
     }
 
@@ -84,6 +90,10 @@ public class Enemy extends Sprite {
         if(hp == 0) {
             setRegion(dead);
         }
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     public void destroy() {
