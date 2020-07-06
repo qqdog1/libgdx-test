@@ -7,10 +7,9 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import name.qd.game.test.constant.CollisionType;
-import name.qd.game.test.sprites.BullockBullet;
-import name.qd.game.test.sprites.Bullock;
-import name.qd.game.test.sprites.Enemy;
-import name.qd.game.test.sprites.EnemyBullet;
+import name.qd.game.test.sprite.bullet.Bullet;
+import name.qd.game.test.sprite.Bullock;
+import name.qd.game.test.sprite.enemy.Enemy;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -23,20 +22,20 @@ public class WorldContactListener implements ContactListener {
         switch (collisionByte) {
             case CollisionType.BULLOCK_BULLET | CollisionType.ENEMY:
                 if(fixtureA.getFilterData().categoryBits == CollisionType.BULLOCK_BULLET) {
-                    ((BullockBullet)fixtureA.getUserData()).hit();
+                    ((Bullet)fixtureA.getUserData()).hit();
                     ((Enemy)fixtureB.getUserData()).onHit();
                 } else {
-                    ((BullockBullet)fixtureB.getUserData()).hit();
+                    ((Bullet)fixtureB.getUserData()).hit();
                     ((Enemy)fixtureA.getUserData()).onHit();
                 }
                 break;
             case CollisionType.ENEMY_BULLET | CollisionType.BULLOCK:
                 if(fixtureA.getFilterData().categoryBits == CollisionType.BULLOCK) {
                     ((Bullock)fixtureA.getUserData()).onHit();
-                    ((EnemyBullet)fixtureB.getUserData()).hit();
+                    ((Bullet)fixtureB.getUserData()).hit();
                 } else {
                     ((Bullock)fixtureB.getUserData()).onHit();
-                    ((EnemyBullet)fixtureA.getUserData()).hit();
+                    ((Bullet)fixtureA.getUserData()).hit();
                 }
                 break;
             case CollisionType.BULLOCK | CollisionType.ENEMY:

@@ -1,4 +1,4 @@
-package name.qd.game.test.sprites;
+package name.qd.game.test.sprite;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.CollisionType;
-import name.qd.game.test.screens.GameScreen;
+import name.qd.game.test.screen.GameScreen;
 
 public class Bullock extends Sprite {
     private World world;

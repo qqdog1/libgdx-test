@@ -1,4 +1,4 @@
-package name.qd.game.test.screens;
+package name.qd.game.test.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;

@@ -1,4 +1,4 @@
-package name.qd.game.test.screens;
+package name.qd.game.test.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,16 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import name.qd.game.test.sprites.Enemy;
-import name.qd.game.test.sprites.EnemyBullet;
+import name.qd.game.test.constant.CollisionType;
+import name.qd.game.test.sprite.enemy.Enemy;
+import name.qd.game.test.sprite.bullet.Bullet;
+import name.qd.game.test.sprite.bullet.BulletDef;
 import name.qd.game.test.utils.ResourceInstance;
-import name.qd.game.test.constant.BulletType;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.listener.WorldContactFilter;
 import name.qd.game.test.listener.WorldContactListener;
-import name.qd.game.test.sprites.BullockBullet;
-import name.qd.game.test.sprites.Bullock;
+import name.qd.game.test.sprite.Bullock;
 
 public class Stage1Screen extends GameScreen {
     private AssetManager assetManager;
@@ -46,8 +46,8 @@ public class Stage1Screen extends GameScreen {
     private float spawnRate;
     private float lastSpawnTime;
 
-    private List<BullockBullet> lstBullockBullet = new ArrayList<>();
-    private List<EnemyBullet> lstEnemyBullet = new ArrayList<>();
+    private List<Bullet> lstBullockBullet = new ArrayList<>();
+    private List<Bullet> lstEnemyBullet = new ArrayList<>();
     private List<Enemy> lstEnemy = new ArrayList<>();
 
     public Stage1Screen() {
@@ -109,7 +109,13 @@ public class Stage1Screen extends GameScreen {
         if(stateTime >= lastFireTime + fireRate) {
             lastFireTime += fireRate;
             if(!bullock.isDestroyed()) {
-                BullockBullet bullockBullet = new BullockBullet(world, BulletType.BULLOCK_BLUE, bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
+                BulletDef bulletDef = new BulletDef();
+                bulletDef.setStartPosition(bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
+                bulletDef.setTexture(assetManager.get("pic/sprite/bulletblue.png", Texture.class));
+                bulletDef.setVelocity(0, 40);
+                bulletDef.setCategoryBits(CollisionType.BULLOCK_BULLET);
+                bulletDef.setMaskBits(CollisionType.ENEMY);
+                Bullet bullockBullet = new Bullet(world, bulletDef);
                 lstBullockBullet.add(bullockBullet);
             }
 
@@ -117,7 +123,13 @@ public class Stage1Screen extends GameScreen {
             if(lstEnemy.size() > 0) {
                 // 要改到clear enemy 之後
                 for(Enemy enemy : lstEnemy) {
-                    EnemyBullet enemyBullet = new EnemyBullet(world, enemy.getX() + (enemy.getWidth() / 2), enemy.getY());
+                    BulletDef bulletDef = new BulletDef();
+                    bulletDef.setStartPosition(enemy.getX() + (enemy.getWidth() / 2), enemy.getY());
+                    bulletDef.setVelocity(0, -20);
+                    bulletDef.setTexture(assetManager.get("pic/sprite/ebullet.png", Texture.class));
+                    bulletDef.setCategoryBits(CollisionType.ENEMY_BULLET);
+                    bulletDef.setMaskBits(CollisionType.BULLOCK);
+                    Bullet enemyBullet = new Bullet(world, bulletDef);
                     lstEnemyBullet.add(enemyBullet);
                 }
             }
@@ -148,11 +160,11 @@ public class Stage1Screen extends GameScreen {
         spriteBatch.draw(background, 0, background_y, background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         background_y -= 1 / Constants.PIXEL_PER_METER;
         bullock.draw(spriteBatch);
-        for(BullockBullet bullockBullet : lstBullockBullet) {
+        for(Bullet bullockBullet : lstBullockBullet) {
             bullockBullet.update(delta);
             bullockBullet.draw(spriteBatch);
         }
-        for(EnemyBullet bullet : lstEnemyBullet) {
+        for(Bullet bullet : lstEnemyBullet) {
             bullet.update(delta);
             bullet.draw(spriteBatch);
         }
@@ -178,8 +190,8 @@ public class Stage1Screen extends GameScreen {
     }
 
     private void clearBullet() {
-        List<BullockBullet> lst = new ArrayList<>();
-        for(BullockBullet bullockBullet : lstBullockBullet) {
+        List<Bullet> lst = new ArrayList<>();
+        for(Bullet bullockBullet : lstBullockBullet) {
             if(bullockBullet.getY() > SCREEN_HEIGHT) {
                 lst.add(bullockBullet);
             } else if(bullockBullet.isDestroyed()) {
@@ -187,21 +199,23 @@ public class Stage1Screen extends GameScreen {
             }
         }
 
-        for(BullockBullet bullockBullet : lst) {
+        for(Bullet bullockBullet : lst) {
             bullockBullet.destroy();
             lstBullockBullet.remove(bullockBullet);
         }
     }
 
     private void clearEnemyBullet() {
-        List<EnemyBullet> lst = new ArrayList<>();
-        for(EnemyBullet bullet : lstEnemyBullet) {
-            if(bullet.isDestroyed()) {
+        List<Bullet> lst = new ArrayList<>();
+        for(Bullet bullet : lstEnemyBullet) {
+            if(bullet.getY() <= 0) {
+                lst.add(bullet);
+            } else if(bullet.isDestroyed()) {
                 lst.add(bullet);
             }
         }
 
-        for(EnemyBullet bullet : lst) {
+        for(Bullet bullet : lst) {
             bullet.destroy();
             lstEnemyBullet.remove(bullet);
         }

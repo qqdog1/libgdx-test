@@ -1,4 +1,4 @@
-package name.qd.game.test.screens;
+package name.qd.game.test.screen;
 
 import name.qd.game.test.constant.ScreenType;
 

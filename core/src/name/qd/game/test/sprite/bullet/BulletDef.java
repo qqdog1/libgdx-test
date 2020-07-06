@@ -1,43 +1,42 @@
-package name.qd.game.test.sprites;
+package name.qd.game.test.sprite.bullet;
 
 import com.badlogic.gdx.graphics.Texture;
 
 public class BulletDef {
-    private float x;
-    private float y;
-    private float speed;
+    private float startX;
+    private float startY;
+    private float velocityX;
+    private float velocityY;
     private Texture texture;
     private short categoryBits;
     private short maskBits;
 
-    public float getX() {
-        return x;
+    public void setStartPosition(float x, float y) {
+        this.startX = x;
+        this.startY = y;
+    }
+    public float getStartX() {
+        return startX;
+    }
+    public float getStartY() {
+        return startY;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setVelocity(float x, float y) {
+        this.velocityX = x;
+        this.velocityY = y;
     }
 
-    public float getY() {
-        return y;
+    public float getVelocityX() {
+        return velocityX;
     }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
+    public float getVelocityY() {
+        return velocityY;
     }
 
     public Texture getTexture() {
         return texture;
     }
-
     public void setTexture(Texture texture) {
         this.texture = texture;
     }
@@ -45,7 +44,6 @@ public class BulletDef {
     public short getCategoryBits() {
         return categoryBits;
     }
-
     public void setCategoryBits(short categoryBits) {
         this.categoryBits = categoryBits;
     }
@@ -53,7 +51,6 @@ public class BulletDef {
     public short getMaskBits() {
         return maskBits;
     }
-
     public void setMaskBits(short maskBits) {
         this.maskBits = maskBits;
     }

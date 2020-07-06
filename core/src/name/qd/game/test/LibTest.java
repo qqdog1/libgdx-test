@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import name.qd.game.test.constant.ScreenType;
-import name.qd.game.test.screens.ScreenManager;
+import name.qd.game.test.screen.ScreenManager;
 import name.qd.game.test.utils.PreferencesUtils;
 import name.qd.game.test.utils.ResourceInstance;
 

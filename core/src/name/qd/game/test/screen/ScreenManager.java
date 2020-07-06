@@ -1,4 +1,4 @@
-package name.qd.game.test.screens;
+package name.qd.game.test.screen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import name.qd.game.test.constant.ScreenType;
 public class ScreenManager {
     private static ScreenManager instance = new ScreenManager();
 
-    private Map<ScreenType, GameScreen> map = new HashMap<>();
+    private Map<ScreenType, name.qd.game.test.screen.GameScreen> map = new HashMap<>();
 
     public static ScreenManager getInstance() {
         return instance;

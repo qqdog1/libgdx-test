@@ -1,7 +1,8 @@
-package name.qd.game.test.sprites;
+package name.qd.game.test.sprite.enemy;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,15 +13,14 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.constant.Constants;
-import name.qd.game.test.screens.GameScreen;
+import name.qd.game.test.screen.GameScreen;
 import name.qd.game.test.utils.ResourceInstance;
 
 public class Enemy extends Sprite {
     private World world;
     private Body body;
-    private AssetManager assetManager;
-    private Texture texture;
-    private Texture dead;
+    private Animation animation;
+    private Animation dead;
 
     private float x;
     private float y;
@@ -30,21 +30,15 @@ public class Enemy extends Sprite {
     private float stateTime;
     private boolean isDestroyed;
 
-    public Enemy(World world, float x, float y) {
-        assetManager = ResourceInstance.getInstance().getAssetManager();
+    public Enemy(World world, EnemyDef enemyDef) {
         this.world = world;
-        this.x = x;
-        this.y = y;
+        this.x = enemyDef.getStartX();
+        this.y = enemyDef.getStartY();
 
-        texture = assetManager.get("pic/sprite/enemy1.png", Texture.class);
-        dead = assetManager.get("pic/sprite/edead.png", Texture.class);
-
-        createBody();
-
-        body.setLinearVelocity(0, -20);
+        createBody(enemyDef);
     }
 
-    private void createBody() {
+    private void createBody(EnemyDef enemyDef) {
         int radius = 25;
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
@@ -66,6 +60,8 @@ public class Enemy extends Sprite {
         setBounds(0, 0, texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
         setRegion(texture);
         setPosition(body.getPosition().x, body.getPosition().y);
+
+        body.setLinearVelocity(enemyDef.getVelocityX(), enemyDef.getVelocityY());
     }
 
     public void update(float delta) {
