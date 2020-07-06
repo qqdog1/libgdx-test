@@ -2,14 +2,18 @@ package name.qd.game.test.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
+import name.qd.game.test.utils.MaterialCreator;
 
 public class LogoScreen extends GameScreen {
-    private final Texture logo;
+    private Animation animation;
 //    private final Sound sound;
 
-    private double stateTime;
+    private float stateTime;
 
     private float scaleWidth;
     private float scaleHeight;
@@ -17,10 +21,10 @@ public class LogoScreen extends GameScreen {
     private float y;
 
     public LogoScreen() {
-        logo = new Texture("pic/logo.png");
+        animation = MaterialCreator.createAnimation(new Texture("pic/logo.png"), 0, 0, 256, 256, 5, 0.2f);
 
-        scaleWidth = logo.getWidth() * SCALE_RATE;
-        scaleHeight = logo.getHeight() * SCALE_RATE;
+        scaleWidth = ((TextureRegion)animation.getKeyFrame(0)).getTexture().getWidth() * SCALE_RATE / 5;
+        scaleHeight = ((TextureRegion)animation.getKeyFrame(0)).getTexture().getHeight() * SCALE_RATE;
         x = (WIDTH - scaleWidth) / 2;
         y = HEIGHT / 2 - scaleHeight / 3;
     }
@@ -40,7 +44,7 @@ public class LogoScreen extends GameScreen {
         }
 
         spriteBatch.begin();
-        spriteBatch.draw(logo, x, y, scaleWidth, scaleHeight);
+        spriteBatch.draw((TextureRegion)animation.getKeyFrame(stateTime), x, y, scaleWidth, scaleHeight);
         spriteBatch.end();
     }
 
@@ -69,7 +73,6 @@ public class LogoScreen extends GameScreen {
 
     @Override
     public void dispose() {
-        logo.dispose();
 //        sound.dispose();
         Gdx.app.log("Disposed", "LogoScreen");
     }

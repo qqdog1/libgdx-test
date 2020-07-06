@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -24,6 +25,9 @@ public class Enemy extends Sprite {
 
     private float x;
     private float y;
+    private float scaleWidth;
+    private float scaleHeight;
+
     private float moveRange = 80 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
 
     private int hp = 3;
@@ -34,6 +38,10 @@ public class Enemy extends Sprite {
         this.world = world;
         this.x = enemyDef.getStartX();
         this.y = enemyDef.getStartY();
+        animation = enemyDef.getAnimation();
+        dead = enemyDef.getDead();
+        scaleWidth = ((Texture)animation.getKeyFrame(0)).getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
+        scaleHeight = ((Texture)animation.getKeyFrame(0)).getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
 
         createBody(enemyDef);
     }
@@ -57,23 +65,25 @@ public class Enemy extends Sprite {
         massData.mass = 99999;
         body.setMassData(massData);
 
-        setBounds(0, 0, texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
-        setRegion(texture);
+        setBounds(0, 0, scaleWidth, scaleHeight);
+        setRegion((TextureRegion) animation.getKeyFrame(0));
         setPosition(body.getPosition().x, body.getPosition().y);
 
         body.setLinearVelocity(enemyDef.getVelocityX(), enemyDef.getVelocityY());
     }
 
     public void update(float delta) {
+        stateTime += delta;
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
 
         if(y - body.getPosition().y >= moveRange) {
             body.setLinearVelocity(0, 0);
         }
+        setRegion((TextureRegion) animation.getKeyFrame(stateTime));
 
         if(hp <= 0) {
             body.setActive(false);
-            stateTime += delta;
+            setRegion((TextureRegion) dead.getKeyFrame(stateTime));
             if(stateTime >= 0.5f) {
                 isDestroyed = true;
             }
@@ -84,7 +94,7 @@ public class Enemy extends Sprite {
         hp--;
 
         if(hp == 0) {
-            setRegion(dead);
+            stateTime = 0;
         }
     }
 

@@ -13,36 +13,26 @@ public class EnemyDef {
     private short maskBits;
     private float moveRange;
 
+    public void setStartPosition(float x, float y) {
+        this.startX = x;
+        this.startY = y;
+    }
     public float getStartX() {
         return startX;
     }
-
-    public void setStartX(float startX) {
-        this.startX = startX;
-    }
-
     public float getStartY() {
         return startY;
     }
 
-    public void setStartY(float startY) {
-        this.startY = startY;
+    public void setVelocity(float x, float y) {
+        this.velocityX = x;
+        this.velocityY = y;
     }
-
     public float getVelocityX() {
         return velocityX;
     }
-
-    public void setVelocityX(float velocityX) {
-        this.velocityX = velocityX;
-    }
-
     public float getVelocityY() {
         return velocityY;
-    }
-
-    public void setVelocityY(float velocityY) {
-        this.velocityY = velocityY;
     }
 
     public Animation getAnimation() {

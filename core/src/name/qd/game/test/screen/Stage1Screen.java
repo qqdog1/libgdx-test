@@ -17,6 +17,7 @@ import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.sprite.enemy.Enemy;
 import name.qd.game.test.sprite.bullet.Bullet;
 import name.qd.game.test.sprite.bullet.BulletDef;
+import name.qd.game.test.sprite.enemy.EnemyDef;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
@@ -147,7 +148,11 @@ public class Stage1Screen extends GameScreen {
                     spawnX = SCREEN_WIDTH / 4;
                 }
 
-                Enemy enemy = new Enemy(world, spawnX, SCREEN_HEIGHT);
+                EnemyDef enemyDef = new EnemyDef();
+                enemyDef.setStartPosition(spawnX, SCREEN_HEIGHT);
+                enemyDef.setVelocity(0, -20);
+                enemyDef.setMoveRange(80);
+                Enemy enemy = new Enemy(world, enemyDef);
                 lstEnemy.add(enemy);
             }
         }

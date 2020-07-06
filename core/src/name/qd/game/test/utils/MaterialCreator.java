@@ -3,12 +3,15 @@ package name.qd.game.test.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Array;
 
 public class MaterialCreator {
 
@@ -90,5 +93,13 @@ public class MaterialCreator {
         font.getData().setScale(scale);
 
         return font;
+    }
+
+    public static Animation createAnimation(Texture texture, int x, int y, int width, int height, int frames, float duration) {
+        Array<TextureRegion> array = new Array<>();
+        for(int i = 0 ; i < frames ; i++) {
+            array.add(new TextureRegion(texture, x + (width * i), y, width, height));
+        }
+        return new Animation(duration, array);
     }
 }
