@@ -79,8 +79,7 @@ public class LibTest extends Game {
 		assetManager.load("pic/sprite/bulletred.png", Texture.class);
 		assetManager.load("pic/sprite/bulletgreen.png", Texture.class);
 		assetManager.load("pic/sprite/bulletblue.png", Texture.class);
-		assetManager.load("pic/sprite/enemy1.png", Texture.class);
-		assetManager.load("pic/sprite/edead.png", Texture.class);
+		assetManager.load("pic/sprite/pencil.png", Texture.class);
 		assetManager.load("pic/sprite/ebullet.png", Texture.class);
 
 		assetManager.finishLoading();
