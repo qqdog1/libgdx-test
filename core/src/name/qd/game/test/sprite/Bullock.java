@@ -23,12 +23,20 @@ public class Bullock extends Sprite {
     private boolean isDestroyed;
     private int hp = 3;
 
+    private float stateTime;
+    private float lastFireTime;
+    private float fireRate;
+    private boolean shouldFire;
+
     public Bullock(World world) {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         this.world = world;
 
         texture = assetManager.get("pic/sprite/cnormal.png", Texture.class);
         dead = assetManager.get("pic/sprite/dead.png", Texture.class);
+
+        fireRate = 0.5f;
+        shouldFire = false;
 
         createBullockBody();
     }
@@ -57,12 +65,27 @@ public class Bullock extends Sprite {
     }
 
     public void update(float delta) {
+        stateTime += delta;
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
         body.setLinearVelocity(0, 0);
         if(hp == 0) {
             isDestroyed = true;
+            shouldFire = false;
             setRegion(dead);
+        } else {
+            if(stateTime >= lastFireTime + fireRate) {
+                shouldFire = true;
+                lastFireTime = stateTime;
+            }
         }
+    }
+
+    public boolean isShouldFire() {
+        if(shouldFire) {
+            shouldFire = false;
+            return true;
+        }
+        return false;
     }
 
     private void createBullockBody() {

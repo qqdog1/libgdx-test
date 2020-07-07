@@ -3,6 +3,7 @@ package name.qd.game.test.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -18,6 +19,7 @@ import name.qd.game.test.sprite.enemy.Enemy;
 import name.qd.game.test.sprite.bullet.Bullet;
 import name.qd.game.test.sprite.bullet.BulletDef;
 import name.qd.game.test.sprite.enemy.EnemyDef;
+import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
@@ -41,9 +43,6 @@ public class Stage1Screen extends GameScreen {
 
     private float stateTime = 0;
 
-    private float lastFireTime;
-    private float fireRate;
-
     private float spawnRate;
     private float lastSpawnTime;
 
@@ -58,13 +57,13 @@ public class Stage1Screen extends GameScreen {
 
         world = new World(new Vector2(0, 0), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
+        box2DDebugRenderer.setDrawBodies(false);
 
         bullock = new Bullock(world);
 
         Gdx.input.setInputProcessor(stage);
         world.setContactListener(new WorldContactListener());
 
-        fireRate = 0.5f;
         spawnRate = 2f;
 
         stage.addListener(new ClickListener() {
@@ -107,9 +106,8 @@ public class Stage1Screen extends GameScreen {
 
         bullock.update(delta);
 
-        if(stateTime >= lastFireTime + fireRate) {
-            lastFireTime += fireRate;
-            if(!bullock.isDestroyed()) {
+        if(!bullock.isDestroyed()) {
+            if(bullock.isShouldFire()) {
                 BulletDef bulletDef = new BulletDef();
                 bulletDef.setStartPosition(bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
                 bulletDef.setTexture(assetManager.get("pic/sprite/bulletblue.png", Texture.class));
@@ -119,11 +117,12 @@ public class Stage1Screen extends GameScreen {
                 Bullet bullockBullet = new Bullet(world, bulletDef);
                 lstBullockBullet.add(bullockBullet);
             }
+        }
 
-
-            if(lstEnemy.size() > 0) {
-                // 要改到clear enemy 之後
-                for(Enemy enemy : lstEnemy) {
+        if(lstEnemy.size() > 0) {
+            // 要改到clear enemy 之後
+            for(Enemy enemy : lstEnemy) {
+                if(enemy.isShouldFire()) {
                     BulletDef bulletDef = new BulletDef();
                     bulletDef.setStartPosition(enemy.getX() + (enemy.getWidth() / 2), enemy.getY());
                     bulletDef.setVelocity(0, -20);
@@ -152,6 +151,8 @@ public class Stage1Screen extends GameScreen {
                 enemyDef.setStartPosition(spawnX, SCREEN_HEIGHT);
                 enemyDef.setVelocity(0, -20);
                 enemyDef.setMoveRange(80);
+                enemyDef.setAnimation(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 54, 104, 3, 0.2f, Animation.PlayMode.LOOP_PINGPONG));
+                enemyDef.setDead(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 162, 0, 54, 104, 1, 0.2f));
                 Enemy enemy = new Enemy(world, enemyDef);
                 lstEnemy.add(enemy);
             }

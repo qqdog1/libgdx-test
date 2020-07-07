@@ -32,6 +32,9 @@ public class Enemy extends Sprite {
 
     private int hp = 3;
     private float stateTime;
+    private float lastFireTime;
+    private float fireRate;
+    private boolean shouldFire;
     private boolean isDestroyed;
 
     public Enemy(World world, EnemyDef enemyDef) {
@@ -40,8 +43,10 @@ public class Enemy extends Sprite {
         this.y = enemyDef.getStartY();
         animation = enemyDef.getAnimation();
         dead = enemyDef.getDead();
-        scaleWidth = ((Texture)animation.getKeyFrame(0)).getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
-        scaleHeight = ((Texture)animation.getKeyFrame(0)).getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
+        scaleWidth = 54 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
+        scaleHeight = 104 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
+
+        fireRate = 1f;
 
         createBody(enemyDef);
     }
@@ -72,6 +77,14 @@ public class Enemy extends Sprite {
         body.setLinearVelocity(enemyDef.getVelocityX(), enemyDef.getVelocityY());
     }
 
+    public boolean isShouldFire() {
+        if(shouldFire) {
+            shouldFire = false;
+            return true;
+        }
+        return false;
+    }
+
     public void update(float delta) {
         stateTime += delta;
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
@@ -86,6 +99,11 @@ public class Enemy extends Sprite {
             setRegion((TextureRegion) dead.getKeyFrame(stateTime));
             if(stateTime >= 0.5f) {
                 isDestroyed = true;
+            }
+        } else {
+            if(stateTime >= lastFireTime + fireRate) {
+                shouldFire = true;
+                lastFireTime = stateTime;
             }
         }
     }

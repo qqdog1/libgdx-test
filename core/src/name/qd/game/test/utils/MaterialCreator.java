@@ -95,11 +95,23 @@ public class MaterialCreator {
         return font;
     }
 
+    public static Animation createAnimation(Texture texture, int width, int height, int frames, float duration) {
+        return createAnimation(texture, 0, 0, width, height, frames, duration);
+    }
+
+    public static Animation createAnimation(Texture texture, int width, int height, int frames, float duration, Animation.PlayMode playMode) {
+        return createAnimation(texture, 0, 0, width, height, frames, duration, playMode);
+    }
+
     public static Animation createAnimation(Texture texture, int x, int y, int width, int height, int frames, float duration) {
+        return createAnimation(texture, x, y, width, height, frames, duration, Animation.PlayMode.NORMAL);
+    }
+
+    public static Animation createAnimation(Texture texture, int x, int y, int width, int height, int frames, float duration, Animation.PlayMode playMode) {
         Array<TextureRegion> array = new Array<>();
         for(int i = 0 ; i < frames ; i++) {
             array.add(new TextureRegion(texture, x + (width * i), y, width, height));
         }
-        return new Animation(duration, array);
+        return new Animation(duration, array, playMode);
     }
 }

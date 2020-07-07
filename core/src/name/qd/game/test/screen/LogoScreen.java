@@ -21,7 +21,7 @@ public class LogoScreen extends GameScreen {
     private float y;
 
     public LogoScreen() {
-        animation = MaterialCreator.createAnimation(new Texture("pic/logo.png"), 0, 0, 256, 256, 5, 0.2f);
+        animation = MaterialCreator.createAnimation(new Texture("pic/logo.png"),256, 256, 5, 0.2f);
         echohole = new Texture("pic/echohole.png");
 
         scaleWidth = 256 * SCALE_RATE;
