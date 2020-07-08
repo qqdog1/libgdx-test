@@ -3,7 +3,6 @@ package name.qd.game.test.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -15,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import name.qd.game.test.constant.CollisionType;
+import name.qd.game.test.queue.Stage1EnemyQueue;
 import name.qd.game.test.sprite.enemy.Enemy;
 import name.qd.game.test.sprite.bullet.Bullet;
 import name.qd.game.test.sprite.bullet.BulletDef;
 import name.qd.game.test.sprite.enemy.EnemyDef;
-import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
@@ -41,14 +40,11 @@ public class Stage1Screen extends GameScreen {
 
     private Stage stage;
 
-    private float stateTime = 0;
-
-    private float spawnRate;
-    private float lastSpawnTime;
-
     private List<Bullet> lstBullockBullet = new ArrayList<>();
     private List<Bullet> lstEnemyBullet = new ArrayList<>();
     private List<Enemy> lstEnemy = new ArrayList<>();
+
+    private Stage1EnemyQueue stage1EnemyQueue = new Stage1EnemyQueue();
 
     public Stage1Screen() {
         assetManager = ResourceInstance.getInstance().getAssetManager();
@@ -63,8 +59,6 @@ public class Stage1Screen extends GameScreen {
 
         Gdx.input.setInputProcessor(stage);
         world.setContactListener(new WorldContactListener());
-
-        spawnRate = 2f;
 
         stage.addListener(new ClickListener() {
             @Override
@@ -101,7 +95,6 @@ public class Stage1Screen extends GameScreen {
     public void render(float delta) {
         super.render(delta);
 
-        stateTime += delta;
         world.setContactFilter(new WorldContactFilter());
 
         bullock.update(delta);
@@ -135,27 +128,10 @@ public class Stage1Screen extends GameScreen {
             }
         }
 
-        if(stateTime >= lastSpawnTime + spawnRate) {
-            lastSpawnTime += spawnRate;
-            if(lstEnemy.size() < 3) {
-                float spawnX;
-                if(lastSpawnTime % 6 == 0) {
-                    spawnX = SCREEN_WIDTH * 3 / 4;
-                } else if(lastSpawnTime % 4 == 0) {
-                    spawnX = SCREEN_WIDTH / 2;
-                } else {
-                    spawnX = SCREEN_WIDTH / 4;
-                }
-
-                EnemyDef enemyDef = new EnemyDef();
-                enemyDef.setStartPosition(spawnX, SCREEN_HEIGHT);
-                enemyDef.setVelocity(0, -20);
-                enemyDef.setMoveRange(80);
-                enemyDef.setAnimation(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 54, 104, 3, 0.2f, Animation.PlayMode.LOOP_PINGPONG));
-                enemyDef.setDead(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 162, 0, 54, 104, 1, 0.2f));
-                Enemy enemy = new Enemy(world, enemyDef);
-                lstEnemy.add(enemy);
-            }
+        EnemyDef enemyDef = stage1EnemyQueue.getNextEnemyDef(delta);
+        if(enemyDef != null) {
+            Enemy enemy = new Enemy(world, enemyDef);
+            lstEnemy.add(enemy);
         }
 
         if(background_y < SCREEN_HEIGHT - (background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)) {
@@ -185,6 +161,11 @@ public class Stage1Screen extends GameScreen {
         clearSprite();
 
         stage.draw();
+
+        if(stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
+            // 過關
+            Gdx.app.log("Finish", "Cool");
+        }
 
         world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
     }
