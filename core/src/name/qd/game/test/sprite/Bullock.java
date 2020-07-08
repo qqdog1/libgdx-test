@@ -116,4 +116,8 @@ public class Bullock extends Sprite {
         if(hp == 0) return;
         hp--;
     }
+
+    public int getHp() {
+        return hp;
+    }
 }
