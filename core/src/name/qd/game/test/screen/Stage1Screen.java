@@ -27,7 +27,7 @@ import name.qd.game.test.listener.WorldContactListener;
 import name.qd.game.test.sprite.Bullock;
 
 public class Stage1Screen extends GameScreen {
-    private AssetManager assetManager;
+    private AssetManager assetManager = ResourceInstance.getInstance().getAssetManager();
     private Texture background;
     private float background_y;
 
@@ -47,7 +47,6 @@ public class Stage1Screen extends GameScreen {
     private Stage1EnemyQueue stage1EnemyQueue = new Stage1EnemyQueue();
 
     public Stage1Screen() {
-        assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stagebackground.png", Texture.class);
         stage = new Stage(viewport, spriteBatch);
 
@@ -165,6 +164,7 @@ public class Stage1Screen extends GameScreen {
         if(stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
             // 過關
             Gdx.app.log("Finish", "Cool");
+            toNextScreen(ScreenType.MENU);
         }
 
         world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
@@ -249,5 +249,6 @@ public class Stage1Screen extends GameScreen {
 
     @Override
     public void dispose() {
+        box2DDebugRenderer.dispose();
     }
 }

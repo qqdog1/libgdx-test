@@ -51,6 +51,7 @@ public class ScreenManager {
             case L1:
                 map.remove(screenType).dispose();
                 break;
+            // 常用的screen 留著instance
             case MENU:
             case UPGRADE:
                 map.get(screenType).dispose();

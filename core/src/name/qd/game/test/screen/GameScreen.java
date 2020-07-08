@@ -55,8 +55,8 @@ public abstract class GameScreen implements Screen {
     abstract ScreenType currentScreen();
 
     void toNextScreen(ScreenType screenType) {
-        ResourceInstance.getInstance().setScreen(ScreenManager.getInstance().getScreen(screenType));
         ScreenManager.getInstance().closeScreen(currentScreen());
+        ResourceInstance.getInstance().setScreen(ScreenManager.getInstance().getScreen(screenType));
     }
 
     void quickLog(String title, Object ... objects) {
