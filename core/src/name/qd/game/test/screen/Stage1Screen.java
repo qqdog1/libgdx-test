@@ -1,6 +1,7 @@
 package name.qd.game.test.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.hud.FightingHud;
+import name.qd.game.test.hud.SettlementHud;
 import name.qd.game.test.queue.Stage1EnemyQueue;
 import name.qd.game.test.sprite.enemy.Enemy;
 import name.qd.game.test.sprite.bullet.Bullet;
@@ -47,6 +49,7 @@ public class Stage1Screen extends GameScreen {
 
     private Stage1EnemyQueue stage1EnemyQueue = new Stage1EnemyQueue();
     private FightingHud fightingHud;
+    private SettlementHud settlementHud;
 
     public Stage1Screen() {
         background = assetManager.get("pic/stagebackground.png", Texture.class);
@@ -57,7 +60,7 @@ public class Stage1Screen extends GameScreen {
         box2DDebugRenderer.setDrawBodies(false);
 
         bullock = new Bullock(world);
-        fightingHud = new FightingHud(spriteBatch, bullock.getHp());
+        fightingHud = new FightingHud(bullock.getHp());
 
         Gdx.input.setInputProcessor(stage);
         world.setContactListener(new WorldContactListener());
@@ -162,16 +165,25 @@ public class Stage1Screen extends GameScreen {
 
         clearSprite();
 
-        spriteBatch.setProjectionMatrix(fightingHud.stage.getCamera().combined);
+        spriteBatch.setProjectionMatrix(fightingHud.getStage().getCamera().combined);
         fightingHud.setHp(bullock.getHp());
-        fightingHud.stage.draw();
-        stage.draw();
+        fightingHud.getStage().draw();
 
         if(stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
             // 過關
-            Gdx.app.log("Finish", "Cool");
-            toNextScreen(ScreenType.MENU);
+            if(settlementHud == null) {
+                settlementHud = new SettlementHud(999);
+            }
+
+            settlementHud.getStage().draw();
+            settlementHud.getStage().act(delta);
+
+            if(settlementHud.isClickFinish()) {
+                toNextScreen(ScreenType.MENU);
+            }
         }
+
+        stage.draw();
 
         world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
     }

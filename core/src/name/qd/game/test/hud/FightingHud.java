@@ -14,9 +14,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import name.qd.game.test.screen.GameScreen;
+import name.qd.game.test.utils.ResourceInstance;
 
 public class FightingHud implements Disposable {
-    public Stage stage;
+    private Stage stage;
     private Viewport viewport;
     private int money;
     private int hp;
@@ -24,8 +25,9 @@ public class FightingHud implements Disposable {
     private Table liveTable;
     private Label lblMoney;
 
-    public FightingHud(SpriteBatch spriteBatch, int hp) {
+    public FightingHud(int hp) {
         this.hp = hp;
+        SpriteBatch spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
 
         viewport = new FitViewport(GameScreen.WIDTH, GameScreen.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
@@ -47,6 +49,10 @@ public class FightingHud implements Disposable {
         table.add(lblMoney).padRight(0);
 
         stage.addActor(table);
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     public void setHp(int hp) {

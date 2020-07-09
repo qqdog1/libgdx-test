@@ -19,6 +19,5 @@ public class Stage1EnemyQueue extends EnemyDefQueue {
         pencil.setDead(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 162, 0, 54, 104, 1, 0.2f));
 
         put(2, pencil);
-        put(2, pencil);
     }
 }
