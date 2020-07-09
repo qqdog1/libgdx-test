@@ -61,19 +61,19 @@ public class StartScreen extends GameScreen {
         c1ScaleWidth = c1.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
         c1ScaleHeight = c1.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
         c1From = new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
-        c1To = new Vector2(0, (HEIGHT - c1ScaleHeight) / 2 / Constants.PIXEL_PER_METER);
+        c1To = new Vector2(0, (SCREEN_HEIGHT - c1ScaleHeight) / 2);
 
         c2 = new Texture("pic/c2.png");
         c2ScaleWidth = c2.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
         c2ScaleHeight = c2.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
         c2From = new Vector2(-c2.getWidth() / Constants.PIXEL_PER_METER, SCREEN_HEIGHT);
-        c2To = new Vector2((SCREEN_WIDTH - c2ScaleWidth) / Constants.PIXEL_PER_METER, (SCREEN_HEIGHT - c2ScaleHeight) / 2 / Constants.PIXEL_PER_METER);
+        c2To = new Vector2(SCREEN_WIDTH - c2ScaleWidth, (SCREEN_HEIGHT - c2ScaleHeight) / 2);
 
         c3 = new Texture("pic/c3.png");
         c3ScaleWidth = c3.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
         c3ScaleHeight = c3.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
         c3From = new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
-        c3To = new Vector2((SCREEN_WIDTH - c3ScaleWidth) / 2 / Constants.PIXEL_PER_METER, (SCREEN_HEIGHT - c3ScaleHeight * 1.5f) / 2 / Constants.PIXEL_PER_METER);
+        c3To = new Vector2((SCREEN_WIDTH - c3ScaleWidth) / 2, (SCREEN_HEIGHT - c3ScaleHeight * 1.5f) / 2);
 
         finishMoveInSecond = 0.2f;
         startFlashRate = 0.3f;
@@ -159,6 +159,8 @@ public class StartScreen extends GameScreen {
         }
 
         spriteBatch.end();
+
+        stage.draw();
     }
 
     private void drawOnLastPoint(Texture texture, Vector2 position, float width, float height) {
