@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.PreferencesUtils;
 
@@ -53,33 +54,33 @@ public class StartScreen extends GameScreen {
     public StartScreen() {
         background = assetManager.get("pic/background.png", Texture.class);
         title = new Texture("pic/title.png");
-        titleScaleWidth = title.getWidth() * SCALE_RATE;
-        titleScaleHeight = title.getHeight() * SCALE_RATE;
+        titleScaleWidth = title.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        titleScaleHeight = title.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
 
         c1 = new Texture("pic/c1.png");
-        c1ScaleWidth = c1.getWidth() * SCALE_RATE;
-        c1ScaleHeight = c1.getHeight() * SCALE_RATE;
-        c1From = new Vector2(WIDTH, HEIGHT);
-        c1To = new Vector2(0, (HEIGHT - c1ScaleHeight) / 2);
+        c1ScaleWidth = c1.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        c1ScaleHeight = c1.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        c1From = new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
+        c1To = new Vector2(0, (HEIGHT - c1ScaleHeight) / 2 / Constants.PIXEL_PER_METER);
 
         c2 = new Texture("pic/c2.png");
-        c2ScaleWidth = c2.getWidth() * SCALE_RATE;
-        c2ScaleHeight = c2.getHeight() * SCALE_RATE;
-        c2From = new Vector2(-c2.getWidth(), HEIGHT);
-        c2To = new Vector2(WIDTH - c2ScaleWidth, (HEIGHT - c2ScaleHeight) / 2);
+        c2ScaleWidth = c2.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        c2ScaleHeight = c2.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        c2From = new Vector2(-c2.getWidth() / Constants.PIXEL_PER_METER, SCREEN_HEIGHT);
+        c2To = new Vector2((SCREEN_WIDTH - c2ScaleWidth) / Constants.PIXEL_PER_METER, (SCREEN_HEIGHT - c2ScaleHeight) / 2 / Constants.PIXEL_PER_METER);
 
         c3 = new Texture("pic/c3.png");
-        c3ScaleWidth = c3.getWidth() * SCALE_RATE;
-        c3ScaleHeight = c3.getHeight() * SCALE_RATE;
-        c3From = new Vector2(WIDTH, HEIGHT);
-        c3To = new Vector2((WIDTH - c3ScaleWidth) / 2, (HEIGHT - c3ScaleHeight * 1.5f) / 2);
+        c3ScaleWidth = c3.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        c3ScaleHeight = c3.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER;
+        c3From = new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
+        c3To = new Vector2((SCREEN_WIDTH - c3ScaleWidth) / 2 / Constants.PIXEL_PER_METER, (SCREEN_HEIGHT - c3ScaleHeight * 1.5f) / 2 / Constants.PIXEL_PER_METER);
 
         finishMoveInSecond = 0.2f;
         startFlashRate = 0.3f;
 
         glyphLayout = new GlyphLayout();
         bitmapFont = new BitmapFont();
-        bitmapFont.getData().setScale(2 * SCALE_RATE);
+        bitmapFont.getData().setScale(2 * SCALE_RATE / Constants.PIXEL_PER_METER);
         bitmapFont.setColor(Color.RED);
         glyphLayout.setText(bitmapFont, "TOUCH TO START");
 
@@ -113,17 +114,17 @@ public class StartScreen extends GameScreen {
 
         stateTime += delta;
 
-        if(background_y < HEIGHT - (background.getHeight() * SCALE_RATE)) {
+        if(background_y < SCREEN_HEIGHT - (background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)) {
             background_y = 0;
         }
 
         spriteBatch.begin();
 
-        spriteBatch.draw(background, 0, background_y--, background.getWidth() * SCALE_RATE, background.getHeight() * SCALE_RATE);
-        spriteBatch.draw(title, (WIDTH - titleScaleWidth) / 2, HEIGHT - titleScaleHeight * 1.5f, titleScaleWidth, titleScaleHeight);
+        spriteBatch.draw(background, 0, background_y--, background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+        spriteBatch.draw(title, (SCREEN_WIDTH - titleScaleWidth) / 2, SCREEN_HEIGHT - titleScaleHeight * 1.5f, titleScaleWidth, titleScaleHeight);
 
         if((int)(stateTime / startFlashRate) % 2 > 0) {
-            bitmapFont.draw(spriteBatch, glyphLayout, (WIDTH - glyphLayout.width) / 2, c3To.y / 2 + glyphLayout.height);
+            bitmapFont.draw(spriteBatch, glyphLayout, (SCREEN_WIDTH - glyphLayout.width) / 2, c3To.y / 2 + glyphLayout.height);
         }
 
         switch(status) {
