@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -22,6 +23,7 @@ public abstract class GameScreen implements Screen {
 
     final SpriteBatch spriteBatch;
     final AssetManager assetManager;
+    final Stage stage;
 
     OrthographicCamera camera;
     Viewport viewport;
@@ -32,8 +34,9 @@ public abstract class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
+        stage = new Stage(viewport, spriteBatch);
 
-        camera.position.set(viewport.getWorldWidth(), viewport.getWorldHeight(), 0);
+        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
     }
 
     @Override

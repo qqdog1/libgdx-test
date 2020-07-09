@@ -1,14 +1,12 @@
 package name.qd.game.test.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
@@ -41,8 +39,6 @@ public class Stage1Screen extends GameScreen {
     private float lastX;
     private float lastY;
 
-    private Stage stage;
-
     private List<Bullet> lstBullockBullet = new ArrayList<>();
     private List<Bullet> lstEnemyBullet = new ArrayList<>();
     private List<Enemy> lstEnemy = new ArrayList<>();
@@ -53,7 +49,6 @@ public class Stage1Screen extends GameScreen {
 
     public Stage1Screen() {
         background = assetManager.get("pic/stagebackground.png", Texture.class);
-        stage = new Stage(viewport, spriteBatch);
 
         world = new World(new Vector2(0, 0), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
@@ -101,6 +96,7 @@ public class Stage1Screen extends GameScreen {
         super.render(delta);
 
         world.setContactFilter(new WorldContactFilter());
+
 
         bullock.update(delta);
 

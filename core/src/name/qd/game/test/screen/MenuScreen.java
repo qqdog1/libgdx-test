@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -28,7 +27,6 @@ import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class MenuScreen extends GameScreen {
-    private Stage stage;
     private AssetManager assetManager;
     private Texture background;
     private Texture settingsBackground;
@@ -64,7 +62,6 @@ public class MenuScreen extends GameScreen {
     private float backgroundScaleWidth;
 
     MenuScreen() {
-        stage = new Stage(viewport, spriteBatch);
         assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stage.png", Texture.class);
         settingsBackground = assetManager.get("pic/board.png", Texture.class);
