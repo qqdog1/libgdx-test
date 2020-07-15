@@ -2,14 +2,13 @@ package name.qd.game.test.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.ScreenType;
+import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class StartScreen extends GameScreen {
@@ -44,11 +43,10 @@ public class StartScreen extends GameScreen {
     private float finishMoveInSecond;
     private float startFlashRate;
 
-    private GlyphLayout glyphLayout;
     private BitmapFont bitmapFont;
 
     private Music music;
-    private int background_y = 0;
+    private float background_y = 0;
     private int saveState;
 
     public StartScreen() {
@@ -78,11 +76,7 @@ public class StartScreen extends GameScreen {
         finishMoveInSecond = 0.2f;
         startFlashRate = 0.3f;
 
-        glyphLayout = new GlyphLayout();
-        bitmapFont = new BitmapFont();
-        bitmapFont.getData().setScale(2 * SCALE_RATE / Constants.PIXEL_PER_METER);
-        bitmapFont.setColor(Color.RED);
-        glyphLayout.setText(bitmapFont, "TOUCH TO START");
+        bitmapFont = MaterialCreator.getDefaultFont(2 * SCALE_RATE / Constants.PIXEL_PER_METER);
 
         status = Status.NONE;
 
@@ -119,13 +113,13 @@ public class StartScreen extends GameScreen {
         }
 
         spriteBatch.begin();
-
-        spriteBatch.draw(background, 0, background_y--, background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
+        background_y -= 1 * SCALE_RATE / Constants.PIXEL_PER_METER;
+        spriteBatch.draw(background, 0, background_y, background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         spriteBatch.draw(title, (SCREEN_WIDTH - titleScaleWidth) / 2, SCREEN_HEIGHT - titleScaleHeight * 1.5f, titleScaleWidth, titleScaleHeight);
 
-        if((int)(stateTime / startFlashRate) % 2 > 0) {
-            bitmapFont.draw(spriteBatch, glyphLayout, (SCREEN_WIDTH - glyphLayout.width) / 2, c3To.y / 2 + glyphLayout.height);
-        }
+//        if((int)(stateTime / startFlashRate) % 2 > 0) {
+        bitmapFont.draw(spriteBatch, "TOUCH TO START", SCREEN_WIDTH / 8, SCREEN_HEIGHT / 6);
+//        }
 
         switch(status) {
             case C3:

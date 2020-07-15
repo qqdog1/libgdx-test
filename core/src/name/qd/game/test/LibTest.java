@@ -14,7 +14,7 @@ public class LibTest extends Game {
 	private SpriteBatch batch;
 	private AssetManager assetManager;
 
-	private name.qd.game.test.utils.ResourceInstance resourceInstance = ResourceInstance.getInstance();
+	private ResourceInstance resourceInstance = ResourceInstance.getInstance();
 
 	@Override
 	public void create () {

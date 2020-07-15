@@ -60,38 +60,8 @@ public class MaterialCreator {
     }
 
     public static BitmapFont getDefaultFont(float scale) {
-        BitmapFont font = new BitmapFont();
-
-        for(BitmapFont.Glyph[] glyphs : font.getData().glyphs) {
-            if(glyphs != null) {
-                for(BitmapFont.Glyph glyph : glyphs) {
-                    if(glyph != null) {
-                        Gdx.app.log(glyph.toString(), String.valueOf(glyph.width));
-
-                        switch (glyph.toString()) {
-                            case "O":
-                            case "b":
-                            case "e":
-                            case "g":
-                            case "n":
-                                glyph.xadvance = 10;
-                                break;
-                            case "U":
-                                glyph.xadvance = 12;
-                                break;
-                            case "i":
-                                glyph.xadvance = 5;
-                                break;
-                            default:
-                                glyph.xadvance = glyph.width;
-                        }
-                    }
-                }
-            }
-        }
-
+        BitmapFont font = new BitmapFont(Gdx.files.internal("font/font.fnt"), Gdx.files.internal("font/font.png"), false);
         font.getData().setScale(scale);
-
         return font;
     }
 
