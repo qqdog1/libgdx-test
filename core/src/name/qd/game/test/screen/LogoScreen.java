@@ -35,6 +35,8 @@ public class LogoScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
+        quickLog("Load", assetManager.getProgress());
+
         super.render(delta);
 
         stateTime += delta;

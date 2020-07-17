@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.screen.GameScreen;
-import name.qd.game.test.utils.ResourceInstance;
 
 public class Enemy extends Sprite {
     private World world;

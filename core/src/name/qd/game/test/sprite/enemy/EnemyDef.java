@@ -2,6 +2,8 @@ package name.qd.game.test.sprite.enemy;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import name.qd.game.test.queue.EnemyActionQueue;
+
 public class EnemyDef {
     private float startX;
     private float startY;
@@ -12,6 +14,7 @@ public class EnemyDef {
     private short categoryBits;
     private short maskBits;
     private float moveRange;
+    private EnemyActionQueue enemyActionQueue;
 
     public void setStartPosition(float x, float y) {
         this.startX = x;
@@ -73,5 +76,13 @@ public class EnemyDef {
 
     public void setMoveRange(float moveRange) {
         this.moveRange = moveRange;
+    }
+
+    public EnemyActionQueue getEnemyActionQueue() {
+        return enemyActionQueue;
+    }
+
+    public void setEnemyActionQueue(EnemyActionQueue enemyActionQueue) {
+        this.enemyActionQueue = enemyActionQueue;
     }
 }
