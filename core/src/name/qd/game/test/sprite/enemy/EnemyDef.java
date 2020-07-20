@@ -7,13 +7,11 @@ import name.qd.game.test.queue.EnemyActionQueue;
 public class EnemyDef {
     private float startX;
     private float startY;
-    private float velocityX;
-    private float velocityY;
     private Animation animation;
     private Animation dead;
     private short categoryBits;
     private short maskBits;
-    private float moveRange;
+    private float fireRate;
     private EnemyActionQueue enemyActionQueue;
 
     public void setStartPosition(float x, float y) {
@@ -25,17 +23,6 @@ public class EnemyDef {
     }
     public float getStartY() {
         return startY;
-    }
-
-    public void setVelocity(float x, float y) {
-        this.velocityX = x;
-        this.velocityY = y;
-    }
-    public float getVelocityX() {
-        return velocityX;
-    }
-    public float getVelocityY() {
-        return velocityY;
     }
 
     public Animation getAnimation() {
@@ -70,12 +57,12 @@ public class EnemyDef {
         this.maskBits = maskBits;
     }
 
-    public float getMoveRange() {
-        return moveRange;
+    public float getFireRate() {
+        return fireRate;
     }
 
-    public void setMoveRange(float moveRange) {
-        this.moveRange = moveRange;
+    public void setFireRate(float fireRate) {
+        this.fireRate = fireRate;
     }
 
     public EnemyActionQueue getEnemyActionQueue() {

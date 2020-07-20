@@ -1,7 +1,5 @@
 package name.qd.game.test.sprite.enemy;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.constant.Constants;
@@ -27,14 +26,14 @@ public class Enemy extends Sprite {
     private float scaleWidth;
     private float scaleHeight;
 
-    private float moveRange = 80 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
-
     private int hp = 3;
     private float stateTime;
     private float lastFireTime;
     private float fireRate;
     private boolean shouldFire;
     private boolean isDestroyed;
+
+    private Actor actor;
 
     public Enemy(World world, EnemyDef enemyDef) {
         this.world = world;
@@ -45,7 +44,7 @@ public class Enemy extends Sprite {
         scaleWidth = 54 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
         scaleHeight = 104 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
 
-        fireRate = 1f;
+        fireRate = enemyDef.getFireRate();
 
         createBody(enemyDef);
     }
@@ -72,8 +71,6 @@ public class Enemy extends Sprite {
         setBounds(0, 0, scaleWidth, scaleHeight);
         setRegion((TextureRegion) animation.getKeyFrame(0));
         setPosition(body.getPosition().x, body.getPosition().y);
-
-        body.setLinearVelocity(enemyDef.getVelocityX(), enemyDef.getVelocityY());
     }
 
     public boolean isShouldFire() {
@@ -87,11 +84,7 @@ public class Enemy extends Sprite {
     public void update(float delta) {
         stateTime += delta;
         setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
-
-        if(y - body.getPosition().y >= moveRange) {
-            body.setLinearVelocity(0, 0);
-        }
-        setRegion((TextureRegion) animation.getKeyFrame(stateTime));
+        TextureRegion currentFrame = (TextureRegion) animation.getKeyFrame(stateTime);
 
         if(hp <= 0) {
             body.setActive(false);
@@ -100,11 +93,13 @@ public class Enemy extends Sprite {
                 isDestroyed = true;
             }
         } else {
+            setRegion(currentFrame);
             if(stateTime >= lastFireTime + fireRate) {
                 shouldFire = true;
                 lastFireTime = stateTime;
             }
         }
+
     }
 
     public void onHit() {

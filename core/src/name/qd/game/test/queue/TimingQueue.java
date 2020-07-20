@@ -8,7 +8,7 @@ public class TimingQueue<T> {
     private Queue<T> timingQueue = new LinkedList<>();
     private float waitingTime;
 
-    protected void put(float time, T t) {
+    protected void put(float time, T t) throws Exception {
         timeQueue.add(time);
         timingQueue.add(t);
     }
