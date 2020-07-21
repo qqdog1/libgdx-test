@@ -106,8 +106,8 @@ public class Enemy extends Sprite {
 
             EnemyAction enemyAction = enemyActionQueue.getNext(delta);
             if(enemyAction != null) {
-                float moveToX = body.getPosition().x + (enemyAction.getRangeX() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
-                float moveToY = body.getPosition().y + (enemyAction.getRangeY() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
+                float moveToX = body.getPosition().x + enemyAction.getRangeX();
+                float moveToY = body.getPosition().y + enemyAction.getRangeY();
                 actor.addAction(Actions.moveTo(moveToX, moveToY, enemyAction.getDuration(), enemyAction.getInterpolation()));
             }
             actor.act(delta);

@@ -21,11 +21,13 @@ public class Stage1EnemyQueue extends EnemyDefQueue {
         pencil.setFireRate(3f);
         pencil.setRadius(25f);
         EnemyActionQueue enemyActionQueue = new EnemyActionQueue();
-        EnemyAction enemyAction = new EnemyAction(0, -2000 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.linear);
-        EnemyAction enemyAction2 = new EnemyAction(1000 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0, 0.5f, Interpolation.linear);
+        EnemyAction enemyAction = new EnemyAction(0, -200 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.linear);
+        EnemyAction enemyAction2 = new EnemyAction(100 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0, 0.5f, Interpolation.linear);
+        EnemyAction enemyAction3 = new EnemyAction(100 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 200 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.exp10In);
         try {
             enemyActionQueue.put(1f, enemyAction);
             enemyActionQueue.put(1f, enemyAction2);
+            enemyActionQueue.put(1f, enemyAction3);
         } catch (Exception e) {
             Gdx.app.log("Exception", String.format("Put to EnemyActionQueue failed. %s", e.getMessage()));
         }

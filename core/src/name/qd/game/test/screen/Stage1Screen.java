@@ -52,7 +52,7 @@ public class Stage1Screen extends GameScreen {
 
         world = new World(new Vector2(0, 0), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.setDrawBodies(false);
+//        box2DDebugRenderer.setDrawBodies(false);
 
         bullock = new Bullock(world);
         fightingHud = new FightingHud(bullock.getHp());
