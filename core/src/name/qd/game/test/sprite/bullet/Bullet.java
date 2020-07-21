@@ -19,7 +19,7 @@ public class Bullet extends Sprite {
 
     private boolean isDestroyed = false;
 
-    public Bullet(World world, name.qd.game.test.sprite.bullet.BulletDef bulletDef) {
+    public Bullet(World world, BulletDef bulletDef) {
         this.world = world;
 
         scaleWidth = bulletDef.getTexture().getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;

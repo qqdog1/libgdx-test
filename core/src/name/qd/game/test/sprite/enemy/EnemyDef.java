@@ -14,6 +14,7 @@ public class EnemyDef {
     private short maskBits;
     private float fireRate;
     private float radius;
+    private float scale = 1;
     private EnemyActionQueue enemyActionQueue;
 
     public void setStartPosition(float x, float y) {
@@ -81,6 +82,14 @@ public class EnemyDef {
 
     public void setRadius(float radius) {
         this.radius = radius;
+    }
+
+    public float getScale() {
+        return scale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 
     public EnemyActionQueue getEnemyActionQueue() {
