@@ -183,7 +183,7 @@ public class Stage1Screen extends GameScreen {
 
         stage.draw();
 
-        world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCIFY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
+        world.step(Constants.SYSTEM_TIMESTAMP, Constants.SYSTEM_VELOCITY_ITERATIONS, Constants.SYSTEM_POSITION_ITERATIONS);
     }
 
     private void clearSprite() {
@@ -267,5 +267,6 @@ public class Stage1Screen extends GameScreen {
     public void dispose() {
         box2DDebugRenderer.dispose();
         fightingHud.dispose();
+        stage1EnemyQueue.dispose();
     }
 }

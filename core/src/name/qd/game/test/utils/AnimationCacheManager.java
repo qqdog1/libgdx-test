@@ -10,7 +10,7 @@ public class AnimationCacheManager {
 
     private Map<String, Animation> map = new HashMap<>();
 
-    public AnimationCacheManager getInstance() {
+    public static AnimationCacheManager getInstance() {
         return instance;
     }
 

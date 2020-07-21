@@ -20,7 +20,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import name.qd.game.test.constant.Constants;
-import name.qd.game.test.constant.Level;
 import name.qd.game.test.screen.GameScreen;
 import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.ResourceInstance;
