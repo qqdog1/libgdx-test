@@ -16,6 +16,7 @@ import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.hud.FightingHud;
 import name.qd.game.test.hud.SettlementHud;
 import name.qd.game.test.queue.Stage1EnemyQueue;
+import name.qd.game.test.sprite.BullockDef;
 import name.qd.game.test.sprite.enemy.Enemy;
 import name.qd.game.test.sprite.bullet.Bullet;
 import name.qd.game.test.sprite.bullet.BulletDef;
@@ -54,7 +55,8 @@ public class Stage1Screen extends GameScreen {
         box2DDebugRenderer = new Box2DDebugRenderer();
 //        box2DDebugRenderer.setDrawBodies(false);
 
-        bullock = new Bullock(world);
+        BullockDef bullockDef = ResourceInstance.getInstance().getBullockDef();
+        bullock = new Bullock(world, bullockDef);
         fightingHud = new FightingHud(bullock.getHp());
 
         Gdx.input.setInputProcessor(stage);

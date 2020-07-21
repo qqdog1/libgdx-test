@@ -28,15 +28,19 @@ public class Bullock extends Sprite {
     private float fireRate;
     private boolean shouldFire;
 
-    public Bullock(World world) {
+    private BullockDef bullockDef;
+
+    public Bullock(World world, BullockDef bullockDef) {
         assetManager = ResourceInstance.getInstance().getAssetManager();
         this.world = world;
 
         texture = assetManager.get("pic/sprite/cnormal.png", Texture.class);
         dead = assetManager.get("pic/sprite/dead.png", Texture.class);
 
-        fireRate = 0.5f;
+        fireRate = bullockDef.getFireRate();
         shouldFire = false;
+
+        this.bullockDef = bullockDef;
 
         createBullockBody();
     }
@@ -78,6 +82,14 @@ public class Bullock extends Sprite {
                 lastFireTime = stateTime;
             }
         }
+    }
+
+    public void setFireRate(float fireRate) {
+        this.fireRate = fireRate;
+    }
+
+    public float getFireRate() {
+        return fireRate;
     }
 
     public boolean isShouldFire() {

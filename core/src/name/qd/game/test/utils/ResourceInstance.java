@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import name.qd.game.test.sprite.BullockDef;
+
 public class ResourceInstance {
     private static ResourceInstance instance = new ResourceInstance();
     private Game game;
@@ -40,5 +42,11 @@ public class ResourceInstance {
 
     public void setScreen(Screen screen) {
         game.setScreen(screen);
+    }
+
+    public BullockDef getBullockDef() {
+        BullockDef bullockDef = new BullockDef();
+        bullockDef.setFireRate(0.2f);
+        return bullockDef;
     }
 }
