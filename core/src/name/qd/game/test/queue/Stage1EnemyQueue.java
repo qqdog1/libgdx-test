@@ -16,12 +16,12 @@ public class Stage1EnemyQueue extends EnemyDefQueue {
     @Override
     protected void initData() {
         try {
-            put(1, getSmallPencilDef(GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
-            put(1, getSmallPencilDef(2 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
-            put(1, getSmallPencilDef(3 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
-            put(1, getSmallPencilDef(4 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
-            put(1, getSmallPencilDef(5 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
-            put(1, getSmallPencilDef(6 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
+            put(3f, getSmallPencilDef(GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
+            put(0.3f, getSmallPencilDef(2 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
+            put(0.3f, getSmallPencilDef(3 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
+            put(0.3f, getSmallPencilDef(4 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
+            put(0.3f, getSmallPencilDef(5 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
+            put(0.3f, getSmallPencilDef(6 * GameScreen.SCREEN_WIDTH / 7, GameScreen.SCREEN_HEIGHT + (52 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER)));
         } catch (Exception e) {
             Gdx.app.log("Exception", String.format("Put to EnemyDefQueue failed. %s", e.getMessage()));
         }
