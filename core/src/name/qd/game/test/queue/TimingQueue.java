@@ -16,7 +16,7 @@ public class TimingQueue<T> {
         this.isRecursive = isRecursive;
     }
 
-    protected void put(float time, T t) throws Exception {
+    protected void put(float time, T t) {
         timeQueue.add(time);
         timingQueue.add(t);
     }

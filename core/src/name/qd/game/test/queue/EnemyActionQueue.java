@@ -13,10 +13,7 @@ public class EnemyActionQueue extends TimingQueue<EnemyAction> {
     }
 
     @Override
-    public void put(float time, EnemyAction enemyAction) throws Exception {
-        if(enemyAction.getDuration() > time) {
-            throw new Exception("Action duration is bigger than delay time.");
-        }
+    public void put(float time, EnemyAction enemyAction) {
         super.put(time, enemyAction);
     }
 }
