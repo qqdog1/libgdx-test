@@ -17,7 +17,7 @@ public class TimingQueue<T> {
         return timingQueue.size() == 0;
     }
 
-    public T getNextEnemyDef(float delta) {
+    public T getNext(float delta) {
         waitingTime += delta;
 
         Float spawnTime = timeQueue.peek();

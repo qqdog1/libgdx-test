@@ -19,9 +19,10 @@ public class Stage1EnemyQueue extends EnemyDefQueue {
         pencil.setAnimation(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 54, 104, 3, 0.2f, Animation.PlayMode.LOOP_PINGPONG));
         pencil.setDead(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 162, 0, 54, 104, 1, 0.2f));
         pencil.setFireRate(3f);
+        pencil.setRadius(25f);
         EnemyActionQueue enemyActionQueue = new EnemyActionQueue();
-        EnemyAction enemyAction = new EnemyAction(0, 80 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.linear);
-        EnemyAction enemyAction2 = new EnemyAction(20 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 80 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.linear);
+        EnemyAction enemyAction = new EnemyAction(0, -2000 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.linear);
+        EnemyAction enemyAction2 = new EnemyAction(1000 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0, 0.5f, Interpolation.linear);
         try {
             enemyActionQueue.put(1f, enemyAction);
             enemyActionQueue.put(1f, enemyAction2);

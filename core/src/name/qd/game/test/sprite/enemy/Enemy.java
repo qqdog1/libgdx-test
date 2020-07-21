@@ -9,10 +9,13 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.constant.Constants;
+import name.qd.game.test.queue.EnemyActionQueue;
 import name.qd.game.test.screen.GameScreen;
 
 public class Enemy extends Sprite {
@@ -32,25 +35,28 @@ public class Enemy extends Sprite {
     private float fireRate;
     private boolean shouldFire;
     private boolean isDestroyed;
+    private float radius;
 
     private Actor actor;
+    private EnemyActionQueue enemyActionQueue;
 
     public Enemy(World world, EnemyDef enemyDef) {
         this.world = world;
         this.x = enemyDef.getStartX();
         this.y = enemyDef.getStartY();
+        actor = new Actor();
+        actor.setPosition(x, y);
         animation = enemyDef.getAnimation();
         dead = enemyDef.getDead();
         scaleWidth = 54 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
         scaleHeight = 104 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
-
+        radius = enemyDef.getRadius();
         fireRate = enemyDef.getFireRate();
-
-        createBody(enemyDef);
+        enemyActionQueue = enemyDef.getEnemyActionQueue();
+        createBody();
     }
 
-    private void createBody(EnemyDef enemyDef) {
-        int radius = 25;
+    private void createBody() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -83,28 +89,36 @@ public class Enemy extends Sprite {
 
     public void update(float delta) {
         stateTime += delta;
-        setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
-        TextureRegion currentFrame = (TextureRegion) animation.getKeyFrame(stateTime);
+        TextureRegion currentFrame;
 
         if(hp <= 0) {
             body.setActive(false);
-            setRegion((TextureRegion) dead.getKeyFrame(stateTime));
+            currentFrame = (TextureRegion) dead.getKeyFrame(stateTime);
             if(stateTime >= 0.5f) {
                 isDestroyed = true;
             }
         } else {
-            setRegion(currentFrame);
+            currentFrame = (TextureRegion) animation.getKeyFrame(stateTime);
             if(stateTime >= lastFireTime + fireRate) {
                 shouldFire = true;
                 lastFireTime = stateTime;
             }
-        }
 
+            EnemyAction enemyAction = enemyActionQueue.getNext(delta);
+            if(enemyAction != null) {
+                float moveToX = body.getPosition().x + (enemyAction.getRangeX() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
+                float moveToY = body.getPosition().y + (enemyAction.getRangeY() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
+                actor.addAction(Actions.moveTo(moveToX, moveToY, enemyAction.getDuration(), enemyAction.getInterpolation()));
+            }
+            actor.act(delta);
+            body.setTransform(actor.getX(), actor.getY(), 0);
+            setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
+        }
+        setRegion(currentFrame);
     }
 
     public void onHit() {
         hp--;
-
         if(hp == 0) {
             stateTime = 0;
         }

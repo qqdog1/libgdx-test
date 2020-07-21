@@ -129,7 +129,7 @@ public class Stage1Screen extends GameScreen {
             }
         }
 
-        EnemyDef enemyDef = stage1EnemyQueue.getNextEnemyDef(delta);
+        EnemyDef enemyDef = stage1EnemyQueue.getNext(delta);
         if(enemyDef != null) {
             Enemy enemy = new Enemy(world, enemyDef);
             lstEnemy.add(enemy);
