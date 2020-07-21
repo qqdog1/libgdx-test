@@ -7,6 +7,7 @@ import name.qd.game.test.queue.EnemyActionQueue;
 public class EnemyDef {
     private float startX;
     private float startY;
+    private int hp;
     private Animation animation;
     private Animation dead;
     private short categoryBits;
@@ -40,6 +41,14 @@ public class EnemyDef {
 
     public void setDead(Animation dead) {
         this.dead = dead;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     public short getCategoryBits() {

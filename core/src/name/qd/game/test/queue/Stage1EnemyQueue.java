@@ -15,19 +15,21 @@ public class Stage1EnemyQueue extends EnemyDefQueue {
     @Override
     protected void initData() {
         EnemyDef pencil = new EnemyDef();
-        pencil.setStartPosition((GameScreen.SCREEN_WIDTH - (54 / Constants.PIXEL_PER_METER)) / 2, GameScreen.SCREEN_HEIGHT);
+        pencil.setStartPosition(0, GameScreen.SCREEN_HEIGHT - 20 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
         pencil.setAnimation(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 54, 104, 3, 0.2f, Animation.PlayMode.LOOP_PINGPONG));
         pencil.setDead(MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 162, 0, 54, 104, 1, 0.2f));
         pencil.setFireRate(3f);
         pencil.setRadius(25f);
-        EnemyActionQueue enemyActionQueue = new EnemyActionQueue();
-        EnemyAction enemyAction = new EnemyAction(0, -200 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.linear);
+        pencil.setHp(3);
+        EnemyActionQueue enemyActionQueue = new EnemyActionQueue(true);
+//        EnemyAction enemyAction = new EnemyAction(0, -200 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.linear);
         EnemyAction enemyAction2 = new EnemyAction(100 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0, 0.5f, Interpolation.linear);
-        EnemyAction enemyAction3 = new EnemyAction(100 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 200 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.exp10In);
+        EnemyAction enemyAction4 = new EnemyAction(-100 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0, 0.5f, Interpolation.linear);
+//        EnemyAction enemyAction3 = new EnemyAction(100 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 200 * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, 0.5f, Interpolation.exp10In);
         try {
-            enemyActionQueue.put(1f, enemyAction);
+//            enemyActionQueue.put(1f, enemyAction);
             enemyActionQueue.put(1f, enemyAction2);
-            enemyActionQueue.put(1f, enemyAction3);
+            enemyActionQueue.put(1f, enemyAction4);
         } catch (Exception e) {
             Gdx.app.log("Exception", String.format("Put to EnemyActionQueue failed. %s", e.getMessage()));
         }

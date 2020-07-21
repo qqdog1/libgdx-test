@@ -1,12 +1,20 @@
 package name.qd.game.test.queue;
 
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class TimingQueue<T> {
-    private Queue<Float> timeQueue = new LinkedList<>();
-    private Queue<T> timingQueue = new LinkedList<>();
+    private LinkedList<Float> timeQueue = new LinkedList<>();
+    private LinkedList<T> timingQueue = new LinkedList<>();
     private float waitingTime;
+    private boolean isRecursive = false;
+    private int index = 0;
+
+    public TimingQueue() {
+    }
+
+    public TimingQueue(boolean isRecursive) {
+        this.isRecursive = isRecursive;
+    }
 
     protected void put(float time, T t) throws Exception {
         timeQueue.add(time);
@@ -20,6 +28,14 @@ public class TimingQueue<T> {
     public T getNext(float delta) {
         waitingTime += delta;
 
+        if(isRecursive) {
+            return getNextWithRecursive();
+        } else {
+            return getNext();
+        }
+    }
+
+    private T getNext() {
         Float spawnTime = timeQueue.peek();
         if(spawnTime != null) {
             if(waitingTime >= spawnTime) {
@@ -27,6 +43,21 @@ public class TimingQueue<T> {
                 timeQueue.remove();
                 return timingQueue.poll();
             }
+        }
+        return null;
+    }
+
+    private T getNextWithRecursive() {
+        Float spawnTime = timeQueue.get(index);
+        if(waitingTime >= spawnTime) {
+            waitingTime -= spawnTime;
+            T t = timingQueue.get(index);
+            if(index == timingQueue.size() - 1) {
+                index = 0;
+            } else {
+                index++;
+            }
+            return t;
         }
         return null;
     }
