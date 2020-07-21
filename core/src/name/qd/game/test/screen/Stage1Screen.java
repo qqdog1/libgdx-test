@@ -99,7 +99,6 @@ public class Stage1Screen extends GameScreen {
 
         world.setContactFilter(new WorldContactFilter());
 
-
         bullock.update(delta);
 
         if(!bullock.isDestroyed()) {

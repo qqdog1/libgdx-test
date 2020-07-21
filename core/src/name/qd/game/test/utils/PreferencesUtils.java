@@ -10,6 +10,8 @@ public class PreferencesUtils {
         LEVEL, // level not exist, see intro
         SOUND,
         MUSIC,
+        WEAPON,
+        HP,
     }
 
     private static Preferences values = Gdx.app.getPreferences("values");

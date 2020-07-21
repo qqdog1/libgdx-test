@@ -45,8 +45,19 @@ public class ResourceInstance {
     }
 
     public BullockDef getBullockDef() {
+        int weapon = 0;
+        if(PreferencesUtils.isLabelExist(PreferencesUtils.PreferencesEnum.WEAPON)) {
+            weapon = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.WEAPON);
+        }
+        int hp = 3;
+        if(PreferencesUtils.isLabelExist(PreferencesUtils.PreferencesEnum.HP)) {
+            hp = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.HP);
+        }
+
         BullockDef bullockDef = new BullockDef();
         bullockDef.setFireRate(0.2f);
+        bullockDef.setWeapon(weapon);
+        bullockDef.setHp(hp);
         return bullockDef;
     }
 }
