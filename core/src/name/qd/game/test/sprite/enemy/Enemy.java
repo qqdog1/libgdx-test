@@ -116,6 +116,10 @@ public class Enemy extends Sprite {
             setPosition(body.getPosition().x - (getWidth() / 2), body.getPosition().y - (getHeight() / 2));
         }
         setRegion(currentFrame);
+
+        if(body.getPosition().y < -scaleHeight) {
+            isDestroyed = true;
+        }
     }
 
     @Override
