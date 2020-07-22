@@ -13,6 +13,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+import java.util.Random;
+
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.queue.EnemyActionQueue;
 import name.qd.game.test.screen.GameScreen;
@@ -49,6 +51,8 @@ public class Enemy extends Sprite {
         scaleWidth = textureRegion.getRegionWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER * enemyDef.getScale();
         scaleHeight = textureRegion.getRegionHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER * enemyDef.getScale();
         fireRate = enemyDef.getFireRate();
+        Random random = new Random();
+        lastFireTime = (float)random.nextInt((int)fireRate * 10) / 10;
         enemyActionQueue = enemyDef.getEnemyActionQueue();
         hp = enemyDef.getHp();
         createBody();

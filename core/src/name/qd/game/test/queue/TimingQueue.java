@@ -1,7 +1,5 @@
 package name.qd.game.test.queue;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.LinkedList;
 
 public abstract class TimingQueue<T> {
@@ -40,7 +38,6 @@ public abstract class TimingQueue<T> {
             if(waitingTime >= spawnTime) {
                 waitingTime -= spawnTime;
                 boolean isLooping = isLoopingQueue.get(index);
-                Gdx.app.log("Triggered", String.format("Index:%d, isLooping: %b", index, isLooping));
                 if(isLooping) {
                     T t = timingQueue.get(index);
                     if(index == timingQueue.size() - 1) {
@@ -48,7 +45,6 @@ public abstract class TimingQueue<T> {
                     } else {
                         index++;
                     }
-                    Gdx.app.log("After process", String.format("Index:%d, isLooping: %b", index, isLooping));
                     return t;
                 } else {
                     timeQueue.remove(index);
@@ -56,7 +52,6 @@ public abstract class TimingQueue<T> {
                     if(index == timingQueue.size() - 1) {
                         index = 0;
                     }
-                    Gdx.app.log("After process", String.format("Index:%d, isLooping: %b", index, isLooping));
                     return timingQueue.remove(index);
                 }
             }

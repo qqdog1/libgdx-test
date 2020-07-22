@@ -39,6 +39,11 @@ public class WorldContactListener implements ContactListener {
                 }
                 break;
             case CollisionType.BULLOCK | CollisionType.ENEMY:
+                if(fixtureA.getFilterData().categoryBits == CollisionType.BULLOCK) {
+                    ((Bullock)fixtureA.getUserData()).onHit();
+                } else {
+                    ((Bullock)fixtureB.getUserData()).onHit();
+                }
                 break;
         }
     }
