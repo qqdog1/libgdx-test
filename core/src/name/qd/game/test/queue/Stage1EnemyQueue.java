@@ -37,8 +37,9 @@ public class Stage1EnemyQueue extends EnemyDefQueue {
     }
 
     private void initAnimation() {
-        AnimationCacheManager.getInstance().put(PENCIL, MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 54, 104, 3, 0.2f, Animation.PlayMode.LOOP_PINGPONG));
+//        AnimationCacheManager.getInstance().put(PENCIL, MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 54, 104, 3, 0.2f, Animation.PlayMode.LOOP_PINGPONG));
         AnimationCacheManager.getInstance().put(PENCIL_DEAD, MaterialCreator.createAnimation(assetManager.get("pic/sprite/pencil.png", Texture.class), 162, 0, 54, 104, 1, 0.2f));
+        AnimationCacheManager.getInstance().put(PENCIL, MaterialCreator.createRotationAnimation(new Texture("pic/sprite/pencil2.png"), 60f, 10, 0.1f, Animation.PlayMode.LOOP_PINGPONG));
     }
 
     private EnemyDef getSmallPencil(float x, float y, EnemyActionQueue enemyActionQueue) {

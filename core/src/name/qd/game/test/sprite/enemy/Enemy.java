@@ -24,7 +24,7 @@ public class Enemy extends Sprite {
     private Body body;
     private Animation animation;
     private Animation dead;
-    private TextureRegion currentFrame;
+    private Sprite currentFrame;
 
     private float scaleWidth;
     private float scaleHeight;
@@ -94,12 +94,12 @@ public class Enemy extends Sprite {
 
         if(hp <= 0) {
             body.setActive(false);
-            currentFrame = (TextureRegion) dead.getKeyFrame(stateTime);
+            currentFrame = new Sprite((TextureRegion) dead.getKeyFrame(stateTime));
             if(stateTime >= 0.5f) {
                 isDestroyed = true;
             }
         } else {
-            currentFrame = (TextureRegion) animation.getKeyFrame(stateTime);
+            currentFrame = (Sprite) animation.getKeyFrame(stateTime);
             if(stateTime >= lastFireTime + fireRate) {
                 shouldFire = true;
                 lastFireTime = stateTime;
@@ -124,7 +124,7 @@ public class Enemy extends Sprite {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(currentFrame, getX(), getY(), scaleWidth, scaleHeight);
+        batch.draw(currentFrame, getX(), getY(), 0, 0, scaleWidth, scaleHeight, 1, 1, currentFrame.getRotation());
     }
 
     public void onHit() {

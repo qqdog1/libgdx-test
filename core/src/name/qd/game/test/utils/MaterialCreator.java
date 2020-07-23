@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -65,22 +66,37 @@ public class MaterialCreator {
         return font;
     }
 
-    public static Animation createAnimation(Texture texture, int width, int height, int frames, float duration) {
+    public static Animation<TextureRegion> createAnimation(Texture texture, int width, int height, int frames, float duration) {
         return createAnimation(texture, 0, 0, width, height, frames, duration);
     }
 
-    public static Animation createAnimation(Texture texture, int width, int height, int frames, float duration, Animation.PlayMode playMode) {
+    public static Animation<TextureRegion> createAnimation(Texture texture, int width, int height, int frames, float duration, Animation.PlayMode playMode) {
         return createAnimation(texture, 0, 0, width, height, frames, duration, playMode);
     }
 
-    public static Animation createAnimation(Texture texture, int x, int y, int width, int height, int frames, float duration) {
+    public static Animation<TextureRegion> createAnimation(Texture texture, int x, int y, int width, int height, int frames, float duration) {
         return createAnimation(texture, x, y, width, height, frames, duration, Animation.PlayMode.NORMAL);
     }
 
-    public static Animation createAnimation(Texture texture, int x, int y, int width, int height, int frames, float duration, Animation.PlayMode playMode) {
+    public static Animation<TextureRegion> createAnimation(Texture texture, int x, int y, int width, int height, int frames, float duration, Animation.PlayMode playMode) {
         Array<TextureRegion> array = new Array<>();
         for(int i = 0 ; i < frames ; i++) {
             array.add(new TextureRegion(texture, x + (width * i), y, width, height));
+        }
+        return new Animation(duration, array, playMode);
+    }
+
+    public static Animation<Sprite> createRotationAnimation(Texture texture, float angle, int frames, float duration, Animation.PlayMode playMode) {
+        Array<Sprite> array = new Array<>();
+        float singleAngle = angle / (frames - 1);
+        float startAngle = -((frames / 2) * singleAngle);
+        if(frames % 2 == 0) {
+            startAngle -= singleAngle / 2f;
+        }
+        for(int i = 0 ; i < frames ; i++) {
+            Sprite sprite = new Sprite(texture);
+            sprite.rotate(startAngle + i * singleAngle);
+            array.add(sprite);
         }
         return new Animation(duration, array, playMode);
     }
