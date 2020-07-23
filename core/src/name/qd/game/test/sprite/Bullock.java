@@ -101,7 +101,7 @@ public class Bullock extends Sprite {
     }
 
     private void createBullockBody() {
-        int radius = 15;
+        float radius = bullockDef.getRadius();
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(GameScreen.SCREEN_WIDTH / 2, (radius * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER) + (texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER / 2));
         bodyDef.type = BodyDef.BodyType.DynamicBody;

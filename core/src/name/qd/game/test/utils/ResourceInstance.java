@@ -55,9 +55,10 @@ public class ResourceInstance {
         }
 
         BullockDef bullockDef = new BullockDef();
-        bullockDef.setFireRate(0.2f);
+        bullockDef.setFireRate(0.5f);
         bullockDef.setWeapon(weapon);
         bullockDef.setHp(hp);
+        bullockDef.setRadius(15f);
         return bullockDef;
     }
 }

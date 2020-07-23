@@ -14,6 +14,7 @@ import java.util.List;
 
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.hud.FightingHud;
+import name.qd.game.test.hud.OnHitHud;
 import name.qd.game.test.hud.SettlementHud;
 import name.qd.game.test.queue.Stage1EnemyQueue;
 import name.qd.game.test.sprite.BullockDef;
@@ -47,6 +48,7 @@ public class Stage1Screen extends GameScreen {
     private Stage1EnemyQueue stage1EnemyQueue = new Stage1EnemyQueue();
     private FightingHud fightingHud;
     private SettlementHud settlementHud;
+    private OnHitHud onHitHud;
 
     public Stage1Screen() {
         background = assetManager.get("pic/stagebackground.png", Texture.class);
@@ -58,6 +60,7 @@ public class Stage1Screen extends GameScreen {
         BullockDef bullockDef = ResourceInstance.getInstance().getBullockDef();
         bullock = new Bullock(world, bullockDef);
         fightingHud = new FightingHud(bullock.getHp());
+        onHitHud = new OnHitHud();
 
         Gdx.input.setInputProcessor(stage);
         world.setContactListener(new WorldContactListener());
@@ -156,6 +159,9 @@ public class Stage1Screen extends GameScreen {
             enemy.update(delta);
             enemy.draw(spriteBatch);
         }
+
+        onHitHud.draw();
+
         spriteBatch.end();
 
         box2DDebugRenderer.render(world, camera.combined);
@@ -165,6 +171,8 @@ public class Stage1Screen extends GameScreen {
         spriteBatch.setProjectionMatrix(fightingHud.getStage().getCamera().combined);
         fightingHud.setHp(bullock.getHp());
         fightingHud.getStage().draw();
+
+
 
         if(stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
             // 過關
