@@ -160,7 +160,9 @@ public class Stage1Screen extends GameScreen {
             enemy.draw(spriteBatch);
         }
 
-        onHitHud.draw();
+        if(bullock.isOnHit()) {
+            onHitHud.draw();
+        }
 
         spriteBatch.end();
 
@@ -171,8 +173,6 @@ public class Stage1Screen extends GameScreen {
         spriteBatch.setProjectionMatrix(fightingHud.getStage().getCamera().combined);
         fightingHud.setHp(bullock.getHp());
         fightingHud.getStage().draw();
-
-
 
         if(stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
             // 過關

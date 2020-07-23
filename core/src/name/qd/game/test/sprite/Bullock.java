@@ -25,6 +25,7 @@ public class Bullock extends Sprite {
 
     private float stateTime;
     private float lastFireTime;
+    private float lastOnHitTime;
     private float fireRate;
     private boolean shouldFire;
 
@@ -126,7 +127,15 @@ public class Bullock extends Sprite {
 
     public void onHit() {
         if(hp == 0) return;
+        lastOnHitTime = stateTime;
         hp--;
+    }
+
+    public boolean isOnHit() {
+        if(stateTime > 0.2f && stateTime - lastOnHitTime < 0.2f) {
+            return true;
+        }
+        return false;
     }
 
     public int getHp() {
