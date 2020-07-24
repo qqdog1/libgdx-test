@@ -10,4 +10,7 @@ public class Constants {
 
     public static final int DEFAULT_WEAPON = 1;
     public static final int DEFAULT_HP = 3;
+
+    public static final int MAX_WEAPON = 10;
+    public static final int MAX_HP = 12;
 }

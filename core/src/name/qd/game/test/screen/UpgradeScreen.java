@@ -48,6 +48,11 @@ public class UpgradeScreen extends GameScreen {
         btnWeaponPlus.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                currentWeapon++;
+                if(currentWeapon > Constants.MAX_WEAPON) {
+                    currentWeapon = Constants.MAX_WEAPON;
+                }
+                PreferencesUtils.set(PreferencesEnum.WEAPON, currentWeapon);
             }
         });
 
@@ -55,6 +60,11 @@ public class UpgradeScreen extends GameScreen {
         btnHpPlus.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                currentHp++;
+                if(currentHp > Constants.MAX_HP) {
+                    currentHp = Constants.MAX_HP;
+                }
+                PreferencesUtils.set(PreferencesEnum.HP, currentHp);
             }
         });
 
@@ -62,6 +72,11 @@ public class UpgradeScreen extends GameScreen {
         btnWeaponMinus.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                currentWeapon--;
+                if(currentWeapon < Constants.DEFAULT_WEAPON) {
+                    currentWeapon = Constants.DEFAULT_WEAPON;
+                }
+                PreferencesUtils.set(PreferencesEnum.WEAPON, currentWeapon);
             }
         });
 
@@ -69,9 +84,13 @@ public class UpgradeScreen extends GameScreen {
         btnHpMinus.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                currentHp--;
+                if(currentHp > Constants.DEFAULT_HP) {
+                    currentHp = Constants.DEFAULT_HP;
+                }
+                PreferencesUtils.set(PreferencesEnum.HP, currentHp);
             }
         });
-
 
         btnReturn = MaterialCreator.createImageButton(assetManager.get("pic/btn/return.png", Texture.class));
         btnReturn.setTransform(true);
