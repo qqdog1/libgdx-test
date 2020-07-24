@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import name.qd.game.test.constant.PreferencesEnum;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.screen.ScreenManager;
 import name.qd.game.test.utils.PreferencesUtils;
@@ -24,8 +25,8 @@ public class LibTest extends Game {
 
 		ScreenManager screenManager = ScreenManager.getInstance();
 
-		if(PreferencesUtils.isLabelExist(PreferencesUtils.PreferencesEnum.SCREEN)) {
-			String screenName = PreferencesUtils.getStringValue(PreferencesUtils.PreferencesEnum.SCREEN);
+		if(PreferencesUtils.isLabelExist(PreferencesEnum.SCREEN)) {
+			String screenName = PreferencesUtils.getStringValue(PreferencesEnum.SCREEN);
 			ScreenType screenType = ScreenType.valueOf(screenName);
 			resourceInstance.setScreen(screenManager.getScreen(screenType));
 		} else {
@@ -63,6 +64,8 @@ public class LibTest extends Game {
 		assetManager.load("pic/board.png", Texture.class);
 		assetManager.load("pic/star.png", Texture.class);
 		assetManager.load("pic/starfilled.png", Texture.class);
+		assetManager.load("pic/upgradebar.png", Texture.class);
+		assetManager.load("pic/upgradepoint.png", Texture.class);
 
 		assetManager.load("pic/btn/upgrade.png", Texture.class);
 		assetManager.load("pic/btn/settings.png", Texture.class);
@@ -73,6 +76,8 @@ public class LibTest extends Game {
 		assetManager.load("pic/btn/unselected.png", Texture.class);
 		assetManager.load("pic/btn/go.png", Texture.class);
 		assetManager.load("pic/btn/return.png", Texture.class);
+		assetManager.load("pic/btn/plus.png", Texture.class);
+		assetManager.load("pic/btn/minus.png", Texture.class);
 
 		assetManager.load("pic/sprite/cnormal.png", Texture.class);
 		assetManager.load("pic/sprite/dead.png", Texture.class);

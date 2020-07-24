@@ -7,4 +7,7 @@ public class Constants {
 
     public static final float PIXEL_PER_METER = 20f;
     public static final int TOTAL_STAGES = 10;
+
+    public static final int DEFAULT_WEAPON = 1;
+    public static final int DEFAULT_HP = 3;
 }
