@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import java.util.ArrayList;
 import java.util.List;
 
+import name.qd.game.test.constant.PreferencesEnum;
 import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.constant.Level;
@@ -159,16 +160,16 @@ public class MenuScreen extends GameScreen {
 
     private void initMusic() {
         btnMusic = MaterialCreator.createImageButton(unselected, selected);
-        boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
+        boolean isMusicOn = PreferencesUtils.getBooleanValue(PreferencesEnum.MUSIC);
         btnMusic.setChecked(isMusicOn);
 
         btnMusic.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                boolean isMusicOn = !PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.MUSIC);
+                boolean isMusicOn = !PreferencesUtils.getBooleanValue(PreferencesEnum.MUSIC);
                 btnMusic.setChecked(isMusicOn);
                 Gdx.app.log("Music button", String.valueOf(isMusicOn));
-                PreferencesUtils.set(PreferencesUtils.PreferencesEnum.MUSIC, isMusicOn);
+                PreferencesUtils.set(PreferencesEnum.MUSIC, isMusicOn);
             }
         });
 
@@ -177,16 +178,16 @@ public class MenuScreen extends GameScreen {
 
     private void initSound() {
         btnSound = MaterialCreator.createImageButton(unselected, selected);
-        boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
+        boolean isSoundOn = PreferencesUtils.getBooleanValue(PreferencesEnum.SOUND);
         btnSound.setChecked(isSoundOn);
 
         btnSound.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                boolean isSoundOn = !PreferencesUtils.getBooleanValue(PreferencesUtils.PreferencesEnum.SOUND);
+                boolean isSoundOn = !PreferencesUtils.getBooleanValue(PreferencesEnum.SOUND);
                 btnSound.setChecked(isSoundOn);
                 Gdx.app.log("Sound button", String.valueOf(isSoundOn));
-                PreferencesUtils.set(PreferencesUtils.PreferencesEnum.SOUND, isSoundOn);
+                PreferencesUtils.set(PreferencesEnum.SOUND, isSoundOn);
             }
         });
 
@@ -247,7 +248,7 @@ public class MenuScreen extends GameScreen {
     }
 
     private void initLevelSelectTable() {
-        int userLastLevel = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.LEVEL);
+        int userLastLevel = PreferencesUtils.getIntValue(PreferencesEnum.LEVEL);
 
         lstBtnStageSelect = new ArrayList<>();
         Texture btnEnable = assetManager.get("pic/btn/stageselect.png", Texture.class);
@@ -552,25 +553,25 @@ public class MenuScreen extends GameScreen {
     private int getStarsByStage(int stage) {
         switch (stage) {
             case 1:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L1);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L1);
             case 2:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L2);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L2);
             case 3:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L3);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L3);
             case 4:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L4);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L4);
             case 5:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L5);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L5);
             case 6:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L6);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L6);
             case 7:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L7);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L7);
             case 8:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L8);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L8);
             case 9:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L9);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L9);
             case 10:
-                return PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.L10);
+                return PreferencesUtils.getIntValue(PreferencesEnum.L10);
         }
         return 0;
     }

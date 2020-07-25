@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 
 import name.qd.game.test.constant.Constants;
+import name.qd.game.test.constant.PreferencesEnum;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
@@ -168,7 +169,7 @@ public class StartScreen extends GameScreen {
     }
 
     private void loadSaveState() {
-        saveState = PreferencesUtils.getIntValue(PreferencesUtils.PreferencesEnum.LEVEL);
+        saveState = PreferencesUtils.getIntValue(PreferencesEnum.LEVEL);
     }
 
     @Override

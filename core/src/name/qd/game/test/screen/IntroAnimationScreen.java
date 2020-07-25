@@ -3,6 +3,7 @@ package name.qd.game.test.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
+import name.qd.game.test.constant.PreferencesEnum;
 import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.utils.PreferencesUtils;
 
@@ -23,7 +24,7 @@ public class IntroAnimationScreen extends GameScreen {
 
     protected void handleInput() {
         if(Gdx.input.justTouched()) {
-            PreferencesUtils.set(PreferencesUtils.PreferencesEnum.LEVEL, 1);
+            PreferencesUtils.set(PreferencesEnum.LEVEL, 1);
             toNextScreen(ScreenType.MENU);
         }
     }
