@@ -8,9 +8,5 @@ public class Constants {
     public static final float PIXEL_PER_METER = 20f;
     public static final int TOTAL_STAGES = 10;
 
-    public static final int DEFAULT_WEAPON = 1;
-    public static final int DEFAULT_HP = 3;
-
-    public static final int MAX_WEAPON = 10;
-    public static final int MAX_HP = 12;
+    public static final int MAX_UPGRADE_LEVEL = 10;
 }
