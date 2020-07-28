@@ -39,12 +39,12 @@ public class UpgradeScreen extends GameScreen {
         if(PreferencesUtils.isLabelExist(PreferencesEnum.WEAPON)) {
             currentWeaponLevel = PreferencesUtils.getIntValue(PreferencesEnum.WEAPON);
         } else {
-            currentWeaponLevel = 1;
+            currentWeaponLevel = 0;
         }
         if(PreferencesUtils.isLabelExist(PreferencesEnum.HP)) {
             currentHpLevel = PreferencesUtils.getIntValue(PreferencesEnum.HP);
         } else {
-            currentHpLevel = 1;
+            currentHpLevel = 0;
         }
 
         upgradeBar = assetManager.get("pic/upgradebar.png", Texture.class);
@@ -84,8 +84,8 @@ public class UpgradeScreen extends GameScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 currentWeaponLevel--;
-                if(currentWeaponLevel < 1) {
-                    currentWeaponLevel = 1;
+                if(currentWeaponLevel < 0) {
+                    currentWeaponLevel = 0;
                 }
                 PreferencesUtils.set(PreferencesEnum.WEAPON, currentWeaponLevel);
             }
@@ -96,8 +96,8 @@ public class UpgradeScreen extends GameScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 currentHpLevel--;
-                if(currentHpLevel < 1) {
-                    currentHpLevel = 1;
+                if(currentHpLevel < 0) {
+                    currentHpLevel = 0;
                 }
                 PreferencesUtils.set(PreferencesEnum.HP, currentHpLevel);
             }
