@@ -15,7 +15,6 @@ import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class UpgradeScreen extends GameScreen {
-    private ImageButton btnReturn;
     private Stage stage;
 
     private Texture upgradeBar;
@@ -24,6 +23,7 @@ public class UpgradeScreen extends GameScreen {
     private ImageButton btnWeaponMinus;
     private ImageButton btnHpPlus;
     private ImageButton btnHpMinus;
+    private ImageButton btnReturn;
 
     private int currentWeaponLevel;
     private int currentHpLevel;
@@ -142,7 +142,7 @@ public class UpgradeScreen extends GameScreen {
                 .height(btnHpPlus.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)
                 .padLeft(10f * SCALE_RATE / Constants.PIXEL_PER_METER);
 
-//        stage.setDebugAll(true);
+        stage.setDebugAll(true);
         stage.addActor(tableReturn);
         stage.addActor(table);
         stage.addActor(table2);

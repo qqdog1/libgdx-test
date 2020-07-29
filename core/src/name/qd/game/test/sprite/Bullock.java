@@ -21,7 +21,7 @@ public class Bullock extends Sprite {
     private Texture texture;
     private Texture dead;
     private boolean isDestroyed;
-    private int hp = 3;
+    private int hp;
 
     private float stateTime;
     private float lastFireTime;
@@ -40,6 +40,7 @@ public class Bullock extends Sprite {
 
         fireRate = bullockDef.getFireRate();
         shouldFire = false;
+        hp = bullockDef.getHp();
 
         this.bullockDef = bullockDef;
 

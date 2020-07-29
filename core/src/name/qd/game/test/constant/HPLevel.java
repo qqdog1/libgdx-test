@@ -8,19 +8,19 @@ public class HPLevel {
 
     static {
         map.put(0, 3);
-        map.put(1, 5);
-        map.put(2, 7);
-        map.put(3, 10);
-        map.put(4, 13);
-        map.put(5, 16);
-        map.put(6, 20);
-        map.put(7, 24);
-        map.put(8, 28);
-        map.put(9, 33);
-        map.put(10, 39);
+        map.put(1, 4);
+        map.put(2, 5);
+        map.put(3, 6);
+        map.put(4, 7);
+        map.put(5, 8);
+        map.put(6, 9);
+        map.put(7, 10);
+        map.put(8, 11);
+        map.put(9, 12);
+        map.put(10, 13);
     }
 
-    public int getHp(int level) {
+    public static int getHp(int level) {
         return map.get(level);
     }
 }
