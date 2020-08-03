@@ -170,9 +170,10 @@ public class Stage1Screen extends GameScreen {
 
         clearSprite();
 
-        spriteBatch.setProjectionMatrix(fightingHud.getStage().getCamera().combined);
+//        spriteBatch.setProjectionMatrix(fightingHud.getStage().getCamera().combined);
         fightingHud.setHp(bullock.getHp());
-        fightingHud.getStage().draw();
+//        fightingHud.getStage().draw();
+        fightingHud.draw();
 
         if(stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
             // 過關
@@ -180,8 +181,10 @@ public class Stage1Screen extends GameScreen {
                 settlementHud = new SettlementHud(999);
             }
 
-            settlementHud.getStage().draw();
-            settlementHud.getStage().act(delta);
+//            settlementHud.getStage().draw();
+//            settlementHud.getStage().act(delta);
+
+            settlementHud.draw();
 
             if(settlementHud.isClickFinish()) {
                 toNextScreen(ScreenType.MENU);

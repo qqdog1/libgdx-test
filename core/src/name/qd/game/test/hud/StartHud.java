@@ -1,10 +1,12 @@
 package name.qd.game.test.hud;
 
-import com.badlogic.gdx.utils.Disposable;
-
-public class StartHud implements Disposable {
-
+public class StartHud extends Hud {
     public StartHud() {
+
+    }
+
+    @Override
+    public void draw() {
 
     }
 

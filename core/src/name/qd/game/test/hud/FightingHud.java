@@ -4,19 +4,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import name.qd.game.test.screen.GameScreen;
-import name.qd.game.test.utils.ResourceInstance;
 
-public class FightingHud implements Disposable {
+public class FightingHud extends Hud {
     private Stage stage;
     private Viewport viewport;
     private int money;
@@ -27,7 +24,6 @@ public class FightingHud implements Disposable {
 
     public FightingHud(int hp) {
         this.hp = hp;
-        SpriteBatch spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
 
         viewport = new FitViewport(GameScreen.WIDTH, GameScreen.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
@@ -51,8 +47,9 @@ public class FightingHud implements Disposable {
         stage.addActor(table);
     }
 
-    public Stage getStage() {
-        return stage;
+    @Override
+    public void draw() {
+        stage.draw();
     }
 
     public void setHp(int hp) {

@@ -24,7 +24,7 @@ import name.qd.game.test.screen.GameScreen;
 import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.ResourceInstance;
 
-public class SettlementHud implements Disposable {
+public class SettlementHud extends Hud {
     private AssetManager assetManager;
     private Stage stage;
     private Viewport viewport;
@@ -33,7 +33,6 @@ public class SettlementHud implements Disposable {
 
     public SettlementHud(int money) {
         assetManager = ResourceInstance.getInstance().getAssetManager();
-        SpriteBatch spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
 
         viewport = new FitViewport(GameScreen.SCREEN_WIDTH, GameScreen.SCREEN_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
@@ -68,8 +67,9 @@ public class SettlementHud implements Disposable {
         stage.addActor(table);
     }
 
-    public Stage getStage() {
-        return stage;
+    @Override
+    public void draw() {
+        stage.draw();
     }
 
     public boolean isClickFinish() {

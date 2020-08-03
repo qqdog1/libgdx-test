@@ -8,4 +8,5 @@ public enum PreferencesEnum {
     MUSIC,
     WEAPON,
     HP,
+    MONEY,
 }

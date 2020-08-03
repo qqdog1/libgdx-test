@@ -8,7 +8,7 @@ import name.qd.game.test.constant.Constants;
 import name.qd.game.test.screen.GameScreen;
 import name.qd.game.test.utils.ResourceInstance;
 
-public class OnHitHud implements Disposable {
+public class OnHitHud extends Hud {
     private final SpriteBatch spriteBatch;
     private Texture texture;
     private float FIX_HEIGHT = 30;
