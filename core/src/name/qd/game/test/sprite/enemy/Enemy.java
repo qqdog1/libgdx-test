@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -18,10 +17,9 @@ import java.util.Random;
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.queue.EnemyActionQueue;
 import name.qd.game.test.screen.GameScreen;
+import name.qd.game.test.sprite.GameSprite;
 
-public class Enemy extends Sprite {
-    private World world;
-    private Body body;
+public class Enemy extends GameSprite {
     private Animation animation;
     private Animation dead;
     private Sprite currentFrame;
@@ -35,13 +33,14 @@ public class Enemy extends Sprite {
     private float fireRate;
     private boolean shouldFire;
     private boolean isDestroyed;
+    private boolean isPowerUp;
 
     private Actor actor;
     private EnemyActionQueue enemyActionQueue;
     private EnemyDef enemyDef;
 
     public Enemy(World world, EnemyDef enemyDef) {
-        this.world = world;
+        super(world);
         this.enemyDef = enemyDef;
         actor = new Actor();
         actor.setPosition(enemyDef.getStartX(), enemyDef.getStartY());
@@ -55,6 +54,7 @@ public class Enemy extends Sprite {
         lastFireTime = (float)random.nextInt((int)fireRate * 10) / 10;
         enemyActionQueue = enemyDef.getEnemyActionQueue();
         hp = enemyDef.getHp();
+        isPowerUp = enemyDef.isPowerUp();
         createBody();
     }
 
@@ -136,6 +136,10 @@ public class Enemy extends Sprite {
 
     public boolean isDestroyed() {
         return isDestroyed;
+    }
+
+    public boolean isPowerUp() {
+        return isPowerUp;
     }
 
     public void destroy() {

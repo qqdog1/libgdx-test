@@ -1,7 +1,5 @@
 package name.qd.game.test.sprite.bullet;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -9,18 +7,16 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.screen.GameScreen;
+import name.qd.game.test.sprite.GameSprite;
 
-public class Bullet extends Sprite {
-    private Body body;
-    private final World world;
-
+public class Bullet extends GameSprite {
     private final float scaleWidth;
     private final float scaleHeight;
 
     private boolean isDestroyed = false;
 
     public Bullet(World world, BulletDef bulletDef) {
-        this.world = world;
+        super(world);
 
         scaleWidth = bulletDef.getTexture().getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;
         scaleHeight = bulletDef.getTexture().getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER;

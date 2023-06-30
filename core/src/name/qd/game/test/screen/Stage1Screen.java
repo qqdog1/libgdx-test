@@ -13,21 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import name.qd.game.test.constant.CollisionType;
+import name.qd.game.test.constant.Constants;
+import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.hud.FightingHud;
 import name.qd.game.test.hud.OnHitHud;
 import name.qd.game.test.hud.SettlementHud;
-import name.qd.game.test.queue.Stage1EnemyQueue;
-import name.qd.game.test.sprite.BullockDef;
-import name.qd.game.test.sprite.enemy.Enemy;
-import name.qd.game.test.sprite.bullet.Bullet;
-import name.qd.game.test.sprite.bullet.BulletDef;
-import name.qd.game.test.sprite.enemy.EnemyDef;
-import name.qd.game.test.utils.ResourceInstance;
-import name.qd.game.test.constant.Constants;
-import name.qd.game.test.constant.ScreenType;
 import name.qd.game.test.listener.WorldContactFilter;
 import name.qd.game.test.listener.WorldContactListener;
+import name.qd.game.test.queue.Stage1EnemyQueue;
 import name.qd.game.test.sprite.Bullock;
+import name.qd.game.test.sprite.BullockDef;
+import name.qd.game.test.sprite.PowerUp;
+import name.qd.game.test.sprite.bullet.Bullet;
+import name.qd.game.test.sprite.bullet.BulletDef;
+import name.qd.game.test.sprite.enemy.Enemy;
+import name.qd.game.test.sprite.enemy.EnemyDef;
+import name.qd.game.test.utils.ResourceInstance;
 
 public class Stage1Screen extends GameScreen {
     private AssetManager assetManager = ResourceInstance.getInstance().getAssetManager();
@@ -44,6 +45,7 @@ public class Stage1Screen extends GameScreen {
     private List<Bullet> lstBullockBullet = new ArrayList<>();
     private List<Bullet> lstEnemyBullet = new ArrayList<>();
     private List<Enemy> lstEnemy = new ArrayList<>();
+    private List<PowerUp> lstPowerUp = new ArrayList<>();
 
     private Stage1EnemyQueue stage1EnemyQueue = new Stage1EnemyQueue();
     private FightingHud fightingHud;
@@ -74,7 +76,7 @@ public class Stage1Screen extends GameScreen {
                 if (lastY != 0) {
                     diffY = y - lastY;
                 }
-                if(lastX != 0) {
+                if (lastX != 0) {
                     diffX = x - lastX;
                 }
                 lastX = x;
@@ -104,8 +106,8 @@ public class Stage1Screen extends GameScreen {
 
         bullock.update(delta);
 
-        if(!bullock.isDestroyed()) {
-            if(bullock.isShouldFire()) {
+        if (!bullock.isDestroyed()) {
+            if (bullock.isShouldFire()) {
                 BulletDef bulletDef = new BulletDef();
                 bulletDef.setStartPosition(bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
                 bulletDef.setTexture(assetManager.get("pic/sprite/bulletblue.png", Texture.class));
@@ -117,10 +119,10 @@ public class Stage1Screen extends GameScreen {
             }
         }
 
-        if(lstEnemy.size() > 0) {
+        if (lstEnemy.size() > 0) {
             // 要改到clear enemy 之後
-            for(Enemy enemy : lstEnemy) {
-                if(enemy.isShouldFire()) {
+            for (Enemy enemy : lstEnemy) {
+                if (enemy.isShouldFire()) {
                     BulletDef bulletDef = new BulletDef();
                     bulletDef.setStartPosition(enemy.getX() + (enemy.getWidth() / 2), enemy.getY());
                     bulletDef.setVelocity(0, -20);
@@ -134,12 +136,12 @@ public class Stage1Screen extends GameScreen {
         }
 
         EnemyDef enemyDef = stage1EnemyQueue.getNext(delta);
-        if(enemyDef != null) {
+        if (enemyDef != null) {
             Enemy enemy = new Enemy(world, enemyDef);
             lstEnemy.add(enemy);
         }
 
-        if(background_y < SCREEN_HEIGHT - (background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)) {
+        if (background_y < SCREEN_HEIGHT - (background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER)) {
             background_y = 0;
         }
 
@@ -147,20 +149,23 @@ public class Stage1Screen extends GameScreen {
         spriteBatch.draw(background, 0, background_y, background.getWidth() * SCALE_RATE / Constants.PIXEL_PER_METER, background.getHeight() * SCALE_RATE / Constants.PIXEL_PER_METER);
         background_y -= 1 / Constants.PIXEL_PER_METER;
         bullock.draw(spriteBatch);
-        for(Bullet bullockBullet : lstBullockBullet) {
+        for (Bullet bullockBullet : lstBullockBullet) {
             bullockBullet.update(delta);
             bullockBullet.draw(spriteBatch);
         }
-        for(Bullet bullet : lstEnemyBullet) {
+        for (Bullet bullet : lstEnemyBullet) {
             bullet.update(delta);
             bullet.draw(spriteBatch);
         }
-        for(Enemy enemy : lstEnemy) {
+        for (Enemy enemy : lstEnemy) {
             enemy.update(delta);
             enemy.draw(spriteBatch);
         }
+        for (PowerUp powerUp : lstPowerUp) {
+            powerUp.draw(spriteBatch);
+        }
 
-        if(bullock.isOnHit()) {
+        if (bullock.isOnHit()) {
             onHitHud.draw();
         }
 
@@ -175,9 +180,9 @@ public class Stage1Screen extends GameScreen {
 //        fightingHud.getStage().draw();
         fightingHud.draw();
 
-        if(stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
+        if (stage1EnemyQueue.isFinished() && lstEnemy.size() == 0) {
             // 過關
-            if(settlementHud == null) {
+            if (settlementHud == null) {
                 settlementHud = new SettlementHud(999);
             }
 
@@ -186,7 +191,7 @@ public class Stage1Screen extends GameScreen {
 
             settlementHud.draw();
 
-            if(settlementHud.isClickFinish()) {
+            if (settlementHud.isClickFinish()) {
                 toNextScreen(ScreenType.MENU);
             }
         }
@@ -204,15 +209,15 @@ public class Stage1Screen extends GameScreen {
 
     private void clearBullet() {
         List<Bullet> lst = new ArrayList<>();
-        for(Bullet bullockBullet : lstBullockBullet) {
-            if(bullockBullet.getY() > SCREEN_HEIGHT) {
+        for (Bullet bullockBullet : lstBullockBullet) {
+            if (bullockBullet.getY() > SCREEN_HEIGHT) {
                 lst.add(bullockBullet);
-            } else if(bullockBullet.isDestroyed()) {
+            } else if (bullockBullet.isDestroyed()) {
                 lst.add(bullockBullet);
             }
         }
 
-        for(Bullet bullockBullet : lst) {
+        for (Bullet bullockBullet : lst) {
             bullockBullet.destroy();
             lstBullockBullet.remove(bullockBullet);
         }
@@ -220,15 +225,15 @@ public class Stage1Screen extends GameScreen {
 
     private void clearEnemyBullet() {
         List<Bullet> lst = new ArrayList<>();
-        for(Bullet bullet : lstEnemyBullet) {
-            if(bullet.getY() <= 0) {
+        for (Bullet bullet : lstEnemyBullet) {
+            if (bullet.getY() <= 0) {
                 lst.add(bullet);
-            } else if(bullet.isDestroyed()) {
+            } else if (bullet.isDestroyed()) {
                 lst.add(bullet);
             }
         }
 
-        for(Bullet bullet : lst) {
+        for (Bullet bullet : lst) {
             bullet.destroy();
             lstEnemyBullet.remove(bullet);
         }
@@ -236,15 +241,30 @@ public class Stage1Screen extends GameScreen {
 
     private void clearEnemy() {
         List<Enemy> lst = new ArrayList<>();
-        for(Enemy enemy : lstEnemy) {
-            if(enemy.isDestroyed()) {
+        for (Enemy enemy : lstEnemy) {
+            if (enemy.isDestroyed()) {
                 lst.add(enemy);
+                if (enemy.isPowerUp()) {
+                    PowerUp powerUp = new PowerUp(world, enemy.getX(), enemy.getY());
+                    lstPowerUp.add(powerUp);
+                }
             }
         }
 
-        for(Enemy enemy : lst) {
+        List<PowerUp> lstRemovePowerUp = new ArrayList<>();
+        for (PowerUp powerUp : lstPowerUp) {
+            if (powerUp.isDestroyed()) {
+                lstRemovePowerUp.add(powerUp);
+            }
+        }
+
+        for (Enemy enemy : lst) {
             enemy.destroy();
             lstEnemy.remove(enemy);
+        }
+        for (PowerUp powerUp : lstRemovePowerUp) {
+            powerUp.destroy();
+            lstPowerUp.remove(powerUp);
         }
     }
 

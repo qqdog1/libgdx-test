@@ -14,6 +14,7 @@ public class WorldContactFilter implements ContactFilter {
             case CollisionType.BULLOCK_BULLET | CollisionType.ENEMY:
             case CollisionType.ENEMY_BULLET | CollisionType.BULLOCK:
             case CollisionType.BULLOCK | CollisionType.ENEMY:
+            case CollisionType.BULLOCK | CollisionType.POWER_UP:
                 return true;
         }
 

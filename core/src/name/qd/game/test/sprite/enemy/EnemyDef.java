@@ -15,6 +15,7 @@ public class EnemyDef {
     private float fireRate;
     private float radius;
     private float scale = 1;
+    private boolean isPowerUp;
     private EnemyActionQueue enemyActionQueue;
 
     public void setStartPosition(float x, float y) {
@@ -98,5 +99,13 @@ public class EnemyDef {
 
     public void setEnemyActionQueue(EnemyActionQueue enemyActionQueue) {
         this.enemyActionQueue = enemyActionQueue;
+    }
+
+    public void setIsPowerUp(boolean isPowerUp) {
+        this.isPowerUp = isPowerUp;
+    }
+
+    public boolean isPowerUp() {
+        return isPowerUp;
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import name.qd.game.test.constant.CollisionType;
+import name.qd.game.test.sprite.PowerUp;
 import name.qd.game.test.sprite.bullet.Bullet;
 import name.qd.game.test.sprite.Bullock;
 import name.qd.game.test.sprite.enemy.Enemy;
@@ -43,6 +44,15 @@ public class WorldContactListener implements ContactListener {
                     ((Bullock)fixtureA.getUserData()).onHit();
                 } else {
                     ((Bullock)fixtureB.getUserData()).onHit();
+                }
+                break;
+            case CollisionType.BULLOCK | CollisionType.POWER_UP:
+                if(fixtureA.getFilterData().categoryBits == CollisionType.BULLOCK) {
+                    ((Bullock)fixtureA.getUserData()).powerUp();
+                    ((PowerUp)fixtureB.getUserData()).eat();
+                } else {
+                    ((PowerUp)fixtureA.getUserData()).eat();
+                    ((Bullock)fixtureB.getUserData()).powerUp();
                 }
                 break;
         }

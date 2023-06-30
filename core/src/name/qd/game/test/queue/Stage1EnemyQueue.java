@@ -54,6 +54,7 @@ public class Stage1EnemyQueue extends EnemyDefQueue {
         pencil.setCategoryBits(CollisionType.ENEMY);
         pencil.setMaskBits(CollisionType.BULLOCK_BULLET);
         pencil.setEnemyActionQueue(enemyActionQueue);
+        pencil.setIsPowerUp(true);
         return pencil;
     }
 

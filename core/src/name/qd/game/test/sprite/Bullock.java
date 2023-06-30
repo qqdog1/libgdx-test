@@ -1,23 +1,16 @@
 package name.qd.game.test.sprite;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-import name.qd.game.test.constant.Constants;
-import name.qd.game.test.utils.ResourceInstance;
 import name.qd.game.test.constant.CollisionType;
+import name.qd.game.test.constant.Constants;
 import name.qd.game.test.screen.GameScreen;
 
-public class Bullock extends Sprite {
-    private World world;
-    private Body body;
-    private AssetManager assetManager;
+public class Bullock extends GameSprite {
     private Texture texture;
     private Texture dead;
     private boolean isDestroyed;
@@ -32,8 +25,7 @@ public class Bullock extends Sprite {
     private BullockDef bullockDef;
 
     public Bullock(World world, BullockDef bullockDef) {
-        assetManager = ResourceInstance.getInstance().getAssetManager();
-        this.world = world;
+        super(world);
 
         texture = assetManager.get("pic/sprite/cnormal.png", Texture.class);
         dead = assetManager.get("pic/sprite/dead.png", Texture.class);
@@ -141,5 +133,9 @@ public class Bullock extends Sprite {
 
     public int getHp() {
         return hp;
+    }
+
+    public void powerUp() {
+        hp++;
     }
 }
