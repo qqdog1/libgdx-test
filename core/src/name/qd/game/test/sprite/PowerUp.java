@@ -15,11 +15,15 @@ public class PowerUp extends GameSprite {
     private boolean isDestroyed;
     private float startX;
     private float startY;
+    private float velocityX;
+    private float velocityY;
 
-    public PowerUp(World world, float startX, float startY) {
+    public PowerUp(World world, float startX, float startY, float velocityX, float velocityY) {
         super(world);
         this.startX = startX;
         this.startY = startY;
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
 
         texture = assetManager.get("pic/sprite/powerup.png", Texture.class);
         createBody();
@@ -39,10 +43,15 @@ public class PowerUp extends GameSprite {
         fixtureDef.filter.categoryBits = CollisionType.POWER_UP;
         fixtureDef.filter.maskBits = CollisionType.BULLOCK;
         body.createFixture(fixtureDef).setUserData(this);
+        body.setLinearVelocity(velocityX, velocityY);
 
         setBounds(0, 0, texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER, texture.getHeight() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER);
         setRegion(texture);
         setPosition(startX, startY);
+    }
+
+    public void update(float delta) {
+        setPosition(body.getPosition().x, body.getPosition().y);
     }
 
     public void eat() {

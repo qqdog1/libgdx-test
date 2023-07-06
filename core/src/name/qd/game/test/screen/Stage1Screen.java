@@ -162,6 +162,7 @@ public class Stage1Screen extends GameScreen {
             enemy.draw(spriteBatch);
         }
         for (PowerUp powerUp : lstPowerUp) {
+            powerUp.update(delta);
             powerUp.draw(spriteBatch);
         }
 
@@ -245,7 +246,7 @@ public class Stage1Screen extends GameScreen {
             if (enemy.isDestroyed()) {
                 lst.add(enemy);
                 if (enemy.isPowerUp()) {
-                    PowerUp powerUp = new PowerUp(world, enemy.getX(), enemy.getY());
+                    PowerUp powerUp = new PowerUp(world, enemy.getX(), enemy.getY(), 0, -10f);
                     lstPowerUp.add(powerUp);
                 }
             }
