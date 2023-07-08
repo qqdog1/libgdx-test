@@ -56,6 +56,7 @@ public class Stage1Screen extends GameScreen {
         background = assetManager.get("pic/stagebackground.png", Texture.class);
 
         world = new World(new Vector2(0, 0), true);
+        world.setContactFilter(new WorldContactFilter());
         box2DDebugRenderer = new Box2DDebugRenderer();
 //        box2DDebugRenderer.setDrawBodies(false);
 
@@ -101,8 +102,7 @@ public class Stage1Screen extends GameScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        world.setContactFilter(new WorldContactFilter());
+        quickLog("render delta", delta);
 
         bullock.update(delta);
 
@@ -111,7 +111,7 @@ public class Stage1Screen extends GameScreen {
                 BulletDef bulletDef = new BulletDef();
                 bulletDef.setStartPosition(bullock.getX() + (bullock.getWidth() / 2), bullock.getY() + bullock.getHeight());
                 bulletDef.setTexture(assetManager.get("pic/sprite/bulletblue.png", Texture.class));
-                bulletDef.setVelocity(0, 40);
+                bulletDef.setVelocity(0, 160);
                 bulletDef.setCategoryBits(CollisionType.BULLOCK_BULLET);
                 bulletDef.setMaskBits(CollisionType.ENEMY);
                 Bullet bullockBullet = new Bullet(world, bulletDef);

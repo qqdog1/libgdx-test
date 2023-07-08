@@ -35,7 +35,8 @@ public class LogoScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-        quickLog("Load", assetManager.getProgress());
+        quickLog("Loading percentage", assetManager.getProgress());
+        quickLog("delta", delta);
 
         super.render(delta);
 
