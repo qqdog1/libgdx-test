@@ -1,20 +1,15 @@
 package name.qd.game.test.hud;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Disposable;
 
 import name.qd.game.test.constant.Constants;
 import name.qd.game.test.screen.GameScreen;
-import name.qd.game.test.utils.ResourceInstance;
 
 public class OnHitHud extends Hud {
-    private final SpriteBatch spriteBatch;
     private Texture texture;
     private float FIX_HEIGHT = 30;
 
     public OnHitHud() {
-        spriteBatch = ResourceInstance.getInstance().getSpriteBatch();
         texture = new Texture("pic/onhit.png");
     }
 

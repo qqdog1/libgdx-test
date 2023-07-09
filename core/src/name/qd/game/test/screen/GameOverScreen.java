@@ -15,7 +15,7 @@ public class GameOverScreen extends GameScreen {
 
     @Override
     ScreenType currentScreen() {
-        return ScreenType.GAMEOVER;
+        return ScreenType.GAME_OVER;
     }
 
     @Override
