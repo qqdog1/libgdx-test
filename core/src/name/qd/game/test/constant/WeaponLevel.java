@@ -19,4 +19,8 @@ public class WeaponLevel {
         map.put(9, 2);
         map.put(10, 3);
     }
+
+    public static int getDamage(int level) {
+        return map.get(level);
+    }
 }

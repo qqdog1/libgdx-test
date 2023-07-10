@@ -28,7 +28,6 @@ import name.qd.game.test.utils.MaterialCreator;
 import name.qd.game.test.utils.PreferencesUtils;
 
 public class MenuScreen extends GameScreen {
-    private AssetManager assetManager;
     private Texture background;
     private Texture settingsBackground;
     private Texture selected;
@@ -63,7 +62,6 @@ public class MenuScreen extends GameScreen {
     private float backgroundScaleWidth;
 
     MenuScreen() {
-        assetManager = ResourceInstance.getInstance().getAssetManager();
         background = assetManager.get("pic/stage.png", Texture.class);
         settingsBackground = assetManager.get("pic/board.png", Texture.class);
         selected = assetManager.get("pic/btn/selected.png", Texture.class);

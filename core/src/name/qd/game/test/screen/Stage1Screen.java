@@ -1,7 +1,6 @@
 package name.qd.game.test.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -22,7 +21,6 @@ import name.qd.game.test.listener.WorldContactFilter;
 import name.qd.game.test.listener.WorldContactListener;
 import name.qd.game.test.queue.Stage1EnemyQueue;
 import name.qd.game.test.sprite.Bullock;
-import name.qd.game.test.sprite.BullockDef;
 import name.qd.game.test.sprite.PowerUp;
 import name.qd.game.test.sprite.bullet.Bullet;
 import name.qd.game.test.sprite.bullet.BulletDef;
@@ -31,7 +29,6 @@ import name.qd.game.test.sprite.enemy.EnemyDef;
 import name.qd.game.test.utils.ResourceInstance;
 
 public class Stage1Screen extends GameScreen {
-    private AssetManager assetManager = ResourceInstance.getInstance().getAssetManager();
     private Texture background;
     private float background_y;
 
@@ -60,8 +57,7 @@ public class Stage1Screen extends GameScreen {
         box2DDebugRenderer = new Box2DDebugRenderer();
 //        box2DDebugRenderer.setDrawBodies(false);
 
-        BullockDef bullockDef = ResourceInstance.getInstance().getBullockDef();
-        bullock = new Bullock(world, bullockDef);
+        bullock = new Bullock(world);
         fightingHud = new FightingHud(bullock.getHp());
         onHitHud = new OnHitHud();
 

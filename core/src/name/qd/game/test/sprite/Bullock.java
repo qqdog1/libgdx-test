@@ -8,12 +8,19 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import name.qd.game.test.constant.CollisionType;
 import name.qd.game.test.constant.Constants;
+import name.qd.game.test.constant.HPLevel;
+import name.qd.game.test.constant.PreferencesEnum;
+import name.qd.game.test.constant.WeaponLevel;
 import name.qd.game.test.screen.GameScreen;
+import name.qd.game.test.utils.PreferencesUtils;
 
 public class Bullock extends GameSprite {
     private Texture texture;
     private Texture dead;
     private boolean isDestroyed;
+    private int weaponLevel;
+    private int damage;
+    private int hpLevel;
     private int hp;
 
     private float stateTime;
@@ -22,19 +29,25 @@ public class Bullock extends GameSprite {
     private float fireRate;
     private boolean shouldFire;
 
-    private BullockDef bullockDef;
-
-    public Bullock(World world, BullockDef bullockDef) {
+    public Bullock(World world) {
         super(world);
 
         texture = assetManager.get("pic/sprite/cnormal.png", Texture.class);
         dead = assetManager.get("pic/sprite/dead.png", Texture.class);
 
-        fireRate = bullockDef.getFireRate();
+        // TODO can upgrade
+        fireRate = 0.5f;
         shouldFire = false;
-        hp = bullockDef.getHp();
-
-        this.bullockDef = bullockDef;
+        weaponLevel = 0;
+        if(PreferencesUtils.isLabelExist(PreferencesEnum.WEAPON)) {
+            weaponLevel = PreferencesUtils.getIntValue(PreferencesEnum.WEAPON);
+        }
+        damage = WeaponLevel.getDamage(weaponLevel);
+        hpLevel = 0;
+        if(PreferencesUtils.isLabelExist(PreferencesEnum.HP)) {
+            hpLevel = PreferencesUtils.getIntValue(PreferencesEnum.HP);
+        }
+        hp = HPLevel.getHp(hpLevel);
 
         createBullockBody();
     }
@@ -78,14 +91,6 @@ public class Bullock extends GameSprite {
         }
     }
 
-    public void setFireRate(float fireRate) {
-        this.fireRate = fireRate;
-    }
-
-    public float getFireRate() {
-        return fireRate;
-    }
-
     public boolean isShouldFire() {
         if(shouldFire) {
             shouldFire = false;
@@ -95,7 +100,7 @@ public class Bullock extends GameSprite {
     }
 
     private void createBullockBody() {
-        float radius = bullockDef.getRadius();
+        float radius = 15f;
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(GameScreen.SCREEN_WIDTH / 2, (radius * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER) + (texture.getWidth() * GameScreen.SCALE_RATE / Constants.PIXEL_PER_METER / 2));
         bodyDef.type = BodyDef.BodyType.DynamicBody;

@@ -5,10 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import name.qd.game.test.constant.HPLevel;
-import name.qd.game.test.constant.PreferencesEnum;
-import name.qd.game.test.sprite.BullockDef;
-
 public class ResourceInstance {
     private static ResourceInstance instance = new ResourceInstance();
     private Game game;
@@ -44,24 +40,5 @@ public class ResourceInstance {
 
     public void setScreen(Screen screen) {
         game.setScreen(screen);
-    }
-
-    public BullockDef getBullockDef() {
-        int weapon = 0;
-        if(PreferencesUtils.isLabelExist(PreferencesEnum.WEAPON)) {
-            weapon = PreferencesUtils.getIntValue(PreferencesEnum.WEAPON);
-        }
-        int hpLevel = 0;
-        if(PreferencesUtils.isLabelExist(PreferencesEnum.HP)) {
-            hpLevel = PreferencesUtils.getIntValue(PreferencesEnum.HP);
-        }
-        int hp = HPLevel.getHp(hpLevel);
-
-        BullockDef bullockDef = new BullockDef();
-        bullockDef.setFireRate(0.5f);
-        bullockDef.setWeapon(weapon);
-        bullockDef.setHp(hp);
-        bullockDef.setRadius(15f);
-        return bullockDef;
     }
 }
