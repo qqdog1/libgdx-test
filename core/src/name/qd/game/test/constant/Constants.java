@@ -10,7 +10,7 @@ public class Constants {
     public static final int SYSTEM_VELOCITY_ITERATIONS = 8;
     public static final int SYSTEM_POSITION_ITERATIONS = 3;
 
-    public static final float PIXEL_PER_METER = 20f;
+    public static final float PIXEL_PER_METER = 25f;
     public static final int TOTAL_STAGES = 10;
 
     public static final int MAX_UPGRADE_LEVEL = 10;

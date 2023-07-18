@@ -41,7 +41,7 @@ public class FightingHud extends Hud {
         liveTable.left();
         addLives();
 
-        lblMoney = new Label(String.format("%05d", money), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        lblMoney = new Label(String.valueOf(money), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         table.add(lblMoney).padRight(0);
 
         stage.addActor(table);

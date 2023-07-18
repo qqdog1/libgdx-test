@@ -37,7 +37,7 @@ public class SettlementHud extends Hud {
         viewport = new FitViewport(GameScreen.SCREEN_WIDTH, GameScreen.SCREEN_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spriteBatch);
 
-        lblMoney = new Label(String.format("%05d", money), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        lblMoney = new Label(String.valueOf(money), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         ImageButton btnGo = MaterialCreator.createImageButton(assetManager.get("pic/btn/go.png", Texture.class));
         btnGo.setTouchable(Touchable.enabled);
